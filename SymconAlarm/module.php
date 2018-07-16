@@ -767,7 +767,7 @@
 
                 // }
 
-                $this->imageauto($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -810,7 +810,7 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
-                $this->imageauto($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -838,7 +838,7 @@
 
                 // }
 
-                $this->imageauto($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -878,7 +878,7 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
-                $this->imageauto($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 unlink($imagePath);
 
@@ -916,7 +916,7 @@
 
         protected function imageauto ($img, $pt) {
 
-            $image_attributes = getimagesize($pt); 
+            $image_attributes = getimagesize($img); 
             $image_filetype = $image_attributes[2]; 
 
             if ($image_filetype == 1) {
