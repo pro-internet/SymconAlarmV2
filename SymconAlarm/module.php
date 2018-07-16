@@ -86,7 +86,7 @@
 
                 }
 
-                $message = $rmessage . "<br />";
+                $rmessage = $rmessage . "<br />";
 
                 SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
 
