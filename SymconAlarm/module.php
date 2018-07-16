@@ -750,15 +750,15 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
 
-                if (imagesx($newImage) > 1200) {
+                // if (imagesx($newImage) > 1200) {
 
-                    // Breite          // Hoehe
-                    $prop = imagesx($newImage) / imagesy($newImage);
-                    $newHeight = 1200 / $prop;
+                //     // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
 
-                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
 
-                }
+                // }
 
                 imagepng($newImage, $newFilePath);
 
@@ -791,15 +791,15 @@
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
                 imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
 
-                if (imagesx($newImage) > 1200) {
+                // if (imagesx($newImage) > 1200) {
 
-                            // Breite          // Hoehe
-                    $prop = imagesx($newImage) / imagesy($newImage);
-                    $newHeight = 1200 / $prop;
+                //             // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
 
-                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
 
-                }
+                // }
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
 
@@ -821,15 +821,15 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
                 
-                if (imagesx($newImage) > 1200) {
+                // if (imagesx($newImage) > 1200) {
 
-                    // Breite          // Hoehe
-                    $prop = imagesx($newImage) / imagesy($newImage);
-                    $newHeight = 1200 / $prop;
+                //     // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
 
-                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
 
-                }
+                // }
 
                 imagepng($newImage, $newFilePath);
 
