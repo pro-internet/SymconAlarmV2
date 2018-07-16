@@ -82,27 +82,21 @@
 
                 if ($type == "error") {
 
-                    $rmessage = $rmessage . "<div style='color: red;'>" . $rmessage . "</div";
+                    $rmessage = $rmessage . "<span style='color: red;'>" . $rmessage . "</span";
 
                 } else if ($type == "warning") {
 
-                    $rmessage = "<div style='color: #406fbc;'>" . "WARNING: " . $message . "</div";
+                    $rmessage = "<span style='color: #406fbc;'>" . "WARNING: " . $message . "</span";
 
                 } else if ($type == "alarm") {
 
-                    if (!$alarmAktiv) {
+                
+                    $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'><span>" . "[$datum]" . $message . "</span></div>";
 
-                        $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'>" . "[$datum]" . $message . "<br />";
-
-                    } else {
-
-                        $rmessage = $rmessage . "<div style='color: red;'>" . $rmessage . "</div";
-
-                    }
-
+                
                 } else if ($type == "regular") {
 
-                    $rmessage = "<div style='color: white;'>" . $rmessage . "</div";
+                    $rmessage = "<span style='color: white;'>" . $rmessage . "</span";
 
                 } else if ($type == "endAlarm") {
 
@@ -112,7 +106,15 @@
 
                 $rmessage = $rmessage . "<br />";
 
-                SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
+                if ($alarmAktiv) {
+
+                    SetValue($this->searchObjectByName("Historie"), $rmessage . str_replace("..", "</div>", $acutalContent));
+
+                } else {
+
+                    SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
+
+                }
 
             }
 
@@ -196,7 +198,7 @@
 
                 } else {
 
-                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!");
+                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!", "warning");
 
                 }
 
