@@ -709,7 +709,7 @@
 
                 $hoehe = max($allHeights);
 
-                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img), $hoehe) ;
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), $hoehe) ;
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
