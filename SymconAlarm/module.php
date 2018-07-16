@@ -916,7 +916,7 @@
 
         protected function imageauto ($img, $pt) {
 
-            $image_attributes = getimagesize($filepath); 
+            $image_attributes = getimagesize($pt); 
             $image_filetype = $image_attributes[2]; 
 
             if ($image_filetype == 1) {
