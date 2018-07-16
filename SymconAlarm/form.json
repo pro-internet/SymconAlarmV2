@@ -2,5 +2,8 @@
 	"elements":
 	[
 
+	],
+	"actions": [
+		{ "type": "Button", "label": "Historie Löschen", "onClick": "PIALRMNW_clearLog($id);" }
 	]
   }

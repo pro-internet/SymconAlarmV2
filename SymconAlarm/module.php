@@ -316,6 +316,10 @@
 
                 }
 
+            } else {
+
+                echo "Does not exist";
+
             }
 
         }
