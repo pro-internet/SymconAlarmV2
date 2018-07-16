@@ -34,7 +34,7 @@
             $this->addProfile($historie, "~HTMLBox");
 
             // Positionen setzen
-            $this->setIndex($clearLog, "last");
+            $this->setPosition($clearLog, "last");
  
         }
  
@@ -281,7 +281,7 @@
 
         }
 
-        protected function setIndex ($id, $position) {
+        protected function setPosition ($id, $position) {
 
             if ($this->doesExist($id)) {
 
@@ -308,13 +308,13 @@
 
                         }
 
-                        IPS_SetIndex($id, $highestChildPositon + 1);
+                        IPS_SetPosition($id, $highestChildPositon + 1);
 
                     }
 
                 } else {
 
-                    IPS_SetIndex($id, $position);
+                    IPS_SetPosition($id, $position);
 
                 }
 
