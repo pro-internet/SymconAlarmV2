@@ -74,7 +74,7 @@
             if ($this->doesExist($this->searchObjectByName("Historie"))) {
 
                 $acutalContent = GetValue($this->searchObjectByName("Historie"));
-
+                $alarmAktiv = GetValue($this->searchObjectByName("Alarm"));
                 $timestamp = time();
                 $datum = date("d.m.Y - H:i", $timestamp);
 
@@ -82,7 +82,7 @@
 
                 if ($type == "error") {
 
-                    $rmessage = "<div style='color: red;'>" . $rmessage . "</div";
+                    $rmessage = $rmessage . "<div style='color: red;'>" . $rmessage . "</div";
 
                 } else if ($type == "warning") {
 
@@ -90,11 +90,23 @@
 
                 } else if ($type == "alarm") {
 
-                    $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'>" . "[$datum]" . $message . "</div><br />";
+                    if (!$alarmAktiv) {
+
+                        $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'>" . "[$datum]" . $message . "<br />";
+
+                    } else {
+
+                        $rmessage = $rmessage . "<div style='color: red;'>" . $rmessage . "</div";
+
+                    }
 
                 } else if ($type == "regular") {
 
                     $rmessage = "<div style='color: white;'>" . $rmessage . "</div";
+
+                } else if ($type == "endAlarm") {
+
+                    $rmessage = "</div>";
 
                 }
 
@@ -167,6 +179,7 @@
             $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
             $senderObj = IPS_GetObject($senderID);
             $senderVal = GetValue($senderID);
+            $alarmVal = GetValue($this->searchObjectByName("Alarm"));
 
             if (!$ueberwachung) {
 
@@ -176,8 +189,16 @@
 
             if ($senderVal == true) {
                 
-                $this->startAlarm();
-                $this->addLogMessage("ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");
+                if (!$alarmVal) {
+
+                    $this->startAlarm();
+                    $this->addLogMessage(" ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");
+
+                } else {
+
+                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!");
+
+                }
 
             }
 
