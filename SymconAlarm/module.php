@@ -698,7 +698,7 @@
                 $c3obj = IPS_GetMedia($camera3);
                 $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
                 $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
-                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
 
                 $c1img = imagecreatefrompng($c1link);
                 $c2img = imagecreatefrompng($c2link);
