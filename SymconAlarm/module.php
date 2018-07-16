@@ -41,6 +41,7 @@
             $this->setPosition($clearLog, "last");
 
             $this->hide($targets);
+            $this->hide($alarmActivated);
 
             $this->RegisterPropertyInteger("Interval", 5);
             $this->RegisterPropertyInteger("EmailInstance", null);
