@@ -96,7 +96,7 @@
 
         public function refreshTargets () {
 
-            $targetsFolder = $this->searchObjectByName("Targets");
+            $targetsFolder = IPS_GetObject($this->searchObjectByName("Targets"));
             $eventsFolder = IPS_GetObject($this->searchObjectByName("Events"));
 
             foreach ($targetsFolder['ChildrenIDs'] as $chld) {
