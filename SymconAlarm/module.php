@@ -224,7 +224,7 @@
 
                 $email = $email . $this->getFormattedLog();
 
-                SMTP_SendMail($emailInstance, $email);
+                SMTP_SendMail($emailInstance, "Alarm!", $email);
 
             }
 
