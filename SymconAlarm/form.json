@@ -1,9 +1,7 @@
 {
 	"elements":
 	[
-
-	],
-	"actions": [
-		{ "type": "Button", "label": "Historie Löschen", "onClick": "PIALRMNW_clearLog($id);" }
+		{ "type": "SelectInstance", "name":"EmailInstance", "caption": "SMTP Instanz"},
+		{ "type": "ValidationTextBox", "name": "Interval", "caption": "Alarm Interval (in Sekunden)" }
 	]
   }

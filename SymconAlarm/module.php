@@ -21,6 +21,7 @@
             // Scripts checken -und erstellen
             $setValueScript = $this->checkScript("MySetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
             $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
+            $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_clearLog", false, false); 
 
             // Variablen checken -und erstellen
             $ueberwachung = $this->checkVar("Überwachung", 0, true, $this->InstanceID, 0, false);
@@ -40,6 +41,9 @@
             $this->setPosition($clearLog, "last");
 
             $this->hide($targets);
+
+            $this->RegisterPropertyInteger("Interval", 5);
+            $this->RegisterPropertyInteger("EmailInstance", null);
  
         }
  
@@ -87,6 +91,10 @@
                 } else if ($type == "alarm") {
 
                     $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'>" . $message . $datum . "</div><br />";
+
+                } else if ($type == "regular") {
+
+                    $rmessage = "<div style='color: white;'>" . $rmessage . "</div";
 
                 }
 
@@ -178,7 +186,82 @@
         public function startAlarm () {
 
             $alarmVar = $this->searchObjectByName("Alarm");
-            SetValue($alarmVar, true);
+            $alarmVal = GetValue($alarmVar);
+
+            if ($alarmVal == false) {
+
+                SetValue($alarmVar, true);
+
+            }
+
+        }
+
+        public function alarmActivated () {
+
+            $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
+
+            if (!$ueberwachung) {
+
+                return;
+
+            }
+
+            $emailBenachrichtigung = GetValue($this->searchObjectByName("E-Mail Benachrichtigung"));
+
+            if ($emailBenachrichtigung) {
+
+                $emailInstance = $this->ReadPropertyInteger("EmailInstance");
+
+                if ($emailInstance == null) {
+
+                    $this->addLogMessage("Verschicken der E-Mail fehlgeschlagen, keine Instanz gefunden!", "error");
+
+                }
+
+                $email = "<h1>Alarm ausgelöst!</h1> <br />";
+            
+                $email = $email . "<div style='background: black; color: white; padding: 5px;'>Aktueller Log:</div>";
+
+                $email = $email . $this->getFormattedLog();
+
+                SMTP_SendMail($emailInstance, $email);
+
+            }
+
+        }
+
+        public function onAlarmChanged () {
+
+            $alarmVar = $this->searchObjectByName("Alarm");
+            $alarmVal = GetValue($alarmVar);
+            $interval = $this->ReadPropertyInteger("Interval");
+
+            // Wenn Alarm aktiviert
+            if ($alarmVal) {
+
+                IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), $interval);
+
+            } else {
+
+
+                IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
+
+            }
+
+        }
+
+
+        public function getFormattedLog () {
+
+            $email = "";
+
+            $logContent = GetValue($this->searchObjectByName("Historie"));
+
+            $logContent = str_replace("<br />", "\n", $logContent);
+
+            $logContent = strip_tags($logContent);
+
+            return $logContent;
 
         }
 
