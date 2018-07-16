@@ -597,6 +597,8 @@
 
                 return $script;
             
+            } else {
+                return $this->searchObjectByName($name);
             }
         }
  
