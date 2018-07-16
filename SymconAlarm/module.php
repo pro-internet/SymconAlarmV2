@@ -247,7 +247,7 @@
 
                 $email = "Alarm ausgelöst! \n";
             
-                $email = $email . "Es wurde ein Alarm ausgelöst! Aktueller Log: \n";
+                $email = $email . "Es wurde ein Alarm ausgelöst! Aktueller Log: \n \n";
 
                 $email = $email . $this->getFormattedLog();
 
@@ -262,6 +262,8 @@
             $alarmVar = $this->searchObjectByName("Alarm");
             $alarmVal = GetValue($alarmVar);
             $interval = $this->ReadPropertyInteger("Interval");
+            $sendEmailVal = $this->ReadPropertyInteger("EmailInstance");
+
 
             // Wenn Alarm aktiviert
             if ($alarmVal) {
@@ -271,6 +273,12 @@
             } else {
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
+
+                if ($sendEmailVal) {
+
+                    SMTP_SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
+
+                }
 
             }
 
