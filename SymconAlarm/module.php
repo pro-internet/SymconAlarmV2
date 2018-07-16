@@ -117,7 +117,7 @@
 
                         if ($cchildObj['ObjectType'] == 4) {
 
-                            $cchildObj = IPS_GetEvent($cchildObj);
+                            $cchildObj = IPS_GetEvent($cchildObj['ObjectID']);
 
                             if ($cchildObj['TriggerVariableID'] == $link) {
 
