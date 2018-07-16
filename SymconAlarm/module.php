@@ -84,6 +84,12 @@
 
                     $rmessage = "<div style='color: #406fbc;'>" . "WARNING: " . $message . "</div";
 
+                } else if ($type == "alarm") {
+
+                    $rmessage = "----------------------------------------------------<br />";
+                    $rmessage = "<div style='color: red; font-size: 20px;'>" . $rmessage . "</div><br />";
+                    $rmessage = "----------------------------------------------------";
+
                 }
 
                 $rmessage = $rmessage . "<br />";
@@ -152,7 +158,29 @@
 
         public function onTargetChange ($senderID) {
 
-            echo "A Target has changed!!!" . $senderID;
+            $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
+            $senderObj = IPS_GetObject($senderID);
+            $senderVal = GetValue($senderID);
+
+            if (!$ueberwachung) {
+
+                return;
+
+            }
+
+            if ($senderVal == true) {
+                
+                $this->startAlarm();
+                $this->addLogMessage("ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");
+
+            }
+
+        }
+
+        public function startAlarm () {
+
+            $alarmVar = $this->searchObjectByName("Alarm");
+            SetValue($alarmVar, true);
 
         }
 
