@@ -91,7 +91,7 @@
                 } else if ($type == "alarm") {
 
                 
-                    $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'><span>" . "[$datum]" . $message . "</span></div>";
+                    $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red; margin-top: 10px;'><span>" . "[$datum]" . $message . "</span></div>";
 
                 
                 } else if ($type == "regular") {
@@ -191,7 +191,7 @@
 
                 } else {
 
-                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!", "warning");
+                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!", "regular");
 
                 }
 
