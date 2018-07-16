@@ -674,7 +674,7 @@
 
                 if (imagesy($c1img) > imagesy($c2img)) {
                     $hoehe = imagesy($c1img);
-                } else if (imagesy($c1img) =< imagesy($c2img)) {
+                } else if (imagesy($c1img) <= imagesy($c2img)) {
                     $hoehe = imagesy($c2img);
                 }
 
