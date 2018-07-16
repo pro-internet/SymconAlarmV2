@@ -87,7 +87,7 @@
                 } else if ($type == "alarm") {
 
                     $rmessage = "----------------------------------------------------<br />";
-                    $rmessage = $rmessage . "<div style='color: red; font-size: 20px;'>" . $rmessage . "</div><br />";
+                    $rmessage = $rmessage . "<div style='color: red; font-size: 20px;'>" . $message . "</div><br />";
                     $rmessage = $rmessage . "----------------------------------------------------";
 
                 }
