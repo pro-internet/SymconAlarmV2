@@ -43,7 +43,7 @@
         ##  
 
         // PI GRUNDFUNKTIONEN
-        private function easyCreateVariable ($type = 1, $name = "Variable", $position = "", $index = 0, $defaultValue = null) {
+        protected function easyCreateVariable ($type = 1, $name = "Variable", $position = "", $index = 0, $defaultValue = null) {
 
             if ($position == "") {
 
@@ -65,7 +65,7 @@
         }
 
         // Prüft ob Variable bereits existiert und erstellt diese wenn nicht
-        private function checkVar ($var, $type = 1, $profile = false , $position = "", $index = 0, $defaultValue = null) {
+        protected function checkVar ($var, $type = 1, $profile = false , $position = "", $index = 0, $defaultValue = null) {
 
             if ($this->searchObjectByName($var) == 0) {
                 
@@ -97,7 +97,7 @@
             }
         }
 
-        private function searchObjectByName ($name, $searchIn = null, $objectType = null) {
+        protected function searchObjectByName ($name, $searchIn = null, $objectType = null) {
 
             if ($searchIn == null) {
 
@@ -141,7 +141,7 @@
 
         }
 
-        private function addSwitch ($vid) {
+        protected function addSwitch ($vid) {
 
             if(IPS_VariableProfileExists("Switch"))
             {
@@ -152,7 +152,7 @@
 
         }
 
-        private function addTime ($vid) {
+        protected function addTime ($vid) {
 
             if (IPS_VariableProfileExists("~UnixTimestampTime")) {
 
@@ -162,7 +162,7 @@
             }
         }
 
-        private function doesExist ($id) {
+        protected function doesExist ($id) {
 
             if (IPS_ObjectExists($id) && $id != 0) {
                 
@@ -175,7 +175,7 @@
             }
         }
 
-        private function nameToIdent ($name) {
+        protected function nameToIdent ($name) {
 
             $name = str_replace(" ", "", $name);
             $name = str_replace("ä", "ae", $name);
