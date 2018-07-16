@@ -660,9 +660,31 @@
             $camera2 = $this->ReadPropertyInteger("Camera2");
             $camera3 = $this->ReadPropertyInteger("Camera3");
 
-            if ($camera1 != null) {
+            if ($camera1 != null && $camera2 != null) {
 
-                $obj = IPS_GetMedia($camera1);
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c1link = $c1obj['MediaFile'];
+                $c2link = $c2obj['MediaFile'];
+
+                $c1img = imagecreatefrompng($c1link);
+                $c2img = imagecreatefrompng($c2link);
+
+                $hoehe = 0;
+
+                if (imagesy($c1img) > imagesy($c2img)) {
+                    $hoehe = imagesy($c1img);
+                } else if (imagesy($c1img) =< imagesy($c2img)) {
+                    $hoehe = imagesy($c2img);
+                }
+
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img), ;
+
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+
+                imagepng($im, 'C:\\Users\\noah.PROINTERNET\\Documents\\tempimagesymcon.png');
+
                 print_r($obj);
 
             }
