@@ -24,10 +24,10 @@
 
             // Variablen checken -und erstellen
             $ueberwachung = $this->checkVar("Überwachung", 0, true, $this->InstanceID, 0, false);
-            $alarm = $this->checkVar("Alarm", 0, true, $this->InstanceID, 0, false);
-            $emailBenachrichtigung = $this->checkVar("E-Mail Benachrichtigung", 0, true, $this->InstanceID, 0, false);
-            $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, $this->InstanceID, 0, false);
-            $historie = $this->checkVar("Historie", 3, false, $this->InstanceID, 0, false);
+            $alarm = $this->checkVar("Alarm", 0, true, $this->InstanceID, 1, false);
+            $emailBenachrichtigung = $this->checkVar("E-Mail Benachrichtigung", 0, true, $this->InstanceID, 2, false);
+            $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, $this->InstanceID, 3, false);
+            $historie = $this->checkVar("Historie", 3, false, $this->InstanceID, 4, false);
 
 
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
