@@ -33,7 +33,7 @@
             $this->addProfile($historie, "~HTMLBox");
 
             // Objekte verstecken
-            $this->hide($checkValueScript);
+            $this->hide($setValueScript);
  
         }
  
