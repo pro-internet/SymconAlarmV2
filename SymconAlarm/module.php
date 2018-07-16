@@ -20,6 +20,7 @@
 
             // Scripts checken -und erstellen
             $setValueScript = $this->checkScript("MySetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
+            $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
 
             // Variablen checken -und erstellen
             $ueberwachung = $this->checkVar("Überwachung", 0, true, $this->InstanceID, 0, false);
@@ -38,6 +39,19 @@
         public function ApplyChanges() {
            
             parent::ApplyChanges();
+
+        }
+
+
+        ##
+        ## Von Außen aufrufbare Funktionen
+        ##
+
+        public function clearLog () {
+
+            $logVar = $this->searchObjectByName("Historie");
+
+            SetValue($logVar, "");
 
         }
 
@@ -241,12 +255,17 @@
             }
         }
 
-        protected function checkScript ($name, $script, $function = true) {
+        protected function checkScript ($name, $script, $function = true, $hide = true) {
 
             if ($this->searchObjectByName($name) == 0) {
                 
                 $script = $this->easyCreateScript($name, $script, $function);
-                $this->hide($script);
+                
+                if ($hide) {
+
+                    $this->hide($script);
+
+                }
             
             }
         }
@@ -254,6 +273,33 @@
         protected function hide ($id) {
 
             IPS_SetHidden($id, true);
+
+        }
+
+        protected function setPosition ($id, $position) {
+
+            if ($this->doesExist($id)) {
+
+                if (gettype($position) == "string") {
+
+                    if ($position == "last" || $position == "Last") {
+
+                        $own = IPS_GetObject($this->InstanceID);
+
+                        $lastChildPosition = 0;
+                        $highestChildPositon = 0;
+
+                        foreach ($own['ChildrenIDs'] as $child) {
+
+                            $chld = IPS_GetObject($child);
+
+                        }
+
+                    }
+
+                }
+
+            }
 
         }
 
