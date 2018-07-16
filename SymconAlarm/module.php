@@ -18,11 +18,11 @@
 
             parent::Create();
 
-            $automatikVar = $this->checkVar("Automatik", 0, true, $this->InstanceID, 0, false);
-            // $ueberwachung = $this->checkVar(0, "Überwachung", true, 0, 0, false);
-            // $alarm = $this->checkVar(0, "Alarm", true, 0, 0, false);
-            // $emailBenachrichtigung = $this->checkVar(0, "E-Mail Benachrichtigung", true, 0, 0, false);
-            // $pushBenachrichtigung = $this->checkVar(0, "Push Benachrichtigung", true, 0, 0, false);
+            //$automatikVar = $this->checkVar("Automatik", 0, true, $this->InstanceID, 0, false);
+            $ueberwachung = $this->checkVar("Überwachung", 0, true, 0, 0, false);
+            $alarm = $this->checkVar(0, "Alarm", true, 0, 0, false);
+            $emailBenachrichtigung = $this->checkVar("E-Mail Benachrichtigung", 0, true, 0, 0, false);
+            $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, 0, 0, false);
             // //$historie = $this->checkVar(0, "E-Mail Benachrichtigung", true, 0, 0, false);
  
         }
@@ -114,7 +114,7 @@
 
                 $childObject = IPS_GetObject($child);
 
-                if ($childObject['ObjectIdent'] == $name) {
+                if ($childObject['ObjectIdent'] == $this->nameToIdent($name)) {
                     
                     $returnId = $childObject['ObjectID'];
 
@@ -122,7 +122,7 @@
 
                 if ($objectType == null) {
                     
-                    if ($childObject['ObjectIdent'] == $name) {
+                    if ($childObject['ObjectIdent'] == $this->nameToIdent($name)) {
                         
                         $returnId = $childObject['ObjectID'];
     
@@ -130,7 +130,7 @@
 
                 } else {
                     
-                    if ($childObject['ObjectIdent'] == $name && $childObject['ObjectType'] == $objectType) {
+                    if ($childObject['ObjectIdent'] == $this->nameToIdent($name) && $childObject['ObjectType'] == $objectType) {
                         
                         $returnId = $childObject['ObjectID'];
     
@@ -187,7 +187,7 @@
             $name = str_replace("Ü", "Ue", $name);
             $name = preg_replace ( '/[^a-z0-9 ]/i', '', $name);
 
-            return $name;
+            return $name . $this->InstanceID;
 
         }
  
