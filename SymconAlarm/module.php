@@ -218,9 +218,9 @@
 
                 }
 
-                $email = "<h1>Alarm ausgelöst!</h1> <br />";
+                $email = "Alarm ausgelöst! \n";
             
-                $email = $email . "<div style='background: black; color: white; padding: 5px;'>Aktueller Log:</div>";
+                $email = $email . "Es wurde ein Alarm ausgelöst! Aktueller Log: \n";
 
                 $email = $email . $this->getFormattedLog();
 
