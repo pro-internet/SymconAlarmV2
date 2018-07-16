@@ -762,9 +762,9 @@
 
                 imagepng($newImage, $newFilePath);
 
-                $resized = $this->resizeImage($newFilePath);
+                //$resized = $this->resizeImage($newFilePath);
 
-                return $resized;
+                return $newFilePath;
 
             } else if ($camera1 != null && $camera2 != null && $camera3 != null) {
 
@@ -805,9 +805,9 @@
 
                 imagepng($newImage, $newFilePath);
 
-                $resized = $this->resizeImage($newFilePath);
+                //$resized = $this->resizeImage($newFilePath);
 
-                return $resized;
+                return $newFilePath;
 
             } else if ($camera1 != null && $camera2 == null && $camera3 == null) {
 
@@ -833,9 +833,9 @@
 
                 imagepng($newImage, $newFilePath);
 
-                $resized = $this->resizeImage($newFilePath);
+                //$resized = $this->resizeImage($newFilePath);
 
-                return $resized;
+                return $newFilePath;
 
             }
 
