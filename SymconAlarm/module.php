@@ -285,6 +285,8 @@
 
                 if (gettype($position) == "string") {
 
+                    echo "last";
+
                     if ($position == "last" || $position == "Last") {
 
                         $own = IPS_GetObject($this->InstanceID);
