@@ -750,6 +750,16 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
 
+                if (imagesx($newImage) > 1200) {
+
+                    // Breite          // Hoehe
+                    $prop = imagesx($newImage) / imagesy($newImage);
+                    $newHeight = 1200 / $prop;
+
+                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($image), imagesy($image));
+
+                }
+
                 imagepng($newImage, $newFilePath);
 
                 $resized = $this->resizeImage($newFilePath);
@@ -781,6 +791,16 @@
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
                 imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
 
+                if (imagesx($newImage) > 1200) {
+
+                            // Breite          // Hoehe
+                    $prop = imagesx($newImage) / imagesy($newImage);
+                    $newHeight = 1200 / $prop;
+
+                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($image), imagesy($image));
+
+                }
+
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
 
                 imagepng($newImage, $newFilePath);
@@ -801,6 +821,16 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
                 
+                if (imagesx($newImage) > 1200) {
+
+                    // Breite          // Hoehe
+                    $prop = imagesx($newImage) / imagesy($newImage);
+                    $newHeight = 1200 / $prop;
+
+                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($image), imagesy($image));
+
+                }
+
                 imagepng($newImage, $newFilePath);
 
                 $resized = $this->resizeImage($newFilePath);
