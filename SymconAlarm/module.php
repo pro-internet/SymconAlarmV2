@@ -31,9 +31,6 @@
 
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
-
-            // Objekte verstecken
-            $this->hide($setValueScript);
  
         }
  
