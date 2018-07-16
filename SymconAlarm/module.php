@@ -269,6 +269,8 @@
                     $this->hide($script);
 
                 }
+
+                return $script;
             
             }
         }
@@ -315,10 +317,6 @@
                     IPS_SetIndex($id, $position);
 
                 }
-
-            } else {
-
-                echo "Does not exist";
 
             }
 
