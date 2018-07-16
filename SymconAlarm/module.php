@@ -662,7 +662,7 @@
             $camera2 = $this->ReadPropertyInteger("Camera2");
             $camera3 = $this->ReadPropertyInteger("Camera3");
 
-            if ($camera1 != null && $camera2 != null) {
+            if ($camera1 != null && $camera2 != null && $camera3 == null) {
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c2obj = IPS_GetMedia($camera2);
