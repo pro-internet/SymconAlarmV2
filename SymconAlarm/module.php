@@ -756,7 +756,7 @@
                     $prop = imagesx($newImage) / imagesy($newImage);
                     $newHeight = 1200 / $prop;
 
-                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($image), imagesy($image));
+                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
 
                 }
 
@@ -797,7 +797,7 @@
                     $prop = imagesx($newImage) / imagesy($newImage);
                     $newHeight = 1200 / $prop;
 
-                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($image), imagesy($image));
+                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
 
                 }
 
@@ -827,7 +827,7 @@
                     $prop = imagesx($newImage) / imagesy($newImage);
                     $newHeight = 1200 / $prop;
 
-                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($image), imagesy($image));
+                    imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
 
                 }
 
