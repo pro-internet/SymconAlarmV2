@@ -18,15 +18,22 @@
 
             parent::Create();
 
+            // Scripts checken -und erstellen
+            $setValueScript = $this->checkScript("MySetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
+
+            // Variablen checken -und erstellen
             $ueberwachung = $this->checkVar("Überwachung", 0, true, $this->InstanceID, 0, false);
             $alarm = $this->checkVar("Alarm", 0, true, $this->InstanceID, 0, false);
             $emailBenachrichtigung = $this->checkVar("E-Mail Benachrichtigung", 0, true, $this->InstanceID, 0, false);
             $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, $this->InstanceID, 0, false);
-            // $ueberwachung = $this->checkVar("Überwachung", 0, true, $this->InstanceID, 0, false);
-            // $alarm = $this->checkVar(0, "Alarm", true, $this->InstanceID, 0, false);
-            // $emailBenachrichtigung = $this->checkVar("E-Mail Benachrichtigung", 0, true, $this->InstanceID, 0, false);
-            // $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, $this->InstanceID, 0, false);
-            // //$historie = $this->checkVar(0, "E-Mail Benachrichtigung", true, 0, 0, false);
+            $historie = $this->checkVar("Historie", 3, false, $this->InstanceID, 0, false);
+
+
+            // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
+            $this->addProfile($historie, "~HTMLBox");
+
+            // Objekte verstecken
+            $this->hide($checkValueScript);
  
         }
  
@@ -36,11 +43,6 @@
             parent::ApplyChanges();
 
         }
-
-
-
-
-
 
         ##
         ##  Grundfunktionen
@@ -68,6 +70,41 @@
             return $newVariable;
         }
 
+        protected function easyCreateScript ($name, $script, $function = true ,$parent = "", $onlywebfront = false) {
+
+            if ($parent == "") {
+
+                $parent = $this->InstanceID;
+            
+            }
+
+            $newScript = IPS_CreateScript(0);
+            
+            IPS_SetName($newScript, $name);
+            IPS_SetIdent($newScript, $this->nameToIdent($name));
+            
+            if ($function == true) {
+
+                if ($onlywebfront) {
+
+                    IPS_SetScriptContent($newScript, "<?php if(\$\_IPS['SENDER'] == 'WebFront') { " . $script . "(" . $this->InstanceID . ");" . "} ?>");
+                
+                } else {
+
+                    IPS_SetScriptContent($newScript, "<?php " . $script . "(" . $this->InstanceID . ");" . " ?>");
+                
+                }
+            } else {
+
+                IPS_SetScriptContent($newScript, $script);
+            
+            }
+            
+            IPS_SetParent($newScript, $parent);
+            
+            return $newScript;
+        }
+
         // Prüft ob Variable bereits existiert und erstellt diese wenn nicht
         protected function checkVar ($var, $type = 1, $profile = false , $position = "", $index = 0, $defaultValue = null) {
 
@@ -85,7 +122,6 @@
                 
                 if ($position != "") {
                     IPS_SetParent($nVar, $position);
-                
                 }
                 
                 if ($index != 0) {
@@ -193,6 +229,36 @@
             return $name . $this->InstanceID;
 
         }
+
+        protected function addProfile ($id, $profile, $useSetValue = true) {
+
+            if (IPS_VariableProfileExists($profile)) {
+
+                IPS_SetVariableCustomProfile($id, $profile);
+                
+                if ($useSetValue) {
+
+                    IPS_SetVariableCustomAction($id, $this->searchObjectByName("MySetValue"));
+                
+                }
+            }
+        }
+
+        protected function checkScript ($name, $script, $function = true) {
+
+            if ($this->searchObjectByName($name) == 0) {
+                
+                $script = $this->easyCreateScript($name, $script, $function);
+                $this->hide($script);
+            
+            }
+        }
  
+        protected function hide ($id) {
+
+            IPS_SetHidden($id, true);
+
+        }
+
     }
 ?>
