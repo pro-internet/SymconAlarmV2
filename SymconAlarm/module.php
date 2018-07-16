@@ -664,8 +664,8 @@
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c2obj = IPS_GetMedia($camera2);
-                $c1link = $c1obj['MediaFile'];
-                $c2link = $c2obj['MediaFile'];
+                $c1link = "C:\\IP-Symcon\\" . $c1obj['MediaFile'];
+                $c2link = "C:\\IP-Symcon\\" . $c2obj['MediaFile'];
 
                 $c1img = imagecreatefrompng($c1link);
                 $c2img = imagecreatefrompng($c2link);
