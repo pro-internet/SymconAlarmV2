@@ -656,9 +656,9 @@
 
         protected function getImages () {
 
-            $camera1 = $this->ReadPropertyInteger("Camer1");
-            $camera2 = $this->ReadPropertyInteger("Camer2");
-            $camera3 = $this->ReadPropertyInteger("Camer3");
+            $camera1 = $this->ReadPropertyInteger("Camera1");
+            $camera2 = $this->ReadPropertyInteger("Camera2");
+            $camera3 = $this->ReadPropertyInteger("Camera3");
 
             if ($camera1 != null) {
 
