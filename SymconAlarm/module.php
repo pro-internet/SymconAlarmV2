@@ -29,12 +29,17 @@
             $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, $this->InstanceID, 3, false);
             $historie = $this->checkVar("Historie", 3, false, $this->InstanceID, 4, false);
 
+            // Targets Ordner checken -und erstellen
+            $targets = $this->checkFolder("Targets", $this->InstanceID, 5);
+            $events = $this->checkFolder("Events", $this->InstanceID, 6);
 
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
 
             // Positionen setzen
             $this->setPosition($clearLog, "last");
+
+            $this->hide($targets);
  
         }
  
@@ -42,6 +47,8 @@
         public function ApplyChanges() {
            
             parent::ApplyChanges();
+
+            $this->refreshTargets();
 
         }
 
@@ -58,7 +65,7 @@
 
         }
 
-        public function addLogMessage ($message, $important = false) {
+        public function addLogMessage ($message, $type = "regular") {
 
             if ($this->doesExist($this->searchObjectByName("Historie"))) {
 
@@ -67,22 +74,87 @@
                 $timestamp = time();
                 $datum = date("d.m.Y - H:i", $timestamp);
 
-                $message = "[" . $datum . "]: " . $message;
+                $rmessage = "[" . $datum . "]: " . $message;
 
-                if ($important) {
+                if ($type == "error") {
 
-                    $message = "<div style='color: red;'>" . $message . "</div";
+                    $rmessage = "<div style='color: red;'>" . $rmessage . "</div";
+
+                } else if ($type == "warning") {
+
+                    $rmessage = "<div style='color: #406fbc;'>" . "WARNING: " . $message . "</div";
 
                 }
 
-                $message = $message . "<br />";
+                $message = $rmessage . "<br />";
 
-                SetValue($this->searchObjectByName("Historie"), $message . $acutalContent);
+                SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
 
             }
 
         }
 
+        public function refreshTargets () {
+
+            $targetsFolder = $this->searchObjectByName("Targets");
+            $eventsFolder = IPS_GetObject($this->searchObjectByName("Events"));
+
+            foreach ($targetsFolder['ChildrenIDs'] as $chld) {
+
+                $child = IPS_GetObject($chld);
+
+                if ($child['ObjectType'] == 6) {
+
+                    $child = IPS_GetLink($child);
+                    $link = $child['TargetID'];
+                    $eventExists = false;
+                    $tgObjName = "";
+
+                    foreach ($eventsFolder['ChildrenIDs'] as $cchild) {
+
+                        $cchildObj = IPS_GetObject($cchild);
+                        $tgObjName = $cchildObj['ObjectName'];
+
+                        if ($cchildObj['ObjectType'] == 4) {
+
+                            $cchildObj = IPS_GetEvent($cchildObj);
+
+                            if ($cchildObj['TriggerVariableID'] == $link) {
+
+                                $eventExists = true;
+
+                            }
+
+                        }
+
+                    }
+
+                    if (!$eventExists) {
+
+                        $this->easyCreateOnChangeFunctionEvent($tgObjName . " " . $child['TargetID'] . " onChange Event", $link, "<?php " . $this->prefix . "_onTargetChange(" . $this->InstanceID . "," . $link . ");", $eventsFolder['ObjectID']);
+
+                    }
+
+                } else {
+
+                    $this->addLogMessage("Objekt " . $child['ObjectName'] . "(#" . $chld['ObjectID'] . ") ist kein Link!", "warning");
+
+                }
+
+            }
+
+        }
+
+
+        ##
+        ##  Set Funktionen
+        ## 
+
+        public function onTargetChange ($senderID) {
+
+            echo "A Target has changed!!!" . $senderID;
+
+        }
 
         ##
         ##  Grundfunktionen
@@ -343,6 +415,79 @@
                 }
 
             }
+
+        }
+
+        protected function checkFolder ($name, $parent ,$index = 100000) {
+            
+            if ($this->doesExist($this->searchObjectByName($name, $parent)) == false) {
+                
+                $targets = $this->createFolder($name);
+                
+                $this->hide($targets);
+                
+                if ($index != null ) {
+                    
+                    IPS_SetPosition($targets, $index);
+                
+                }
+                
+                if ($parent != null) {
+                    
+                    IPS_SetParent($targets, $parent);
+                
+                }
+                
+                return $targets;
+
+            } else {
+
+                return $this->searchObjectByName($name, $parent);
+
+            }
+        }
+
+        protected function createFolder ($name) {
+
+            $units = IPS_CreateInstance($this->getModuleGuidByName());
+            IPS_SetName($units, $name);
+            IPS_SetParent($units, $this->InstanceID);
+            return $units;
+
+        }
+
+        protected function getModuleGuidByName ($name = "Dummy Module") {
+            
+            $allModules = IPS_GetModuleList();
+            $GUID = ""; 
+            
+            foreach ($allModules as $module) {
+
+                if (IPS_GetModule($module)['ModuleName'] == $name) {
+                    $GUID = $module;
+                    break;
+                }
+
+            }
+
+            return $GUID;
+        } 
+
+        protected function easyCreateOnChangeFunctionEvent ($onChangeEventName, $targetId, $function, $parent = null) {
+
+            if ($parent == null) {
+
+                $parent = $this->InstanceID;
+            }
+
+            $eid = IPS_CreateEvent(0);
+            IPS_SetEventTrigger($eid, 0, $targetId);
+            IPS_SetParent($eid, $parent);
+            IPS_SetEventScript($eid, $function);
+            IPS_SetName($eid, $onChangeEventName);
+            IPS_SetEventActive($eid, true);
+
+            return $eid;
 
         }
 
