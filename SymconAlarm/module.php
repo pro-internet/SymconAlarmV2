@@ -903,7 +903,7 @@
             } 
 
             if ($image_filetype == 2) {
-                $img = imagecreatefromauto($filepath);
+                $img = imagecreatefromjpeg($filepath);
                 return $img;
             }
 
@@ -924,7 +924,7 @@
             } 
 
             if ($image_filetype == 2) {
-                imageauto($img, $pt);
+                imagejpeg($img, $pt);
             }
 
             if ($image_filetype == 3) {
