@@ -678,7 +678,7 @@
                     $hoehe = imagesy($c2img);
                 }
 
-                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img)) ;
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img), $hoehe) ;
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
