@@ -285,7 +285,7 @@
 
             }
 
-            if ($pushBenachrichtigung) {
+            if ($pushBenachrichtigung == true) {
 
 
                 if ($pushInstance != null) {
@@ -339,13 +339,17 @@
 
                 }
 
-                if ($pushInstance != null) {
+                if ($pushBenachrichtigung) {
 
-                    WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", "bell");
+                    if ($pushInstance != null) {
 
-                } else {
-
-                    $this->addLogMessage("Keine Notification Instanz ausgewählt! Push Nachricht konnte nicht gesendet werden!", "warning");
+                        WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", "bell");
+    
+                    } else {
+    
+                        $this->addLogMessage("Keine Notification Instanz ausgewählt! Push Nachricht konnte nicht gesendet werden!", "warning");
+    
+                    }
 
                 }
 
