@@ -32,6 +32,9 @@
 
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
+
+            // Positionen setzen
+            $this->setIndex($clearLog, "last");
  
         }
  
@@ -276,7 +279,7 @@
 
         }
 
-        protected function setPosition ($id, $position) {
+        protected function setIndex ($id, $position) {
 
             if ($this->doesExist($id)) {
 
@@ -293,9 +296,21 @@
 
                             $chld = IPS_GetObject($child);
 
+                            if ($chld['ObjectPosition'] >= $highestChildPositon) {
+
+                                $highestChildPositon = $chld['ObjectPosition'];
+
+                            }
+
                         }
 
+                        IPS_SetIndex($id, $highestChildPositon + 1);
+
                     }
+
+                } else {
+
+                    IPS_SetIndex($id, $position);
 
                 }
 
