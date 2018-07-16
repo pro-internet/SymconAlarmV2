@@ -664,8 +664,8 @@
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c2obj = IPS_GetMedia($camera2);
-                $c1link = "C:\\IP-Symcon\\" . $c1obj['MediaFile'];
-                $c2link = "C:\\IP-Symcon\\" . $c2obj['MediaFile'];
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
 
                 $c1img = imagecreatefrompng($c1link);
                 $c2img = imagecreatefrompng($c2link);
@@ -683,7 +683,7 @@
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
 
-                imagepng($im, 'C:\\Users\\noah.PROINTERNET\\Documents\\tempimagesymcon.png');
+                imagepng($newImage, 'C:\\Users\\noah.PROINTERNET\\Documents\\tempimagesymcon.png');
 
                 print_r($obj);
 
