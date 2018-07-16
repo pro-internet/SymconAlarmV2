@@ -752,7 +752,9 @@
 
                 imagepng($newImage, $newFilePath);
 
-                return $newFilePath;
+                $resized = $this->resizeImage($newFilePath);
+
+                return $resized;
 
             } else if ($camera1 != null && $camera2 != null && $camera3 != null) {
 
@@ -783,7 +785,9 @@
 
                 imagepng($newImage, $newFilePath);
 
-                return $newFilePath;
+                $resized = $this->resizeImage($newFilePath);
+
+                return $resized;
 
             } else if ($camera1 != null && $camera2 == null && $camera3 == null) {
 
@@ -799,7 +803,9 @@
                 
                 imagepng($newImage, $newFilePath);
 
-                return $newFilePath;
+                $resized = $this->resizeImage($newFilePath);
+
+                return $resized;
 
             }
 
@@ -815,6 +821,35 @@
             } else if (!file_exists("C:\\IP-Symcon\\ModuleData\\AlarmV2")) {
 
                 mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
+
+            }
+
+        }
+
+        protected function resizeImage ($imagePath) {
+
+            if (filesize($imagePath) >= 1024000) {
+
+                $image = imagecreatefrompng($imagePath);
+
+                $imageWidth = imagesx($image) * 0.8;
+                $imageHeight = imagesy($image) * 0.8;
+
+                $newImage = imagecreatetruecolor($imageWidth, $imageHeight);
+
+                imagecopyresampled ($newImage, $image, 0, 0, 0, 0, $imageWidth, $imageHeight, imagesx($image), imagesy($image));
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
+
+                imagepng($newImage, $newFilePath);
+
+                unlink($imagePath);
+
+                $this->resizeImage($newFilePath);
+
+            } else {
+
+                return $imagePath;
 
             }
 
