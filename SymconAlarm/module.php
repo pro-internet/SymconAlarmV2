@@ -47,6 +47,8 @@
             $this->RegisterPropertyInteger("Camera1", null);
             $this->RegisterPropertyInteger("Camera2", null);
             $this->RegisterPropertyInteger("Camera3", null);
+            $this->RegisterPropertyInteger("NotificationInstance", null);
+            $this->RegisterPropertyBoolean("PictureLog", false);
 
             $this->checkOnAlarmChangedEvent();
 
@@ -109,6 +111,14 @@
                 } else if ($type == "endAlarm") {
 
                     $rmessage = "</div>";
+
+                } else if ($type == "picture") {
+
+                    $pic = file_get_contents($message);
+
+                    $pic = base64_encode($pic);
+
+                    $rmessage = "<img src='data:image/png;base64," . $pic ."'>";
 
                 }
 
@@ -232,6 +242,8 @@
 
             $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
             $pushBenachrichtigung = GetValue($this->searchObjectByName("Push Benachrichtigung"));
+            $pushInstance = $this->ReadPropertyInteger("NotificationInstance");
+            $pictureLog = $this->ReadPropertyBoolean("PictureLog");
 
             if (!$ueberwachung) {
 
@@ -269,13 +281,35 @@
 
                 }
 
+                unlink($images);
+
             }
 
             if ($pushBenachrichtigung) {
 
 
+                if ($pushInstance != null) {
+
+                    WFC_PushNotification ($pushInstance, "Alarm!", "", "alarm");
+
+                } else {
+
+                    $this->addLogMessage("Keine Notification Instanz ausgewählt! Push Nachricht konnte nicht gesendet werden!", "warning");
+
+                }
 
             }
+
+            if ($pictureLog) {
+
+                $images = $this->getImages();
+
+                $this->addLogMessage($images, "picture");
+
+                unlink($images);
+
+            }
+
 
         }
 
@@ -285,6 +319,9 @@
             $alarmVal = GetValue($alarmVar);
             $interval = $this->ReadPropertyInteger("Interval");
             $sendEmailVal = $this->ReadPropertyInteger("EmailInstance");
+
+            $pushBenachrichtigung = GetValue($this->searchObjectByName("Push Benachrichtigung"));
+            $pushInstance = $this->ReadPropertyInteger("NotificationInstance");
 
 
             // Wenn Alarm aktiviert
@@ -299,6 +336,16 @@
                 if ($sendEmailVal) {
 
                     SMTP_SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
+
+                }
+
+                if ($pushInstance != null) {
+
+                    WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", "bell");
+
+                } else {
+
+                    $this->addLogMessage("Keine Notification Instanz ausgewählt! Push Nachricht konnte nicht gesendet werden!", "warning");
 
                 }
 
