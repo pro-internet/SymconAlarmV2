@@ -90,7 +90,7 @@
 
                 } else if ($type == "alarm") {
 
-                    $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'>" . $message . $datum . "</div><br />";
+                    $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red;'>" . "[$datum]" . $message . "</div><br />";
 
                 } else if ($type == "regular") {
 
