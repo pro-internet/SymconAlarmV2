@@ -18,10 +18,10 @@
 
             parent::Create();
 
-            $ueberwachung = $this->checkVar(0, "Überwachung", true, 0, 0, false);
-            $alarm = $this->checkVar(0, "Alarm", true, 0, 0, false);
-            $emailBenachrichtigung = $this->checkVar(0, "E-Mail Benachrichtigung", true, 0, 0, false);
-            $pushBenachrichtigung = $this->checkVar(0, "Push Benachrichtigung", true, 0, 0, false);
+            // $ueberwachung = $this->checkVar(0, "Überwachung", true, 0, 0, false);
+            // $alarm = $this->checkVar(0, "Alarm", true, 0, 0, false);
+            // $emailBenachrichtigung = $this->checkVar(0, "E-Mail Benachrichtigung", true, 0, 0, false);
+            // $pushBenachrichtigung = $this->checkVar(0, "Push Benachrichtigung", true, 0, 0, false);
             //$historie = $this->checkVar(0, "E-Mail Benachrichtigung", true, 0, 0, false);
  
         }
