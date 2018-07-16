@@ -50,6 +50,8 @@
 
             $this->checkOnAlarmChangedEvent();
 
+            $this->checkTempFolder();
+
  
         }
  
@@ -250,7 +252,7 @@
 
                 $email = "Alarm ausgelöst! \n";
             
-                $email = $email . "Es wurde ein Alarm ausgelöst! Aktueller Log: \n \n";
+                $email = $email . "Es wurde ein Alarm ausgelöst! r Log: \n \n";
 
                 $email = $email . $this->getFormattedLog();
 
@@ -683,9 +685,64 @@
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
 
-                imagepng($newImage, 'C:\\Users\\noah.PROINTERNET\\Documents\\tempimagesymcon.png');
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
 
-                print_r($obj);
+                imagepng($newImage, $newFilePath);
+
+                return $newFilePath;
+
+            } else if ($camera1 != null && $camera2 != null && $camera3 != null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c3obj = IPS_GetMedia($camera3);
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+
+                $c1img = imagecreatefrompng($c1link);
+                $c2img = imagecreatefrompng($c2link);
+
+                $hoehe = 0;
+
+                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
+
+                $hoehe = max($allHeights);
+
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img), $hoehe) ;
+
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
+
+                imagepng($newImage, $newFilePath);
+
+                return $newFilePath;
+
+            } else if ($camera1 != null && $camera2 == null && $camera3 == null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+
+                return $c1link;
+
+            }
+
+        }
+
+        protected function checkTempFolder () {
+
+            if (!file_exists("C:\\IP-Symcon\\ModuleData")){
+
+                mkdir("C:\\IP-Symcon\\ModuleData");
+                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
+
+            } else if (!file_exists("C:\\IP-Symcon\\ModuleData\\AlarmV2")) {
+
+                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
 
             }
 
