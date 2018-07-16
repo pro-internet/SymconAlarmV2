@@ -739,8 +739,8 @@
                 $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
                 $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
 
-                $c1img = imagecreatefromauto($c1link);
-                $c2img = imagecreatefromauto($c2link);
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
 
                 $hoehe = 0;
 
@@ -767,7 +767,7 @@
 
                 // }
 
-                imageauto($newImage, $newFilePath);
+                $this->imageauto($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -782,9 +782,9 @@
                 $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
                 $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
 
-                $c1img = imagecreatefromauto($c1link);
-                $c2img = imagecreatefromauto($c2link);
-                $c3img = imagecreatefromauto($c3link);
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
+                $c3img = $this->imagecreatefromauto($c3link);
 
                 $hoehe = 0;
 
@@ -810,7 +810,7 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
-                imageauto($newImage, $newFilePath);
+                $this->imageauto($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -820,7 +820,7 @@
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c1img = imagecreatefromauto($c1link);
+                $c1img = $this->imagecreatefromauto($c1link);
 
                 $newImage = imagecreatetruecolor(imagesx($c1img), imagesy($c1img));
 
@@ -838,7 +838,7 @@
 
                 // }
 
-                imageauto($newImage, $newFilePath);
+                $this->imageauto($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -867,7 +867,7 @@
 
             if (filesize($imagePath) >= 1024000) {
 
-                $image = imagecreatefromauto($imagePath);
+                $image = $this->imagecreatefromauto($imagePath);
 
                 $imageWidth = imagesx($image) * 0.8;
                 $imageHeight = imagesy($image) * 0.8;
@@ -878,7 +878,7 @@
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
-                imageauto($newImage, $newFilePath);
+                $this->imageauto($newImage, $newFilePath);
 
                 unlink($imagePath);
 
