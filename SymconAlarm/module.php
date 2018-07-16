@@ -44,6 +44,9 @@
 
             $this->RegisterPropertyInteger("Interval", 5);
             $this->RegisterPropertyInteger("EmailInstance", null);
+
+            $this->checkOnAlarmChangedEvent();
+
  
         }
  
@@ -195,6 +198,14 @@
 
                 }
 
+            } else {
+
+                if ($alarmVal) {
+
+                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!", "regular");
+
+                }
+
             }
 
         }
@@ -259,7 +270,6 @@
 
             } else {
 
-
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
 
             }
@@ -278,6 +288,16 @@
             $logContent = strip_tags($logContent);
 
             return $logContent;
+
+        }
+
+        protected function checkOnAlarmChangedEvent () {
+
+            if (!$this->doesExist($this->searchObjectByName("Alarm onChange"))) {
+
+                $this->easyCreateOnChangeFunctionEvent("Alarm onChange", $this->searchObjectByName("Alarm"), "<?php " . $this->prefix . "_onAlarmChange(" . $this->InstanceID . ");", $this->InstanceID);
+
+            }
 
         }
 
