@@ -82,11 +82,11 @@
 
                 if ($type == "error") {
 
-                    $rmessage = $rmessage . "<span style='color: red;'>" . $rmessage . "</span";
+                    $rmessage = $rmessage . "<span style='color: red;'>" . $rmessage . "</span>";
 
                 } else if ($type == "warning") {
 
-                    $rmessage = "<span style='color: #406fbc;'>" . "WARNING: " . $message . "</span";
+                    $rmessage = "<span style='color: #406fbc;'>" . "WARNING: " . $message . "</span>";
 
                 } else if ($type == "alarm") {
 
@@ -96,7 +96,7 @@
                 
                 } else if ($type == "regular") {
 
-                    $rmessage = "<span style='color: white;'>" . $rmessage . "</span";
+                    $rmessage = "<span style='color: white;'>" . $rmessage . "</span>";
 
                 } else if ($type == "endAlarm") {
 
@@ -106,15 +106,8 @@
 
                 $rmessage = $rmessage . "<br />";
 
-                if ($alarmAktiv) {
 
-                    SetValue($this->searchObjectByName("Historie"), $rmessage . str_replace("..", "</div>", $acutalContent));
-
-                } else {
-
-                    SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
-
-                }
+                SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
 
             }
 
