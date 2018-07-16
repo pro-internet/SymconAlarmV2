@@ -231,6 +231,7 @@
         public function alarmActivated () {
 
             $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
+            $pushBenachrichtigung = GetValue($this->searchObjectByName("Push Benachrichtigung"));
 
             if (!$ueberwachung) {
 
@@ -252,7 +253,7 @@
 
                 $email = "Alarm ausgelöst! \n";
             
-                $email = $email . "Es wurde ein Alarm ausgelöst! r Log: \n \n";
+                $email = $email . "Es wurde ein Alarm ausgelöst! aktueller Log: \n \n";
 
                 $email = $email . $this->getFormattedLog();
 
@@ -267,6 +268,12 @@
                     SMTP_SendMail($emailInstance, "Alarm!", $email);
 
                 }
+
+            }
+
+            if ($pushBenachrichtigung) {
+
+
 
             }
 
@@ -734,10 +741,18 @@
             } else if ($camera1 != null && $camera2 == null && $camera3 == null) {
 
                 $c1obj = IPS_GetMedia($camera1);
-
                 $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c1img = imagecreatefrompng($c1link);
 
-                return $c1link;
+                $newImage = imagecreatetruecolor(imagesx($c1img), imagesy($c1img));
+
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),imagesy($c1img),100);
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
+                
+                imagepng($newImage, $newFilePath);
+
+                return $newFilePath;
 
             }
 
