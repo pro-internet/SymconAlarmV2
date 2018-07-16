@@ -258,7 +258,15 @@
 
                 $images = $this->getImages();
 
-                SMTP_SendMail($emailInstance, "Alarm!", $email);
+                if ($images != null) {
+
+
+
+                } else {
+
+                    SMTP_SendMail($emailInstance, "Alarm!", $email);
+
+                }
 
             }
 
@@ -647,6 +655,7 @@
             IPS_SetEventScript($eid, $function);
             IPS_SetName($eid, $onChangeEventName);
             IPS_SetEventActive($eid, true);
+            IPS_SetIdent($eid, $this->nameToIdent($onChangeEventName));
 
             return $eid;
 
