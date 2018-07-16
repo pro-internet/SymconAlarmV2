@@ -260,7 +260,7 @@
 
                 if ($images != null) {
 
-
+                    SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
 
                 } else {
 
