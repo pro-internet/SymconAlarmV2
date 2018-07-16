@@ -44,6 +44,9 @@
 
             $this->RegisterPropertyInteger("Interval", 5);
             $this->RegisterPropertyInteger("EmailInstance", null);
+            $this->RegisterPropertyInteger("Camera1", null);
+            $this->RegisterPropertyInteger("Camera2", null);
+            $this->RegisterPropertyInteger("Camera3", null);
 
             $this->checkOnAlarmChangedEvent();
 
@@ -309,9 +312,9 @@
 
         }
 
-        ##
-        ##  Grundfunktionen
-        ##  
+        ##                      ##
+        ##  Grundfunktionen     ##
+        ##                      ##
 
         // PI GRUNDFUNKTIONEN
         protected function easyCreateVariable ($type = 1, $name = "Variable", $position = "", $index = 0, $defaultValue = null) {
@@ -644,6 +647,12 @@
             return $eid;
 
         }
+
+
+
+        ## Picture function
+
+
 
     }
 ?>
