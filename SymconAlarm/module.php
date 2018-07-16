@@ -77,7 +77,7 @@
 
                 $message = $message . "<br />";
 
-                SetValue($this->searchObjectByName("Historie"), $message);
+                SetValue($acutalContent . $this->searchObjectByName("Historie"), $message);
 
             }
 
