@@ -105,7 +105,7 @@
 
                 if ($child['ObjectType'] == 6) {
 
-                    $child = IPS_GetLink($child);
+                    $child = IPS_GetLink($child['ObjectID']);
                     $link = $child['TargetID'];
                     $eventExists = false;
                     $tgObjName = "";
