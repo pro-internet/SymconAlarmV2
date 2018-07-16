@@ -257,7 +257,7 @@
 
         }
 
-        public function onAlarmChanged () {
+        public function onAlarmChange () {
 
             $alarmVar = $this->searchObjectByName("Alarm");
             $alarmVal = GetValue($alarmVar);
