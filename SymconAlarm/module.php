@@ -702,6 +702,7 @@
 
                 $c1img = imagecreatefrompng($c1link);
                 $c2img = imagecreatefrompng($c2link);
+                $c3img = imagecreatefrompng($c3link);
 
                 $hoehe = 0;
 
