@@ -451,6 +451,7 @@
 
             $units = IPS_CreateInstance($this->getModuleGuidByName());
             IPS_SetName($units, $name);
+            IPS_SetIdent($units, $this->nameToIdent($name));
             IPS_SetParent($units, $this->InstanceID);
             return $units;
 
