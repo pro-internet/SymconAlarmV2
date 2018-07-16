@@ -58,6 +58,32 @@
 
         }
 
+        public function addLogMessage ($message, $important = false) {
+
+            if ($this->doesExist($this->searchObjectByName("Historie"))) {
+
+                $acutalContent = GetValue($this->searchObjectByName("Historie"));
+
+                $timestamp = time();
+                $datum = date("d.m.Y - H:i", $timestamp);
+
+                $message = "[" . $datum . "]: " . $message;
+
+                if ($important) {
+
+                    $message = "<div style='color: red;'>" . $message . "</div";
+
+                }
+
+                $message = $message . "<br />";
+
+                SetValue($this->searchObjectByName("Historie"), $message);
+
+            }
+
+        }
+
+
         ##
         ##  Grundfunktionen
         ##  
