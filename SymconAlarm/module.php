@@ -254,6 +254,8 @@
 
                 $email = $email . $this->getFormattedLog();
 
+                $images = $this->getImages();
+
                 SMTP_SendMail($emailInstance, "Alarm!", $email);
 
             }
@@ -652,7 +654,20 @@
 
         ## Picture function
 
+        protected function getImages () {
 
+            $camera1 = $this->ReadPropertyInteger("Camer1");
+            $camera2 = $this->ReadPropertyInteger("Camer2");
+            $camera3 = $this->ReadPropertyInteger("Camer3");
+
+            if ($camera1 != null) {
+
+                $obj = IPS_GetMedia($camera1);
+                print_r($obj);
+
+            }
+
+        }
 
     }
 ?>
