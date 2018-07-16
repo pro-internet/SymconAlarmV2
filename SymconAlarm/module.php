@@ -118,7 +118,7 @@
 
                     $pic = base64_encode($pic);
 
-                    $rmessage = "<img src='data:image/jpg;base64," . $pic ."'>";
+                    $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."'>";
 
                 }
 
