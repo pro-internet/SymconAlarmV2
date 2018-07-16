@@ -118,7 +118,7 @@
 
                     $pic = base64_encode($pic);
 
-                    $rmessage = "<img src='data:image/png;base64," . $pic ."'>";
+                    $rmessage = "<img src='data:image/jpg;base64," . $pic ."'>";
 
                 }
 
@@ -732,8 +732,8 @@
                 $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
                 $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
 
-                $c1img = imagecreatefrompng($c1link);
-                $c2img = imagecreatefrompng($c2link);
+                $c1img = imagecreatefromjpeg($c1link);
+                $c2img = imagecreatefromjpeg($c2link);
 
                 $hoehe = 0;
 
@@ -748,7 +748,7 @@
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
 
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
                 // if (imagesx($newImage) > 1200) {
 
@@ -760,7 +760,7 @@
 
                 // }
 
-                imagepng($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -775,9 +775,9 @@
                 $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
                 $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
 
-                $c1img = imagecreatefrompng($c1link);
-                $c2img = imagecreatefrompng($c2link);
-                $c3img = imagecreatefrompng($c3link);
+                $c1img = imagecreatefromjpeg($c1link);
+                $c2img = imagecreatefromjpeg($c2link);
+                $c3img = imagecreatefromjpeg($c3link);
 
                 $hoehe = 0;
 
@@ -801,9 +801,9 @@
 
                 // }
 
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
-                imagepng($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -813,13 +813,13 @@
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c1img = imagecreatefrompng($c1link);
+                $c1img = imagecreatefromjpeg($c1link);
 
                 $newImage = imagecreatetruecolor(imagesx($c1img), imagesy($c1img));
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),imagesy($c1img),100);
 
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
                 
                 // if (imagesx($newImage) > 1200) {
 
@@ -831,7 +831,7 @@
 
                 // }
 
-                imagepng($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 //$resized = $this->resizeImage($newFilePath);
 
@@ -860,7 +860,7 @@
 
             if (filesize($imagePath) >= 1024000) {
 
-                $image = imagecreatefrompng($imagePath);
+                $image = imagecreatefromjpeg($imagePath);
 
                 $imageWidth = imagesx($image) * 0.8;
                 $imageHeight = imagesy($image) * 0.8;
@@ -869,9 +869,9 @@
 
                 imagecopyresampled ($newImage, $image, 0, 0, 0, 0, $imageWidth, $imageHeight, imagesx($image), imagesy($image));
 
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".png";
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
-                imagepng($newImage, $newFilePath);
+                imagejpeg($newImage, $newFilePath);
 
                 unlink($imagePath);
 
