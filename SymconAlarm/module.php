@@ -873,6 +873,7 @@
 
         }
 
+        // Wird nicht verwendet, trotzdem für evtl. spätere verwendung drin lassen
         protected function resizeImage ($imagePath) {
 
             if (filesize($imagePath) >= 1024000) {
