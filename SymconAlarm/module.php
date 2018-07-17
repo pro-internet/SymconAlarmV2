@@ -121,6 +121,10 @@
 
                     $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."'>";
 
+                } else if ($type = "endAlarm") {
+
+                    $rmessage = "<span style='color: green;'>" . $rmessage . "</span>";
+
                 }
 
                 $rmessage = $rmessage . "<br />";
@@ -357,6 +361,8 @@
                     }
 
                 }
+
+                $this->addLogMessage("Der Alarm wurde beendet", "endAlarm");
 
             }
 
