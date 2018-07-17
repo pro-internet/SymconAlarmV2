@@ -804,6 +804,7 @@
             $camera5 = $this->ReadPropertyInteger("Camera5");
             $camera6 = $this->ReadPropertyInteger("Camera6");
 
+                // 2 Kameras
             if ($camera1 != null && $camera2 != null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 != null) {
 
                 $c1obj = IPS_GetMedia($camera1);
@@ -845,7 +846,8 @@
 
                 return $newFilePath;
 
-            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 == null && $camera5 == null && $camera6 != null) {
+                // 3 Kameras
+            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 == null && $camera5 == null && $camera6 == null) {
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c2obj = IPS_GetMedia($camera2);
@@ -888,7 +890,8 @@
 
                 return $newFilePath;
 
-            } else if ($camera1 != null && $camera2 == null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 != null) {
+                // 1 Kamera
+            } else if ($camera1 != null && $camera2 == null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
@@ -916,6 +919,7 @@
 
                 return $newFilePath;
 
+                // 6 Kameras
             } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 != null && $camera6 != null) {
 
                 $c1obj = IPS_GetMedia($camera1);
@@ -979,6 +983,7 @@
 
                 return $newFilePath;
 
+                // 5 Kameras
             } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 != null && $camera6 == null) {
 
                 $c1obj = IPS_GetMedia($camera1);
