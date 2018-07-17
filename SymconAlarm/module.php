@@ -150,6 +150,12 @@
 
                 }
 
+                if (substr($acutalContent, 0, 5) == "<br />") {
+
+                    $noBr = true;
+
+                }
+
                 if (!$noBr) {
 
                     $rmessage = $rmessage . "<br />";
