@@ -119,7 +119,7 @@
 
                     $pic = base64_encode($pic);
 
-                    if (strpos($actualContent, "<img") !== false) {
+                    if (strpos($acutalContent, "<img") !== false) {
 
                         $acutalContentNoImg = explode("<img", $acutalContent);
 
