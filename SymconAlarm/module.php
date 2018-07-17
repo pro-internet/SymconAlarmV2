@@ -327,9 +327,9 @@
 
                 if ($images != null) {
 
-                    SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
+                    //SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
 
-                    unlink($images);
+                    //unlink($images);
 
                 } else {
 
