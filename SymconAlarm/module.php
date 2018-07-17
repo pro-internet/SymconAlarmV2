@@ -56,6 +56,7 @@
             $this->RegisterPropertyBoolean("PictureLog", false);
 
             $this->checkOnAlarmChangedEvent();
+            $this->checkOnUeberwachungChangeEvent();
 
             $this->checkTempFolder();
 
@@ -69,7 +70,6 @@
 
             $this->refreshTargets();
 
-            $this->checkOnUeberwachungChangeEvent();
 
         }
 
@@ -220,6 +220,21 @@
         ##
         ##  Set Funktionen
         ## 
+
+        public function onUeberwachungChange () {
+
+            $alarm = $this->searchObjectByName("Alarm");
+            $ueberwachung = $this->searchObjectByName("Überwachung");
+
+            $ueberwachungVal = $this->searchObjectByName($ueberwachung);
+
+            if (!$ueberwachungVal) {
+
+                SetValue($alarm, false);
+
+            }
+            
+        }
 
         public function onTargetChange ($senderID) {
 
