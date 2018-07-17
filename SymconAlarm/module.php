@@ -360,6 +360,7 @@
             if ($alarmVal) {
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), $interval);
+                $this->alarmActivated();
 
             } else {
 
