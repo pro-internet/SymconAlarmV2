@@ -69,6 +69,8 @@
 
             $this->refreshTargets();
 
+            $this->checkOnUeberwachungChangeEvent();
+
         }
 
 
@@ -416,6 +418,16 @@
             if (!$this->doesExist($this->searchObjectByName("Alarm onChange"))) {
 
                 $this->easyCreateOnChangeFunctionEvent("Alarm onChange", $this->searchObjectByName("Alarm"), "<?php " . $this->prefix . "_onAlarmChange(" . $this->InstanceID . ");", $this->InstanceID);
+
+            }
+
+        }
+
+        protected function checkOnUeberwachungChangeEvent () {
+
+            if (!$this->doesExist($this->searchObjectByName("Überwachung onChange"))) {
+
+                $this->easyCreateOnChangeFunctionEvent("Überwachung onChange", $this->searchObjectByName("Überwachung"), "<?php " . $this->prefix . "_onUeberwachungChange(" . $this->InstanceID . ");", $this->InstanceID);
 
             }
 
