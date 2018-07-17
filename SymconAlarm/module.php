@@ -223,11 +223,12 @@
             $alarm = $this->searchObjectByName("Alarm");
             $ueberwachung = $this->searchObjectByName("Überwachung");
 
+            $alarmVal = GetValue($alarm);
             $ueberwachungVal = $this->searchObjectByName($ueberwachung);
 
-            if (!$ueberwachungVal) {
+            if (!$ueberwachungVal && $alarm) {
 
-                //SetValue($alarm, false);
+                SetValue($alarm, false);
 
             }
             
