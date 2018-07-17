@@ -119,7 +119,23 @@
 
                     $pic = base64_encode($pic);
 
-                    $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."'>";
+                    if (str_pos($actualContent, "<img") !== false) {
+
+                        $acutalContentNoImg = explode("<img", $acutalContent);
+
+                        $actualContentNoImgEnding = explode("class='none'>", $acutalContent);
+
+                        $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
+
+                        $actualContent = $acutalContentNoImg[0] . $rmessage . $actualContentNoImgEnding[1];
+
+                        $rmessage = "";
+
+                    } else {
+
+                        $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
+
+                    }
 
                 } else if ($type = "endAlarm") {
 
