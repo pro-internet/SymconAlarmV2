@@ -246,6 +246,10 @@
             $pushInstance = $this->ReadPropertyInteger("NotificationInstance");
             $pictureLog = $this->ReadPropertyBoolean("PictureLog");
 
+            $camera1 = $this->ReadPropertyInteger("Camera1");
+            $camera2 = $this->ReadPropertyInteger("Camera2");
+            $camera3 = $this->ReadPropertyInteger("Camera3");
+            
             if (!$ueberwachung) {
 
                 return;
@@ -301,7 +305,7 @@
 
             }
 
-            if ($pictureLog) {
+            if ($pictureLog && ($camera1 != null || $camera2 != null || $camera3 != null)) {
 
                 $images = $this->getImages();
 
