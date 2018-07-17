@@ -818,7 +818,7 @@
             echo "Kamera 6: " . $camera6 . "\n";
 
                 // 2 Kameras
-            if ($camera1 != null && $camera2 != null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 != null) {
+            if ($camera1 != null && $camera2 != null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
 
                 $c1obj = IPS_GetMedia($camera1);
                 $c2obj = IPS_GetMedia($camera2);
