@@ -120,7 +120,7 @@
 
                 } else if ($type == "endAlarm") {
 
-                    $rmessage = "</div>";
+                    $rmessage = $rmessage . "<span style='color: green;'>" . $rmessage . "</span>";
 
                 } else if ($type == "picture") {
 
