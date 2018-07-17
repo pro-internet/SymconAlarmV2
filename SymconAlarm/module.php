@@ -307,13 +307,13 @@
 
                     SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
 
+                    unlink($images);
+
                 } else {
 
                     SMTP_SendMail($emailInstance, "Alarm!", $email);
 
                 }
-
-                unlink($images);
 
             }
 
