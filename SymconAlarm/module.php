@@ -227,7 +227,7 @@
 
             if (!$ueberwachungVal) {
 
-                SetValue($alarm, false);
+                //SetValue($alarm, false);
 
             }
             
