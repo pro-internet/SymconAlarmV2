@@ -89,6 +89,8 @@
                 $timestamp = time();
                 $datum = date("d.m.Y - H:i", $timestamp);
 
+                $noBr = false;
+
                 $rmessage = "[" . $datum . "]: " . $message;
 
                 if ($type == "error") {
@@ -131,6 +133,8 @@
 
                         $rmessage = "";
 
+                        $noBr = true;
+
                     } else {
 
                         $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
@@ -143,7 +147,11 @@
 
                 }
 
-                $rmessage = $rmessage . "<br />";
+                if (!$noBr) {
+
+                    $rmessage = $rmessage . "<br />";
+
+                }
 
                 SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
 
