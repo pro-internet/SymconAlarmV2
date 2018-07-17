@@ -7,6 +7,8 @@
 		{ "type": "SelectMedia", "name":"Camera1", "caption": "Kamera 1"},
 		{ "type": "SelectMedia", "name":"Camera2", "caption": "Kamera 2"},
 		{ "type": "SelectMedia", "name":"Camera3", "caption": "Kamera 3"},
+		{ "type": "SelectMedia", "name":"Camera4", "caption": "Kamera 4"},
+		{ "type": "SelectMedia", "name":"Camera5", "caption": "Kamera 5"},
 		{ "type": "Label", "label": "Zusätzliche Funktionen" },
 		{ "type": "CheckBox", "name": "PictureLog", "caption": "Bilder im Log"}
 	]
