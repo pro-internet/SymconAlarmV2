@@ -1,6 +1,6 @@
 <?
     // Klassendefinition
-    class SymconAlarmNoah extends IPSModule {
+    class SymconAlarmV2 extends IPSModule {
  
         public $prefix = "PIALRMNW";
 
