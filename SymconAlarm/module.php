@@ -118,10 +118,6 @@
 
                     $rmessage = "<span style='color: white;'>" . $rmessage . "</span>";
 
-                } else if ($type == "endAlarm") {
-
-                    $rmessage = $rmessage . "<span style='color: green;'>" . $rmessage . "</span>";
-
                 } else if ($type == "picture") {
 
                     $pic = file_get_contents($message);
