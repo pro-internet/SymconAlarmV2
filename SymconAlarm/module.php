@@ -940,11 +940,13 @@
 
                 $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
                 $secondHeights = array(imagesy($c4img), imagesy($c5img), imagesy($c6img));
+                $lens = array(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), imagesx($c4img) + imagesx($c5img) + imagesx($c6img));
 
                 $hoehe = max($allHeights);
                 $hoehe2 = max($secondHeights);
+                $maxLen = max($lens);
 
-                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), $hoehe + $hoehe2) ;
+                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
 
                 // First Row
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
@@ -955,6 +957,65 @@
                 imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
                 imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
                 imagecopymerge($newImage, $c6img, imagesx($c4img) + imagesx($c5img), $hoehe, 0, 0, imagesx($c6img), imagesy($c6img), 100);
+
+                // if (imagesx($newImage) > 1200) {
+
+                //             // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
+
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+
+                // }
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+
+                imagejpeg($newImage, $newFilePath);
+
+                //$resized = $this->resizeImage($newFilePath);
+
+                return $newFilePath;
+
+            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 != null && $camera6 == null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c3obj = IPS_GetMedia($camera3);
+                $c4obj = IPS_GetMedia($camera4);
+                $c5obj = IPS_GetMedia($camera5);
+
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
+                $c4link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c4obj['MediaFile']);
+                $c5link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c5obj['MediaFile']);
+
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
+                $c3img = $this->imagecreatefromauto($c3link);
+                $c4img = $this->imagecreatefromauto($c4link);
+                $c5img = $this->imagecreatefromauto($c5link);
+
+                $hoehe = 0;
+
+                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
+                $secondHeights = array(imagesy($c4img), imagesy($c5img));
+                $lens = array(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), imagesx($c4img) + imagesx($c5img));
+
+                $hoehe = max($allHeights);
+                $hoehe2 = max($secondHeights);
+                $maxLen = max($lens);
+
+                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
+
+                // First Row
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
+
+                // Second Row
+                imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
+                imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
 
                 // if (imagesx($newImage) > 1200) {
 
