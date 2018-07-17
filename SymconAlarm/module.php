@@ -48,6 +48,10 @@
             $this->RegisterPropertyInteger("Camera1", null);
             $this->RegisterPropertyInteger("Camera2", null);
             $this->RegisterPropertyInteger("Camera3", null);
+            $this->RegisterPropertyInteger("Camera4", null);
+            $this->RegisterPropertyInteger("Camera5", null);
+
+
             $this->RegisterPropertyInteger("NotificationInstance", null);
             $this->RegisterPropertyBoolean("PictureLog", false);
 

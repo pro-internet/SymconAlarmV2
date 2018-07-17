@@ -1,12 +1,11 @@
 {
     "id": "{67d74cf7-8839-4326-83ba-6b32db90d2fc}",
-    "name": "SymconAlarmNoah",
+    "name": "SymconAlarmV2",
     "type": 3,
     "vendor": "prointernet",
     "aliases":
     [
-        "SymconAlarmNoah",
-	    "Symcon Alarm Johannes"
+        "SymconAlarmV2"
     ],  
     "parentRequirements": [],
     "childRequirements": [],
