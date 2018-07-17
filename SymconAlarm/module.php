@@ -226,7 +226,7 @@
             $alarmVal = GetValue($alarm);
             $ueberwachungVal = $this->searchObjectByName($ueberwachung);
 
-            if (!$ueberwachungVal && $alarm) {
+            if (!$ueberwachungVal && $alarmVal) {
 
                 SetValue($alarm, false);
 
