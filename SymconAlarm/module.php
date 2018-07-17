@@ -375,7 +375,7 @@
 
 
             // Wenn Alarm aktiviert
-            if ($alarmVal) {
+            if ($alarmVal) { 
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), $interval);
                 $this->alarmActivated();
