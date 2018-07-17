@@ -127,7 +127,7 @@
 
                         $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
 
-                        $actualContent = $acutalContentNoImg[0] . $rmessage . $actualContentNoImgEnding[1];
+                        $acutalContent = $acutalContentNoImg[0] . $rmessage . $actualContentNoImgEnding[1];
 
                         $rmessage = "";
 
@@ -144,7 +144,6 @@
                 }
 
                 $rmessage = $rmessage . "<br />";
-
 
                 SetValue($this->searchObjectByName("Historie"), $rmessage . $acutalContent);
 
