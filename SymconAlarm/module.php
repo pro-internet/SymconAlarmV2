@@ -24,7 +24,7 @@
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
 
             // Variablen checken -und erstellen
-            $ueberwachung = $this->checkVar("Überwachung", 0, true, $this->InstanceID, 0, false);
+            $ueberwachung = $this->checkVar("Überwachung", "boolean", true, $this->InstanceID, 0, false);
             $alarm = $this->checkVar("Alarm", 0, true, $this->InstanceID, 1, false);
             $emailBenachrichtigung = $this->checkVar("E-Mail Benachrichtigung", 0, true, $this->InstanceID, 2, false);
             $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, $this->InstanceID, 3, false);
@@ -74,7 +74,6 @@
             parent::ApplyChanges();
 
             $this->refreshTargets();
-
 
         }
 
@@ -527,6 +526,8 @@
 
             if ($this->searchObjectByName($var) == 0) {
                 
+                $type = $this->varTypeByName($type);
+
                 $nVar = $this->easyCreateVariable($type, $var ,$position, $index, $defaultValue);
                 
                 if ($type == 0 && $profile == true) {
@@ -826,6 +827,33 @@
 
             $ary =  array("Aircraft", "Alert", "ArrowRight", "Backspace", "Basement", "Bath", "Battery", "Bed", "Bike", "Book", "Bulb", "Calendar", "Camera", "Car", "Caret", "Cat", "Climate", "Clock", "Close", "CloseAll", "Cloud", "Cloudy", "Cocktail", "Cross", "Database", "Dining", "Distance", "DoctorBag", "Dog", "Dollar", "Door", "Download", "Drops", "Duck", "Edit", "Electricity", "EnergyProduction", "EnergySolar", "EnergyStorage", "ErlenmeyerFlask", "Euro", "Execute", "Eyes", "Factory", "Favorite", "Female", "Fitness", "Flag", "Flame", "FloorLamp", "Flower", "Fog", "Garage", "Gas", "Gauge", "Gear", "Graph", "GroundFloor", "Handicap", "Heart", "Help", "HollowArrowDown", "HollowArrowLeft", "HollowArrowRight", "HollowArrowUp", "HollowDoubleArrowDown", "HollowDoubleArrowLeft", "HollowDoubleArrowRight", "HollowDoubleArrowUp", "HollowLargeArrowDown", "HollowLargeArrowLeft", "HollowLargeArrowRight", "HollowLargeArrowUp", "Hourglass", "HouseRemote", "Image", "Information", "Intensity", "Internet", "IPS", "Jalousie", "Key", "Keyboard", "Kitchen", "Leaf", "Light", "Lightning", "Link", "Lock", "LockClosed", "LockOpen", "Macro", "Mail", "Male", "Melody", "Menu", "Minus", "Mobile", "Moon", "Motion", "Move", "Music", "Network", "Notebook", "Ok", "Pacifier", "Paintbrush", "Pants", "Party", "People", "Plug", "Plus", "Popcorn", "Power", "Presence", "Radiator", "Raffstore", "Rainfall", "Recycling", "Remote", "Repeat", "Return", "Robot", "Rocket", "Script", "Shift", "Shower", "Shuffle", "Shutter", "Sink", "Sleep", "Snow", "Snowflake", "Sofa", "Speaker", "Speedo", "Stars", "Sun", "Sunny", "Talk", "Tap", "Teddy", "Tee", "Telephone", "Temperature", "Thunder", "Title", "TopFloor", "Tree", "TurnLeft", "TurnRight", "TV", "Umbrella", "Unicorn", "Ventilation", "Warning", "Wave", "Wellness", "WindDirection", "WindSpeed", "Window", "WC", "XBMC");
             return $ary;
+
+        }
+
+        protected function varTypeByName ($name) {
+
+            $booleanAlias = array("Boolean", "boolean", "bool", "Bool", "b", "B", 0);
+            $integerAlias = array("Integer", "integer", "Int", "int", "i", "I", 1);
+            $floatAlias = array("Float", "float", "fl", "Fl", 2);
+            $stringAlias = array("String", "string", "str", "Str", "s", "S", 3);
+
+            if (in_array($name, $booleanAlias)) {
+
+                return 0;
+
+            } else if (in_array($name, $integerAlias)) {
+
+                return 1;
+
+            } else if (in_array($name, $floatAlias)) {
+
+                return 2;
+
+            } else if (in_array($name, $stringAlias)) {
+
+                return 3;
+
+            }
 
         }
 
