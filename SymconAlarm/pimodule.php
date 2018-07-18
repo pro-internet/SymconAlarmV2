@@ -601,6 +601,8 @@ abstract class PISymconModule extends IPSModule {
 
             $position = $this->InstanceID;
 
+        } else {
+            $position = "";
         }
 
         foreach ($varNames as $varName) {
