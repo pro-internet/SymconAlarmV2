@@ -250,7 +250,7 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
-    protected  ($vid) {
+    protected function addSwitch ($vid) {
 
         if(IPS_VariableProfileExists("Switch"))
         {
@@ -268,11 +268,11 @@ abstract class PISymconModule extends IPSModule {
             $setValueScript = $this->checkScript("SetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
             $this->hide($setValueScript);
 
-            ($id, $this->searchObjectByName("SetValue"));
+            IPS_SetVariableCustomAction($id, $this->searchObjectByName("SetValue"));
 
         } else {
 
-            ($id, $this->searchObjectByName("SetValue"));
+            IPS_SetVariableCustomAction($id, $this->searchObjectByName("SetValue"));
 
         }
 
