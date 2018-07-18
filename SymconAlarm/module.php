@@ -2,7 +2,7 @@
     // Klassendefinition
     class SymconAlarmV2 extends PISymconModule {
  
-        public $prefix = "PIALRMNW";
+        //public $prefix = "PIALRMNW";
 
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
@@ -72,6 +72,9 @@
         public function ApplyChanges() {
            
             parent::ApplyChanges();
+
+            echo "Prefix: " . $this->prefix;
+            echo "ModulePath: " . $this->modulePath;
 
             $this->refreshTargets();
 
@@ -889,9 +892,14 @@
 
             $module = IPS_GetModule($moduleGUID);
 
-            print_r($module);
+            $lib = IPS_GetLibrary($module['LibraryID']);
 
-            
+            $moduleJSONPath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $lib['Name'] . "\\" . $module['ModuleName'] . "\\module.json";
+
+            $moduleJSON = json_decode($moduleJSONPath);
+
+            $this->prefix = $moduleJSON->prefix;
+            $this->modulePath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $lib['Name'] . "\\" . $module['ModuleName'];
 
             // Selbsterstellter Code
         }
