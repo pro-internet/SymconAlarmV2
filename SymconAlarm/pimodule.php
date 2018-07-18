@@ -624,6 +624,8 @@ abstract class PISymconModule extends IPSModule {
                     $defaultValue = false;
                 }
 
+                echo "COUNT IS " . count($expl);
+
                 if (count($expl) > 1){
 
                     $index = intval(explode("|", $varName)[2]);
