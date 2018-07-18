@@ -170,7 +170,7 @@ abstract class PISymconModule extends IPSModule {
 
         if ($name != null) {
 
-            echo "INDEX " . $index . " FOR " . $name . " \n";
+            //echo "INDEX " . $index . " FOR " . $name . " \n";
             return $this->checkVar($name, 0, $setProfile, $position, $index, $defaultValue);
 
         }
@@ -624,7 +624,7 @@ abstract class PISymconModule extends IPSModule {
                     $defaultValue = false;
                 }
 
-                print_r($expl);
+                //print_r($expl);
 
                 if (count($expl) > 1){
 
