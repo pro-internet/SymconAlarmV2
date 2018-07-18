@@ -250,7 +250,7 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
-    protected function addSwitch ($vid) {
+    protected  ($vid) {
 
         if(IPS_VariableProfileExists("Switch"))
         {
@@ -268,11 +268,11 @@ abstract class PISymconModule extends IPSModule {
             $setValueScript = $this->checkScript("SetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
             $this->hide($setValueScript);
 
-            IPS_SetVariableCustomAction($id, $this->searchObjectByName("SetValue"));
+            ($id, $this->searchObjectByName("SetValue"));
 
         } else {
 
-            IPS_SetVariableCustomAction($id, $this->searchObjectByName("SetValue"));
+            ($id, $this->searchObjectByName("SetValue"));
 
         }
 
@@ -283,7 +283,7 @@ abstract class PISymconModule extends IPSModule {
         if (IPS_VariableProfileExists("~UnixTimestampTime")) {
 
             IPS_SetVariableCustomProfile($vid, "~UnixTimestampTime");
-            IPS_SetVariableCustomAction($vid, $this->searchObjectByName("~UnixTimestampTime"));
+            ($vid, $this->searchObjectByName("~UnixTimestampTime"));
         
         }
     }
@@ -355,6 +355,7 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
+    // Ausbaufähig
     protected function setPosition ($id, $position) {
 
         if ($this->doesExist($id)) {
@@ -396,7 +397,7 @@ abstract class PISymconModule extends IPSModule {
 
                             $child = IPS_GetObject($child);
 
-                            if ($child['ObjectPosition'] != 0 && $isfirst) {
+                            if ($child['ObjectPosition'] != "0" && $isfirst) {
                                 break;
                             } else {
                                 $isfirst = false;
@@ -593,6 +594,30 @@ abstract class PISymconModule extends IPSModule {
         }
 
     } 
+
+    protected function createSwitches ($varNames, $position = null) {
+
+        if ($position == null) {
+
+            position = $this->InstanceID;
+
+        }
+
+        foreach ($varNames as $varName) {
+
+            if (strpos($varName, '|') !== false) {
+
+                $defaultValue = explode("|", $varName)[1];
+
+            } else {
+                $defaultValue = null;
+            }
+
+            $this->checkBoolean($varName, true, $position, $defaultValue);
+
+        }
+
+    }
 
 }
 
