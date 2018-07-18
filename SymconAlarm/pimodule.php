@@ -626,7 +626,7 @@ abstract class PISymconModule extends IPSModule {
 
                 if (strpos("|", $dVal) !== false) {
 
-                    $index = (int) explode("|", $varName)[2];
+                    $index = intval(explode("|", $varName)[2]);
 
                 }
 
