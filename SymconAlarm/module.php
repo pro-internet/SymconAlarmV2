@@ -40,9 +40,6 @@
            
             parent::ApplyChanges();
 
-            echo "Prefix: " . $this->prefix;
-            echo "ModulePath: " . $this->modulePath;
-
             $this->refreshTargets();
 
         }
