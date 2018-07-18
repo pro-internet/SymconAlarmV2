@@ -894,14 +894,14 @@
 
             $lib = IPS_GetLibrary($module['LibraryID']);
 
-            $moduleJSONPath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $lib['Name'] . "\\" . $module['ModuleName'] . "\\module.json";
+            $moduleJSONPath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $module['ModuleName'] . "\\" . $module['ModuleName'] . "\\module.json";
 
             $moduleJSONPath = file_get_contents($moduleJSONPath);
 
             $moduleJSON = json_decode($moduleJSONPath);
 
             $this->prefix = $moduleJSON->prefix;
-            $this->modulePath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $lib['Name'] . "\\" . $module['ModuleName'];
+            $this->modulePath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $module['ModuleName'] . "\\" . $module['ModuleName'];
 
             // Selbsterstellter Code
         }
