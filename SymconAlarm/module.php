@@ -896,6 +896,8 @@
 
             $moduleJSONPath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $lib['Name'] . "\\" . $module['ModuleName'] . "\\module.json";
 
+            $moduleJSONPath = file_get_contents($moduleJSONPath);
+
             $moduleJSON = json_decode($moduleJSONPath);
 
             $this->prefix = $moduleJSON->prefix;
