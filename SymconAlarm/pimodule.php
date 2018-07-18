@@ -283,7 +283,7 @@ abstract class PISymconModule extends IPSModule {
         if (IPS_VariableProfileExists("~UnixTimestampTime")) {
 
             IPS_SetVariableCustomProfile($vid, "~UnixTimestampTime");
-            ($vid, $this->searchObjectByName("~UnixTimestampTime"));
+            IPS_SetVariableCustomAction($vid, $this->searchObjectByName("~UnixTimestampTime"));
         
         }
     }
