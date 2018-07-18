@@ -382,6 +382,32 @@ abstract class PISymconModule extends IPSModule {
 
                     IPS_SetPosition($id, $highestChildPositon + 1);
 
+                } else if ($position == "first" || $position == "First") {
+
+                    $own = IPS_GetObject($this->InstanceID);
+
+                    IPS_SetPosition($id, 0);
+
+                    if (IPS_HasChildren($this->InstanceID)) {
+
+                        $isfirst = true;
+
+                        foreach ($own['ChildrenIDs'] as $child) {
+
+                            $child = IPS_GetObject($child);
+
+                            if ($child['ObjectPosition'] != 0 && $isfirst) {
+                                break;
+                            } else {
+                                $isfirst = false;
+                                IPS_SetPosition($child['ObjectID'], $child['ObjectPosition'] + 1);
+                            }
+
+                        }
+
+                    }
+
+
                 }
 
             } else {

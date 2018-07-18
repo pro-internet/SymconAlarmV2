@@ -57,6 +57,8 @@ require(__DIR__ . "\\pimodule.php");
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
 
+            $this->setPosition($emailBenachrichtigung, "First");
+
             // Set Icons 
             $this->setIcon($emailBenachrichtigung, "Mail");
             $this->setIcon($historie, "Database");
