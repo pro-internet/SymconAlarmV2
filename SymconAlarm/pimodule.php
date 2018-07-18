@@ -607,15 +607,16 @@ abstract class PISymconModule extends IPSModule {
         }
 
         $index;
-        
+
         foreach ($varNames as $varName) {
 
             if (strpos($varName, '|') !== false) {
 
                 $completeName = $varName;
 
-                $defaultValue = explode("|", $varName)[1];
-                $varName = explode("|", $varName)[0];
+                $expl = explode("|", $varName);
+                $defaultValue = $expl[1];
+                $varName = $expl[0];
 
                 if ($defaultValue == "true") {
                     $defaultValue = true;
@@ -623,12 +624,12 @@ abstract class PISymconModule extends IPSModule {
                     $defaultValue = false;
                 }
 
-                $dVal = explode("|", $completeName)[1];
-
-                if (strpos("|", $dVal) !== false) {
+                if (count($expl) > 1){
 
                     $index = intval(explode("|", $varName)[2]);
 
+                } else {
+                    $index = 0;
                 }
 
             } else {
