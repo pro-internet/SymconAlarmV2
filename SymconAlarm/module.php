@@ -1,6 +1,6 @@
 <?
     // Klassendefinition
-    class SymconAlarmV2 extends IPSModule {
+    class SymconAlarmV2 extends PISymconModule {
  
         public $prefix = "PIALRMNW";
 
@@ -465,6 +465,440 @@
         ##                      ##
 
         // PI GRUNDFUNKTIONEN
+        
+
+        ## Picture function
+
+        protected function getImages () {
+
+            $camera1 = $this->ReadPropertyInteger("Camera1");
+            $camera2 = $this->ReadPropertyInteger("Camera2");
+            $camera3 = $this->ReadPropertyInteger("Camera3");
+            $camera4 = $this->ReadPropertyInteger("Camera4");
+            $camera5 = $this->ReadPropertyInteger("Camera5");
+            $camera6 = $this->ReadPropertyInteger("Camera6");
+
+            echo "Kamera 1: " . $camera1 . "\n";
+            echo "Kamera 2: " . $camera2 . "\n";
+            echo "Kamera 3: " . $camera3 . "\n";
+            echo "Kamera 4: " . $camera4 . "\n";
+            echo "Kamera 5: " . $camera5 . "\n";
+            echo "Kamera 6: " . $camera6 . "\n";
+
+                // 2 Kameras
+            if ($camera1 != null && $camera2 != null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
+
+                $hoehe = 0;
+
+                if (imagesy($c1img) > imagesy($c2img)) {
+                    $hoehe = imagesy($c1img);
+                } else if (imagesy($c1img) <= imagesy($c2img)) {
+                    $hoehe = imagesy($c2img);
+                }
+
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img), $hoehe) ;
+
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+
+                // if (imagesx($newImage) > 1200) {
+
+                //     // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
+
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+
+                // }
+
+                imagejpeg($newImage, $newFilePath);
+
+                //$resized = $this->resizeImage($newFilePath);
+
+                return $newFilePath;
+
+                // 3 Kameras
+            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 == null && $camera5 == null && $camera6 == null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c3obj = IPS_GetMedia($camera3);
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
+
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
+                $c3img = $this->imagecreatefromauto($c3link);
+
+                $hoehe = 0;
+
+                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
+
+                $hoehe = max($allHeights);
+
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), $hoehe) ;
+
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
+
+                // if (imagesx($newImage) > 1200) {
+
+                //             // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
+
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+
+                // }
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+
+                imagejpeg($newImage, $newFilePath);
+
+                //$resized = $this->resizeImage($newFilePath);
+
+                return $newFilePath;
+
+                // 1 Kamera
+            } else if ($camera1 != null && $camera2 == null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c1img = $this->imagecreatefromauto($c1link);
+
+                $newImage = imagecreatetruecolor(imagesx($c1img), imagesy($c1img));
+
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),imagesy($c1img),100);
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+                
+                // if (imagesx($newImage) > 1200) {
+
+                //     // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
+
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+
+                // }
+
+                imagejpeg($newImage, $newFilePath);
+
+                //$resized = $this->resizeImage($newFilePath);
+
+                return $newFilePath;
+
+                // 6 Kameras
+            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 != null && $camera6 != null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c3obj = IPS_GetMedia($camera3);
+                $c4obj = IPS_GetMedia($camera4);
+                $c5obj = IPS_GetMedia($camera5);
+                $c6obj = IPS_GetMedia($camera6);
+
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
+                $c4link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c4obj['MediaFile']);
+                $c5link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c5obj['MediaFile']);
+                $c6link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c6obj['MediaFile']);
+
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
+                $c3img = $this->imagecreatefromauto($c3link);
+                $c4img = $this->imagecreatefromauto($c4link);
+                $c5img = $this->imagecreatefromauto($c5link);
+                $c6img = $this->imagecreatefromauto($c6link);
+
+                $hoehe = 0;
+
+                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
+                $secondHeights = array(imagesy($c4img), imagesy($c5img), imagesy($c6img));
+                $lens = array(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), imagesx($c4img) + imagesx($c5img) + imagesx($c6img));
+
+                $hoehe = max($allHeights);
+                $hoehe2 = max($secondHeights);
+                $maxLen = max($lens);
+
+                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
+
+                // First Row
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
+
+                // Second Row
+                imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
+                imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
+                imagecopymerge($newImage, $c6img, imagesx($c4img) + imagesx($c5img), $hoehe, 0, 0, imagesx($c6img), imagesy($c6img), 100);
+
+                // if (imagesx($newImage) > 1200) {
+
+                //             // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
+
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+
+                // }
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+
+                imagejpeg($newImage, $newFilePath);
+
+                //$resized = $this->resizeImage($newFilePath);
+
+                return $newFilePath;
+
+                // 5 Kameras
+            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 != null && $camera6 == null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c3obj = IPS_GetMedia($camera3);
+                $c4obj = IPS_GetMedia($camera4);
+                $c5obj = IPS_GetMedia($camera5);
+
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
+                $c4link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c4obj['MediaFile']);
+                $c5link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c5obj['MediaFile']);
+
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
+                $c3img = $this->imagecreatefromauto($c3link);
+                $c4img = $this->imagecreatefromauto($c4link);
+                $c5img = $this->imagecreatefromauto($c5link);
+
+                $hoehe = 0;
+
+                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
+                $secondHeights = array(imagesy($c4img), imagesy($c5img));
+                $lens = array(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), imagesx($c4img) + imagesx($c5img));
+
+                $hoehe = max($allHeights);
+                $hoehe2 = max($secondHeights);
+                $maxLen = max($lens);
+
+                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
+
+                // First Row
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
+
+                // Second Row
+                imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
+                imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
+
+                // if (imagesx($newImage) > 1200) {
+
+                //             // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
+
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+
+                // }
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+
+                imagejpeg($newImage, $newFilePath);
+
+                //$resized = $this->resizeImage($newFilePath);
+
+                return $newFilePath;
+
+            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 == null && $camera6 == null) {
+
+                $c1obj = IPS_GetMedia($camera1);
+                $c2obj = IPS_GetMedia($camera2);
+                $c3obj = IPS_GetMedia($camera3);
+                $c4obj = IPS_GetMedia($camera4);
+
+                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
+                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
+                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
+                $c4link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c4obj['MediaFile']);
+
+                $c1img = $this->imagecreatefromauto($c1link);
+                $c2img = $this->imagecreatefromauto($c2link);
+                $c3img = $this->imagecreatefromauto($c3link);
+                $c4img = $this->imagecreatefromauto($c4link);
+
+                $hoehe = 0;
+
+                $allHeights = array(imagesy($c1img), imagesy($c2img));
+                $secondHeights = array(imagesy($c3img), imagesy($c4img));
+                $lens = array(imagesx($c1img) + imagesx($c2img), imagesx($c3img) + imagesx($c4img));
+
+                $hoehe = max($allHeights);
+                $hoehe2 = max($secondHeights);
+                $maxLen = max($lens);
+
+                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
+
+                // First Row
+                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
+                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+               // imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
+
+                // Second Row
+                imagecopymerge($newImage, $c3img, 0, $hoehe, 0, 0, imagesx($c3img), imagesy($c3img), 100);
+                imagecopymerge($newImage, $c4img, imagesx($c3img), $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
+
+                // if (imagesx($newImage) > 1200) {
+
+                //             // Breite          // Hoehe
+                //     $prop = imagesx($newImage) / imagesy($newImage);
+                //     $newHeight = 1200 / $prop;
+
+                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
+
+                // }
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+
+                imagejpeg($newImage, $newFilePath);
+
+                //$resized = $this->resizeImage($newFilePath);
+
+                return $newFilePath;
+
+            }
+
+        }
+
+        protected function checkTempFolder () {
+
+            if (!file_exists("C:\\IP-Symcon\\ModuleData")){
+
+                mkdir("C:\\IP-Symcon\\ModuleData");
+                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
+
+            } else if (!file_exists("C:\\IP-Symcon\\ModuleData\\AlarmV2")) {
+
+                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
+
+            }
+
+        }
+
+        // Wird nicht verwendet, trotzdem für evtl. spätere verwendung drin lassen
+        protected function resizeImage ($imagePath) {
+
+            if (filesize($imagePath) >= 1024000) {
+
+                $image = $this->imagecreatefromauto($imagePath);
+
+                $imageWidth = imagesx($image) * 0.8;
+                $imageHeight = imagesy($image) * 0.8;
+
+                $newImage = imagecreatetruecolor($imageWidth, $imageHeight);
+
+                imagecopyresampled ($newImage, $image, 0, 0, 0, 0, $imageWidth, $imageHeight, imagesx($image), imagesy($image));
+
+                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
+
+                imagejpeg($newImage, $newFilePath);
+
+                unlink($imagePath);
+
+                $this->resizeImage($newFilePath);
+
+            } else {
+
+                return $imagePath;
+
+            }
+
+        }
+
+        protected function imagecreatefromauto ($filepath) {
+
+            $image_attributes = getimagesize($filepath); 
+            $image_filetype = $image_attributes[2]; 
+
+            if ($image_filetype == 1) {
+                $img = imagecreatefromgif($filepath);
+                return $img;
+            } 
+
+            if ($image_filetype == 2) {
+                $img = imagecreatefromjpeg($filepath);
+                return $img;
+            }
+
+            if ($image_filetype == 3) {
+                $img = imagecreatefrompng($filepath);
+                return $img;
+            }
+
+        }
+
+        protected function imageauto ($img, $pt) {
+
+            $image_attributes = getimagesize($img); 
+            $image_filetype = $image_attributes[2]; 
+
+            if ($image_filetype == 1) {
+                imagegif($img, $pt);
+            } 
+
+            if ($image_filetype == 2) {
+                imagejpeg($img, $pt);
+            }
+
+            if ($image_filetype == 3) {
+                imagepng($img, $pt);
+            }
+
+        }
+
+    }
+
+
+
+    class PISymconModule extends IPSModule {
+
+
+        public function __construct($InstanceID) {
+            // Diese Zeile nicht löschen
+            parent::__construct($InstanceID);
+ 
+            // Selbsterstellter Code
+        }
+ 
+        // Überschreibt die interne IPS_Create($id) Funktion
+        public function Create() {
+
+            parent::Create();
+ 
+        }
+
+
+        public function Create() {
+
+            parent::Create();
+
+        }
+
+
         protected function easyCreateVariable ($type = 1, $name = "Variable", $position = "", $index = 0, $defaultValue = null) {
 
             if ($position == "") {
@@ -521,7 +955,6 @@
             return $newScript;
         }
 
-        // Prüft ob Variable bereits existiert und erstellt diese wenn nicht
         protected function checkVar  ($var, $type = 1, $profile = false , $position = "", $index = 0, $defaultValue = null) {
 
             if ($this->searchObjectByName($var) == 0) {
@@ -938,410 +1371,8 @@
 
             }
 
-        }
-
-        ## Picture function
-
-        protected function getImages () {
-
-            $camera1 = $this->ReadPropertyInteger("Camera1");
-            $camera2 = $this->ReadPropertyInteger("Camera2");
-            $camera3 = $this->ReadPropertyInteger("Camera3");
-            $camera4 = $this->ReadPropertyInteger("Camera4");
-            $camera5 = $this->ReadPropertyInteger("Camera5");
-            $camera6 = $this->ReadPropertyInteger("Camera6");
-
-            echo "Kamera 1: " . $camera1 . "\n";
-            echo "Kamera 2: " . $camera2 . "\n";
-            echo "Kamera 3: " . $camera3 . "\n";
-            echo "Kamera 4: " . $camera4 . "\n";
-            echo "Kamera 5: " . $camera5 . "\n";
-            echo "Kamera 6: " . $camera6 . "\n";
-
-                // 2 Kameras
-            if ($camera1 != null && $camera2 != null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
-
-                $c1obj = IPS_GetMedia($camera1);
-                $c2obj = IPS_GetMedia($camera2);
-                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
-
-                $c1img = $this->imagecreatefromauto($c1link);
-                $c2img = $this->imagecreatefromauto($c2link);
-
-                $hoehe = 0;
-
-                if (imagesy($c1img) > imagesy($c2img)) {
-                    $hoehe = imagesy($c1img);
-                } else if (imagesy($c1img) <= imagesy($c2img)) {
-                    $hoehe = imagesy($c2img);
-                }
-
-                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img), $hoehe) ;
-
-                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
-                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
-
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
-
-                // if (imagesx($newImage) > 1200) {
-
-                //     // Breite          // Hoehe
-                //     $prop = imagesx($newImage) / imagesy($newImage);
-                //     $newHeight = 1200 / $prop;
-
-                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
-
-                // }
-
-                imagejpeg($newImage, $newFilePath);
-
-                //$resized = $this->resizeImage($newFilePath);
-
-                return $newFilePath;
-
-                // 3 Kameras
-            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 == null && $camera5 == null && $camera6 == null) {
-
-                $c1obj = IPS_GetMedia($camera1);
-                $c2obj = IPS_GetMedia($camera2);
-                $c3obj = IPS_GetMedia($camera3);
-                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
-                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
-
-                $c1img = $this->imagecreatefromauto($c1link);
-                $c2img = $this->imagecreatefromauto($c2link);
-                $c3img = $this->imagecreatefromauto($c3link);
-
-                $hoehe = 0;
-
-                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
-
-                $hoehe = max($allHeights);
-
-                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), $hoehe) ;
-
-                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
-                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
-                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
-
-                // if (imagesx($newImage) > 1200) {
-
-                //             // Breite          // Hoehe
-                //     $prop = imagesx($newImage) / imagesy($newImage);
-                //     $newHeight = 1200 / $prop;
-
-                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
-
-                // }
-
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
-
-                imagejpeg($newImage, $newFilePath);
-
-                //$resized = $this->resizeImage($newFilePath);
-
-                return $newFilePath;
-
-                // 1 Kamera
-            } else if ($camera1 != null && $camera2 == null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
-
-                $c1obj = IPS_GetMedia($camera1);
-                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c1img = $this->imagecreatefromauto($c1link);
-
-                $newImage = imagecreatetruecolor(imagesx($c1img), imagesy($c1img));
-
-                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),imagesy($c1img),100);
-
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
-                
-                // if (imagesx($newImage) > 1200) {
-
-                //     // Breite          // Hoehe
-                //     $prop = imagesx($newImage) / imagesy($newImage);
-                //     $newHeight = 1200 / $prop;
-
-                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
-
-                // }
-
-                imagejpeg($newImage, $newFilePath);
-
-                //$resized = $this->resizeImage($newFilePath);
-
-                return $newFilePath;
-
-                // 6 Kameras
-            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 != null && $camera6 != null) {
-
-                $c1obj = IPS_GetMedia($camera1);
-                $c2obj = IPS_GetMedia($camera2);
-                $c3obj = IPS_GetMedia($camera3);
-                $c4obj = IPS_GetMedia($camera4);
-                $c5obj = IPS_GetMedia($camera5);
-                $c6obj = IPS_GetMedia($camera6);
-
-                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
-                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
-                $c4link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c4obj['MediaFile']);
-                $c5link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c5obj['MediaFile']);
-                $c6link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c6obj['MediaFile']);
-
-                $c1img = $this->imagecreatefromauto($c1link);
-                $c2img = $this->imagecreatefromauto($c2link);
-                $c3img = $this->imagecreatefromauto($c3link);
-                $c4img = $this->imagecreatefromauto($c4link);
-                $c5img = $this->imagecreatefromauto($c5link);
-                $c6img = $this->imagecreatefromauto($c6link);
-
-                $hoehe = 0;
-
-                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
-                $secondHeights = array(imagesy($c4img), imagesy($c5img), imagesy($c6img));
-                $lens = array(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), imagesx($c4img) + imagesx($c5img) + imagesx($c6img));
-
-                $hoehe = max($allHeights);
-                $hoehe2 = max($secondHeights);
-                $maxLen = max($lens);
-
-                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
-
-                // First Row
-                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
-                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
-                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
-
-                // Second Row
-                imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
-                imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
-                imagecopymerge($newImage, $c6img, imagesx($c4img) + imagesx($c5img), $hoehe, 0, 0, imagesx($c6img), imagesy($c6img), 100);
-
-                // if (imagesx($newImage) > 1200) {
-
-                //             // Breite          // Hoehe
-                //     $prop = imagesx($newImage) / imagesy($newImage);
-                //     $newHeight = 1200 / $prop;
-
-                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
-
-                // }
-
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
-
-                imagejpeg($newImage, $newFilePath);
-
-                //$resized = $this->resizeImage($newFilePath);
-
-                return $newFilePath;
-
-                // 5 Kameras
-            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 != null && $camera6 == null) {
-
-                $c1obj = IPS_GetMedia($camera1);
-                $c2obj = IPS_GetMedia($camera2);
-                $c3obj = IPS_GetMedia($camera3);
-                $c4obj = IPS_GetMedia($camera4);
-                $c5obj = IPS_GetMedia($camera5);
-
-                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
-                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
-                $c4link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c4obj['MediaFile']);
-                $c5link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c5obj['MediaFile']);
-
-                $c1img = $this->imagecreatefromauto($c1link);
-                $c2img = $this->imagecreatefromauto($c2link);
-                $c3img = $this->imagecreatefromauto($c3link);
-                $c4img = $this->imagecreatefromauto($c4link);
-                $c5img = $this->imagecreatefromauto($c5link);
-
-                $hoehe = 0;
-
-                $allHeights = array(imagesy($c1img), imagesy($c2img), imagesy($c3img));
-                $secondHeights = array(imagesy($c4img), imagesy($c5img));
-                $lens = array(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), imagesx($c4img) + imagesx($c5img));
-
-                $hoehe = max($allHeights);
-                $hoehe2 = max($secondHeights);
-                $maxLen = max($lens);
-
-                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
-
-                // First Row
-                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
-                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
-                imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
-
-                // Second Row
-                imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
-                imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
-
-                // if (imagesx($newImage) > 1200) {
-
-                //             // Breite          // Hoehe
-                //     $prop = imagesx($newImage) / imagesy($newImage);
-                //     $newHeight = 1200 / $prop;
-
-                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
-
-                // }
-
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
-
-                imagejpeg($newImage, $newFilePath);
-
-                //$resized = $this->resizeImage($newFilePath);
-
-                return $newFilePath;
-
-            } else if ($camera1 != null && $camera2 != null && $camera3 != null && $camera4 != null && $camera5 == null && $camera6 == null) {
-
-                $c1obj = IPS_GetMedia($camera1);
-                $c2obj = IPS_GetMedia($camera2);
-                $c3obj = IPS_GetMedia($camera3);
-                $c4obj = IPS_GetMedia($camera4);
-
-                $c1link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c1obj['MediaFile']);
-                $c2link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c2obj['MediaFile']);
-                $c3link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c3obj['MediaFile']);
-                $c4link = "C:\\IP-Symcon\\" . str_replace("/", "\\",$c4obj['MediaFile']);
-
-                $c1img = $this->imagecreatefromauto($c1link);
-                $c2img = $this->imagecreatefromauto($c2link);
-                $c3img = $this->imagecreatefromauto($c3link);
-                $c4img = $this->imagecreatefromauto($c4link);
-
-                $hoehe = 0;
-
-                $allHeights = array(imagesy($c1img), imagesy($c2img));
-                $secondHeights = array(imagesy($c3img), imagesy($c4img));
-                $lens = array(imagesx($c1img) + imagesx($c2img), imagesx($c3img) + imagesx($c4img));
-
-                $hoehe = max($allHeights);
-                $hoehe2 = max($secondHeights);
-                $maxLen = max($lens);
-
-                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
-
-                // First Row
-                imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
-                imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
-               // imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
-
-                // Second Row
-                imagecopymerge($newImage, $c3img, 0, $hoehe, 0, 0, imagesx($c3img), imagesy($c3img), 100);
-                imagecopymerge($newImage, $c4img, imagesx($c3img), $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
-
-                // if (imagesx($newImage) > 1200) {
-
-                //             // Breite          // Hoehe
-                //     $prop = imagesx($newImage) / imagesy($newImage);
-                //     $newHeight = 1200 / $prop;
-
-                //     imagecopyresampled ($newImage, $newImage, 0, 0, 0, 0, 1200, $newHeight, imagesx($newImage), imagesy($newImage));
-
-                // }
-
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
-
-                imagejpeg($newImage, $newFilePath);
-
-                //$resized = $this->resizeImage($newFilePath);
-
-                return $newFilePath;
-
-            }
-
-        }
-
-        protected function checkTempFolder () {
-
-            if (!file_exists("C:\\IP-Symcon\\ModuleData")){
-
-                mkdir("C:\\IP-Symcon\\ModuleData");
-                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
-
-            } else if (!file_exists("C:\\IP-Symcon\\ModuleData\\AlarmV2")) {
-
-                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
-
-            }
-
-        }
-
-        // Wird nicht verwendet, trotzdem für evtl. spätere verwendung drin lassen
-        protected function resizeImage ($imagePath) {
-
-            if (filesize($imagePath) >= 1024000) {
-
-                $image = $this->imagecreatefromauto($imagePath);
-
-                $imageWidth = imagesx($image) * 0.8;
-                $imageHeight = imagesy($image) * 0.8;
-
-                $newImage = imagecreatetruecolor($imageWidth, $imageHeight);
-
-                imagecopyresampled ($newImage, $image, 0, 0, 0, 0, $imageWidth, $imageHeight, imagesx($image), imagesy($image));
-
-                $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
-
-                imagejpeg($newImage, $newFilePath);
-
-                unlink($imagePath);
-
-                $this->resizeImage($newFilePath);
-
-            } else {
-
-                return $imagePath;
-
-            }
-
-        }
-
-        protected function imagecreatefromauto ($filepath) {
-
-            $image_attributes = getimagesize($filepath); 
-            $image_filetype = $image_attributes[2]; 
-
-            if ($image_filetype == 1) {
-                $img = imagecreatefromgif($filepath);
-                return $img;
-            } 
-
-            if ($image_filetype == 2) {
-                $img = imagecreatefromjpeg($filepath);
-                return $img;
-            }
-
-            if ($image_filetype == 3) {
-                $img = imagecreatefrompng($filepath);
-                return $img;
-            }
-
-        }
-
-        protected function imageauto ($img, $pt) {
-
-            $image_attributes = getimagesize($img); 
-            $image_filetype = $image_attributes[2]; 
-
-            if ($image_filetype == 1) {
-                imagegif($img, $pt);
-            } 
-
-            if ($image_filetype == 2) {
-                imagejpeg($img, $pt);
-            }
-
-            if ($image_filetype == 3) {
-                imagepng($img, $pt);
-            }
-
-        }
+        } 
 
     }
+
 ?>
