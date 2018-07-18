@@ -58,6 +58,7 @@ require(__DIR__ . "\\pimodule.php");
             $this->addProfile($historie, "~HTMLBox");
 
             $this->setPosition($emailBenachrichtigung, "First");
+            $this->setPosition($pushBenachrichtigung, "First");
 
             // Set Icons 
             $this->setIcon($emailBenachrichtigung, "Mail");
