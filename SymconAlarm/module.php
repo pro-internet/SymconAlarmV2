@@ -2,7 +2,7 @@
     // Klassendefinition
     class SymconAlarmV2 extends PISymconModule {
  
-        //public $prefix = "PIALRMNW";
+        public $prefix = "PIALRMNW";
 
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
