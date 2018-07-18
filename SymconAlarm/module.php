@@ -884,11 +884,11 @@
             parent::__construct($InstanceID);
  
             $className = get_class();
-
+ 
 
             $moduleGUID = $this->getModuleGuidByName($className);
 
-            $module = IPS_GetModule($moduleGUID);
+            $module = IPS_GetModule("{" . $moduleGUID . "}");
 
             print_r($module);
 
