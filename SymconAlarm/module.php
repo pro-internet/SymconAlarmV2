@@ -896,12 +896,14 @@
 
             $moduleJSONPath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $module['ModuleName'] . "\\" . $module['ModuleName'] . "\\module.json";
 
-            $moduleJSONPath = file_get_contents($moduleJSONPath);
+            print_r($module);
 
-            $moduleJSON = json_decode($moduleJSONPath);
+            //$moduleJSONPath = file_get_contents($moduleJSONPath);
 
-            $this->prefix = $moduleJSON->prefix;
-            $this->modulePath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $module['ModuleName'] . "\\" . $module['ModuleName'];
+            //$moduleJSON = json_decode($moduleJSONPath);
+
+            //$this->prefix = $moduleJSON->prefix;
+            //$this->modulePath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $module['ModuleName'] . "\\" . $module['ModuleName'];
 
             // Selbsterstellter Code
         }
