@@ -608,6 +608,8 @@ abstract class PISymconModule extends IPSModule {
 
         $index;
 
+        $IDs = null;
+
         foreach ($varNames as $varName) {
 
             if (strpos($varName, '|') !== false) {
@@ -639,9 +641,11 @@ abstract class PISymconModule extends IPSModule {
                 $index = 0;
             }
 
-            $this->checkBoolean($varName, true, $position, $index, $defaultValue);
+            $IDs[] = $this->checkBoolean($varName, true, $position, $index, $defaultValue);
 
         }
+
+        return $IDs;
 
     }
 
