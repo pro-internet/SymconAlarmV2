@@ -410,6 +410,42 @@ abstract class PISymconModule extends IPSModule {
                     }
 
 
+                } else if (strpos($position, "|AFTER|") !== false) {
+
+                    $own = IPS_GetObject($this->InstanceID);
+
+                    $expString = explode("|AFTER|", $position);
+
+                    $afterThisElement = $expString[1];
+
+                    $elementFound = false;
+
+                    foreach ($own['ChildrenIDs'] as $child) {
+
+                        $obj = IPS_GetObject($child);
+
+                        if ($child == $afterThisElement) {
+
+                            $elementFound = true;
+                            $this->setPosition($child, $obj['ObjectPosition'] - 1);
+                            $this->setPosition($id, $obj['ObjectPosition']);
+
+                        } else {
+
+                            if ($elementFound) {
+
+                                $this->setPosition($child, $obj['ObjectPosition'] + 1);
+
+                            } else {
+
+                                $this->setPosition($child, $obj['ObjectPosition']);
+
+                            }
+
+                        }
+
+                    }
+
                 }
 
             } else {
@@ -649,6 +685,31 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
+    protected function linkVar ($target, $linkName = "Unnamed Link", $parent = null, $linkPosition = 0) {
+
+        if ($parent == null) {
+            $parent = $this->InstanceID;
+        }
+
+        if ($this->doesExist($target)) {
+
+            if (!$this->doesExist($linkName)) {
+
+                $link = IPS_CreateLink();
+                IPS_SetName($link, $linkName);
+                IPS_SetIdent($link, $this->nameToIdent($linkName));
+                IPS_SetParent($link, $parent);
+                IPS_SetLinkTargetID($link, $target);
+                IPS_SetHidden($link, false);
+                $this->setPosition($link, $linkPosition);
+
+            }
+
+        }
+
+    }
+
 }
+
 
 ?>

@@ -59,6 +59,9 @@ require(__DIR__ . "\\pimodule.php");
             $this->setIcon($switches[2], "Mail");
             $this->setIcon($historie, "Database");
 
+            // TEEEEEEEEST
+            $this->setPosition($switches[2], "|AFTER|" . $switches[0]);
+
         }
 
         public function CheckScripts () {
