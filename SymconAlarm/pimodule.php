@@ -5,6 +5,7 @@ abstract class PISymconModule extends IPSModule {
     public $moduleID = null;
     public $libraryID = null;
     public $prefix = null;
+    public $instanceName = null;
 
     public function __construct($InstanceID) {
         // Diese Zeile nicht löschen
@@ -15,6 +16,9 @@ abstract class PISymconModule extends IPSModule {
         $moduleGUID = $this->getModuleGuidByName($className);
 
         $module = IPS_GetModule($moduleGUID);
+        $ownInstance = IPS_GetObject($InstanceID);
+
+        $this->instanceName = $ownInstance['ObjectName'];
 
         $this->moduleID = $module['ModuleID'];
         $this->libraryID = $module['LibraryID'];
