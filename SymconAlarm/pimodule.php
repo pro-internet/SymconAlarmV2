@@ -611,6 +611,8 @@ abstract class PISymconModule extends IPSModule {
 
             if (strpos($varName, '|') !== false) {
 
+                $completeName = $varName;
+
                 $defaultValue = explode("|", $varName)[1];
                 $varName = explode("|", $varName)[0];
 
@@ -620,7 +622,7 @@ abstract class PISymconModule extends IPSModule {
                     $defaultValue = false;
                 }
 
-                $dVal = explode("|", $varName)[1];
+                $dVal = explode("|", $completeName)[1];
 
                 if (strpos("|", $dVal) !== false) {
 
