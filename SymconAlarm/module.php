@@ -25,7 +25,6 @@
 
 
             $this->hide($targets);
-            $this->hide($alarmActivated);
 
 
             $this->checkOnAlarmChangedEvent();
@@ -75,6 +74,8 @@
 
             // Positionen setzen
             $this->setPosition($clearLog, "last");
+
+            $this->hide($alarmActivated);
 
         }
 
