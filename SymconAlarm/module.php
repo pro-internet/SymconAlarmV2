@@ -64,9 +64,6 @@
             $this->setIcon($emailBenachrichtigung, "Mail");
             $this->setIcon($historie, "Database");
 
-            // Positionen setzen
-            $this->setPosition($clearLog, "last");
-
         }
 
         public function CheckScripts () {
@@ -75,6 +72,9 @@
             $setValueScript = $this->checkScript("MySetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
             $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
+
+            // Positionen setzen
+            $this->setPosition($clearLog, "last");
 
         }
 
