@@ -897,9 +897,7 @@
 
             parent::ApplyChanges();
 
-            echo "SERVER" . "\n";
-
-            print_r($_SERVER);
+            
 
         }
 
