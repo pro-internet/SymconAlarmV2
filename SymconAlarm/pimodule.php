@@ -622,7 +622,7 @@ abstract class PISymconModule extends IPSModule {
                 $defaultValue = null;
             }
 
-            $this->checkBoolean($varName, true, $position, $defaultValue);
+            $this->checkBoolean($varName, true, $position, null, $defaultValue);
 
         }
 
