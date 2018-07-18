@@ -1,8 +1,6 @@
 <?
     // Klassendefinition
     class SymconAlarmV2 extends PISymconModule {
- 
-        public $prefix = "PIALRMNW";
 
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
@@ -895,6 +893,7 @@
 
         public $moduleID = null;
         public $libraryID = null;
+        public $prefix = null;
 
         public function __construct($InstanceID) {
             // Diese Zeile nicht löschen
@@ -909,8 +908,11 @@
             $this->moduleID = $module['ModuleID'];
             $this->libraryID = $module['LibraryID'];
  
-            echo __DIR__;
+            $moduleJsonPath = __DIR__ . "\\module.json";
 
+            $moduleJson = json_decode(file_get_contents($moduleJsonPath));
+
+            $this->prefix = $moduleJson->prefix;
             
         }
  
