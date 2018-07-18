@@ -18,47 +18,15 @@
 
             parent::Create();
 
-            // Scripts checken -und erstellen
-            $setValueScript = $this->checkScript("MySetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
-            $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
-            $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
-
-            // Variablen checken -und erstellen
-            $ueberwachung = $this->checkBoolean("Überwachung", true, $this->InstanceID, 0, false);
-            $alarm = $this->checkBoolean("Alarm", true, $this->InstanceID, 1, false);
-            $emailBenachrichtigung = $this->checkBoolean("E-Mail Benachrichtigung", true, $this->InstanceID, 2, false);
-            $pushBenachrichtigung = $this->checkBoolean("Push Benachrichtigung", true, $this->InstanceID, 3, false);
-            $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
             // Targets Ordner checken -und erstellen
             $targets = $this->checkFolder("Targets", $this->InstanceID, 5);
             $events = $this->checkFolder("Events", $this->InstanceID, 6);
 
-            // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
-            $this->addProfile($historie, "~HTMLBox");
-
-            // Set Icons 
-            $this->setIcon($emailBenachrichtigung, "Mail");
-            $this->setIcon($historie, "Database");
-
-            // Positionen setzen
-            $this->setPosition($clearLog, "last");
 
             $this->hide($targets);
             $this->hide($alarmActivated);
 
-            $this->RegisterPropertyInteger("Interval", 60);
-            $this->RegisterPropertyInteger("EmailInstance", null);
-            $this->RegisterPropertyInteger("Camera1", null);
-            $this->RegisterPropertyInteger("Camera2", null);
-            $this->RegisterPropertyInteger("Camera3", null);
-            $this->RegisterPropertyInteger("Camera4", null);
-            $this->RegisterPropertyInteger("Camera5", null);
-            $this->RegisterPropertyInteger("Camera6", null);
-
-
-            $this->RegisterPropertyInteger("NotificationInstance", null);
-            $this->RegisterPropertyBoolean("PictureLog", false);
 
             $this->checkOnAlarmChangedEvent();
             $this->checkOnUeberwachungChangeEvent();
@@ -79,6 +47,54 @@
             $this->refreshTargets();
 
         }
+
+        public function CheckVariables () {
+
+            // Variablen checken -und erstellen
+            $ueberwachung = $this->checkBoolean("Überwachung", true, $this->InstanceID, 0, false);
+            $alarm = $this->checkBoolean("Alarm", true, $this->InstanceID, 1, false);
+            $emailBenachrichtigung = $this->checkBoolean("E-Mail Benachrichtigung", true, $this->InstanceID, 2, false);
+            $pushBenachrichtigung = $this->checkBoolean("Push Benachrichtigung", true, $this->InstanceID, 3, false);
+            $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
+
+            // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
+            $this->addProfile($historie, "~HTMLBox");
+
+            // Set Icons 
+            $this->setIcon($emailBenachrichtigung, "Mail");
+            $this->setIcon($historie, "Database");
+
+            // Positionen setzen
+            $this->setPosition($clearLog, "last");
+
+        }
+
+        public function CheckScripts () {
+
+            // Scripts checken -und erstellen
+            $setValueScript = $this->checkScript("MySetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
+            $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
+            $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
+
+        }
+
+        public function RegisterProperties () {
+
+            $this->RegisterPropertyInteger("Interval", 60);
+            $this->RegisterPropertyInteger("EmailInstance", null);
+            $this->RegisterPropertyInteger("Camera1", null);
+            $this->RegisterPropertyInteger("Camera2", null);
+            $this->RegisterPropertyInteger("Camera3", null);
+            $this->RegisterPropertyInteger("Camera4", null);
+            $this->RegisterPropertyInteger("Camera5", null);
+            $this->RegisterPropertyInteger("Camera6", null);
+
+
+            $this->RegisterPropertyInteger("NotificationInstance", null);
+            $this->RegisterPropertyBoolean("PictureLog", false);
+
+        }
+
 
 
         ##
@@ -879,8 +895,8 @@
 
     abstract class PISymconModule extends IPSModule {
 
-        public $prefix = null;
-        public $modulePath = null;
+        public $moduleID = null;
+        public $libraryID = null;
 
         public function __construct($InstanceID) {
             // Diese Zeile nicht löschen
@@ -892,26 +908,22 @@
 
             $module = IPS_GetModule($moduleGUID);
 
-            $lib = IPS_GetLibrary($module['LibraryID']);
+            $this->moduleID = $module['ModuleID'];
+            $this->libraryID = $module['LibraryID'];
 
-            $moduleJSONPath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $module['ModuleName'] . "\\" . $module['ModuleName'] . "\\module.json";
-
-            print_r($module);
-
-            //$moduleJSONPath = file_get_contents($moduleJSONPath);
-
-            //$moduleJSON = json_decode($moduleJSONPath);
-
-            //$this->prefix = $moduleJSON->prefix;
-            //$this->modulePath = $_ENV['SystemDrive'] . "\\IP-Symcon\\modules\\" . $module['ModuleName'] . "\\" . $module['ModuleName'];
-
-            // Selbsterstellter Code
+            
         }
  
         // Überschreibt die interne IPS_Create($id) Funktion
         public function Create() {
 
             parent::Create();
+
+            $this->CheckVariables();
+
+            $this->RegisterProperties();
+
+            $this->CheckScripts();
  
         }
 
@@ -921,6 +933,23 @@
             parent::ApplyChanges();
 
         }
+
+        public function CheckVariables () {
+
+        }
+
+        public function RegisterProperties () {
+
+        }
+
+        public function CheckScripts () {
+
+        }
+
+
+
+
+
 
 
         protected function easyCreateVariable ($type = 1, $name = "Variable", $position = "", $index = 0, $defaultValue = null) {
