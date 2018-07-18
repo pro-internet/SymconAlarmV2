@@ -37,6 +37,10 @@
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
 
+            // Set Icons 
+            $this->setIcon($emailBenachrichtigung, "Mail");
+            $this->setIcon($historie, "Book");
+
             // Positionen setzen
             $this->setPosition($clearLog, "last");
 
@@ -423,7 +427,6 @@
 
         }
 
-
         public function getFormattedLog () {
 
             $email = "";
@@ -797,7 +800,33 @@
 
         }
 
+        protected function setIcon ($objectId, $iconName) {
 
+            $object = IPS_GetObject($objectId);
+
+            if ($object['ObjectIcon'] != $iconName) {
+
+                $iconList = $this->getIconList();
+
+                if (in_array($iconList, $iconName)) {
+
+                    IPS_SetIcon($objectId, $iconName);
+
+                } else {
+
+                    echo "Icon existiert nicht!";
+
+                }
+
+            }
+
+        }
+
+        protected function getIconList () {
+
+            return array("Aircraft", "Alert", "ArrowRight", "Backspace", "Basement", "Bath", "Battery", "Bed", "Bike", "Book", "Bulb", "Calendar", "Camera", "Car", "Caret", "Cat", "Climate", "Clock", "Close", "CloseAll", "Cloud", "Cloudy", "Cocktail", "Cross", "Database", "Dining", "Distance", "DoctorBag", "Dog", "Dollar", "Door", "Download", "Drops", "Duck", "Edit", "Electricity", "EnergyProduction", "EnergySolar", "EnergyStorage", "ErlenmeyerFlask", "Euro", "Execute", "Eyes", "Factory", "Favorite", "Female", "Fitness", "Flag", "Flame", "FloorLamp", "Flower", "Fog", "Garage", "Gas", "Gauge", "Gear", "Graph", "GroundFloor", "Handicap", "Heart", "Help", "HollowArrowDown", "HollowArrowLeft", "HollowArrowRight", "HollowArrowUp", "HollowDoubleArrowDown", "HollowDoubleArrowLeft", "HollowDoubleArrowRight", "HollowDoubleArrowUp", "HollowLargeArrowDown", "HollowLargeArrowLeft", "HollowLargeArrowRight", "HollowLargeArrowUp", "Hourglass", "HouseRemote", "Image", "Information", "Intensity", "Internet", "IPS", "Jalousie", "Key", "Keyboard", "Kitchen", "Leaf", "Light", "Lightning", "Link", "Lock", "LockClosed", "LockOpen", "Macro", "Mail", "Male", "Melody", "Menu", "Minus", "Mobile", "Moon", "Motion", "Move", "Music", "Network", "Notebook", "Ok", "Pacifier", "Paintbrush", "Pants", "Party", "People", "Plug", "Plus", "Popcorn", "Power", "Presence", "Radiator", "Raffstore", "Rainfall", "Recycling", "Remote", "Repeat", "Return", "Robot", "Rocket", "Script", "Shift", "Shower", "Shuffle", "Shutter", "Sink", "Sleep", "Snow", "Snowflake", "Sofa", "Speaker", "Speedo", "Stars", "Sun", "Sunny", "Talk", "Tap", "Teddy", "Tee", "Telephone", "Temperature", "Thunder", "Title", "TopFloor", "Tree", "TurnLeft", "TurnRight", "TV", "Umbrella", "Unicorn", "Ventilation", "Warning", "Wave", "Wellness", "WindDirection", "WindSpeed", "Window", "WC", "XBMC");
+
+        }
 
         ## Picture function
 
