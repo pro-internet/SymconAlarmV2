@@ -610,6 +610,13 @@ abstract class PISymconModule extends IPSModule {
             if (strpos($varName, '|') !== false) {
 
                 $defaultValue = explode("|", $varName)[1];
+                $varName = explode("|", $varName)[0];
+
+                if ($defaultValue == "true") {
+                    $defaultValue = true;
+                } else {
+                    $defaultValue = false;
+                }
 
             } else {
                 $defaultValue = null;
