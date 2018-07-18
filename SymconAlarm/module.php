@@ -874,14 +874,26 @@
 
 
 
-    class PISymconModule extends IPSModule {
+    abstract class PISymconModule extends IPSModule {
 
         public $prefix = null;
+        public $modulePath = null;
 
         public function __construct($InstanceID) {
             // Diese Zeile nicht löschen
             parent::__construct($InstanceID);
  
+            $className = get_class();
+
+
+            $moduleGUID = $this->getModuleGuidByName($className);
+
+            $module = IPS_GetModule($moduleGUID);
+
+            print_r($module);
+
+            
+
             // Selbsterstellter Code
         }
  
@@ -896,10 +908,6 @@
         public function ApplyChanges() {
 
             parent::ApplyChanges();
-
-            echo "SERVER" . "\n";
-
-            print_r($_ENV);
 
         }
 
