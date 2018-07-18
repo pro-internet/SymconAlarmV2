@@ -49,21 +49,29 @@ abstract class PISymconModule extends IPSModule {
 
     public function CheckVariables () {
 
+        // Hier werden alle nötigen Variablen erstellt
+
     }
 
     public function RegisterProperties () {
+
+        // Hier werden ale Properties registriert
 
     }
 
     public function CheckScripts () {
 
+        // Hier werden alle nötigen Scripts erstellt
+
     }
 
 
 
+    ##                      ##
+    ##  Grundfunktionen     ##
+    ##                      ##
 
-
-
+    // PI GRUNDFUNKTIONEN
 
     protected function easyCreateVariable ($type = 1, $name = "Variable", $position = "", $index = 0, $defaultValue = null) {
 
@@ -226,7 +234,7 @@ abstract class PISymconModule extends IPSModule {
 
             } else {
                 
-                if ($childObject['ObjectIdent'] == $this->nameToIdent($name) && $childObject['ObjectType'] == $objectType) {
+                if ($childObject['ObjectIdent'] == $this->nameToIdent($name) && $childObject['ObjectType'] == $this->objectTypeByName($objectType)) {
                     
                     $returnId = $childObject['ObjectID'];
 
@@ -243,8 +251,25 @@ abstract class PISymconModule extends IPSModule {
         if(IPS_VariableProfileExists("Switch"))
         {
             IPS_SetVariableCustomProfile($vid,"Switch");
-            IPS_SetVariableCustomAction($vid, $this->searchObjectByName("MySetValue"));
+            $this->addSetValue($vid);
         
+        }
+
+    }
+
+    protected function addSetValue ($id) { 
+
+        if (!$this->doesExist($this->searchObjectByName("SetValue"))) {
+
+            $setValueScript = $this->checkScript("SetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
+            $this->hide($setValueScript);
+
+            IPS_SetVariableCustomAction($id, $this->searchObjectByName("SetValue"));
+
+        } else {
+
+            IPS_SetVariableCustomAction($id, $this->searchObjectByName("SetValue"));
+
         }
 
     }
@@ -295,7 +320,7 @@ abstract class PISymconModule extends IPSModule {
             
             if ($useSetValue) {
 
-                IPS_SetVariableCustomAction($id, $this->searchObjectByName("MySetValue"));
+                $this->addSetValue($id);
             
             }
         }

@@ -66,7 +66,6 @@ require(__DIR__ . "\\pimodule.php");
         public function CheckScripts () {
 
             // Scripts checken -und erstellen
-            $setValueScript = $this->checkScript("MySetValue", "<?php SetValue(\$IPS_VARIABLE, \$IPS_VALUE); ?>", false);
             $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
 
@@ -477,12 +476,6 @@ require(__DIR__ . "\\pimodule.php");
             }
 
         }
-
-        ##                      ##
-        ##  Grundfunktionen     ##
-        ##                      ##
-
-        // PI GRUNDFUNKTIONEN
         
 
         ## Picture function
@@ -817,6 +810,7 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
+        //-------------------------------------------------------------------------------------------------
         // Wird nicht verwendet, trotzdem für evtl. spätere verwendung drin lassen
         protected function resizeImage ($imagePath) {
 
@@ -846,6 +840,7 @@ require(__DIR__ . "\\pimodule.php");
             }
 
         }
+        //-------------------------------------------------------------------------------------------------
 
         protected function imagecreatefromauto ($filepath) {
 
