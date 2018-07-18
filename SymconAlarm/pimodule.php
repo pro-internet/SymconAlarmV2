@@ -606,6 +606,8 @@ abstract class PISymconModule extends IPSModule {
             $position = "";
         }
 
+        $index;
+        
         foreach ($varNames as $varName) {
 
             if (strpos($varName, '|') !== false) {
