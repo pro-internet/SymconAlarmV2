@@ -48,7 +48,7 @@ require(__DIR__ . "\\pimodule.php");
         public function CheckVariables () {
 
             // Variablen checken -und erstellen
-            
+
             $switches = $this->createSwitches(array("Überwachung||0", "Alarm||1", "E-Mail Benachrichtigung||2", "Push Benachrichtigung||3"));
             $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
@@ -69,7 +69,6 @@ require(__DIR__ . "\\pimodule.php");
 
             // Positionen setzen
             $this->setPosition($clearLog, "last");
-
             $this->hide($alarmActivated);
 
         }
