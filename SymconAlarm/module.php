@@ -876,6 +876,7 @@
 
     class PISymconModule extends IPSModule {
 
+        $this->prefix = null;
 
         public function __construct($InstanceID) {
             // Diese Zeile nicht löschen
@@ -895,6 +896,10 @@
         public function ApplyChanges() {
 
             parent::ApplyChanges();
+
+            echo "SERVER" . "\n";
+
+            print_r($_SERVER);
 
         }
 
