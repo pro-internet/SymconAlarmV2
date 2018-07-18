@@ -899,7 +899,7 @@
 
             echo "SERVER" . "\n";
 
-            print_r($_SERVER);
+            print_r($_ENV);
 
         }
 
