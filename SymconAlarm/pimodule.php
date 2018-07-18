@@ -624,7 +624,7 @@ abstract class PISymconModule extends IPSModule {
                     $defaultValue = false;
                 }
 
-                print_r(count($expl));
+                print_r($expl);
 
                 if (count($expl) > 1){
 
