@@ -908,6 +908,8 @@
 
             $this->moduleID = $module['ModuleID'];
             $this->libraryID = $module['LibraryID'];
+ 
+            echo __DIR__;
 
             
         }
