@@ -54,7 +54,7 @@ require(__DIR__ . "\\pimodule.php");
             $pushBenachrichtigung = $this->checkBoolean("Push Benachrichtigung", true, $this->InstanceID, 3, false);
             $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
-            $this->createSwitches("Switch 1", "Ich bin ein Test", "Ich bin default true|true", "Ich nicht");
+            $this->createSwitches(array("Switch 1", "Ich bin ein Test", "Ich bin default true|true", "Ich nicht"));
 
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
