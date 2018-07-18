@@ -39,7 +39,7 @@
 
             // Set Icons 
             $this->setIcon($emailBenachrichtigung, "Mail");
-            $this->setIcon($historie, "Book");
+            $this->setIcon($historie, "Database");
 
             // Positionen setzen
             $this->setPosition($clearLog, "last");
