@@ -883,9 +883,8 @@
             // Diese Zeile nicht löschen
             parent::__construct($InstanceID);
  
-            $className = get_class();
+            $className = get_class($this);
  
-
             $moduleGUID = $this->getModuleGuidByName($className);
 
             $module = IPS_GetModule("{" . $moduleGUID . "}");
