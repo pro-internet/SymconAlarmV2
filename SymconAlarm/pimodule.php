@@ -628,7 +628,7 @@ abstract class PISymconModule extends IPSModule {
 
                 if (count($expl) > 1){
 
-                    $index = intval(explode("|", $varName)[2]);
+                    $index = intval($expl[2]);
 
                 } else {
                     $index = 0;
