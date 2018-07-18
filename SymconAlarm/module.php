@@ -24,11 +24,11 @@
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
 
             // Variablen checken -und erstellen
-            $ueberwachung = $this->checkVar("Überwachung", "boolean", true, $this->InstanceID, 0, false);
-            $alarm = $this->checkVar("Alarm", 0, true, $this->InstanceID, 1, false);
-            $emailBenachrichtigung = $this->checkVar("E-Mail Benachrichtigung", 0, true, $this->InstanceID, 2, false);
-            $pushBenachrichtigung = $this->checkVar("Push Benachrichtigung", 0, true, $this->InstanceID, 3, false);
-            $historie = $this->checkVar("Historie", 3, false, $this->InstanceID, 4, false);
+            $ueberwachung = $this->checkBoolean("Überwachung", true, $this->InstanceID, 0, false);
+            $alarm = $this->checkBoolean("Alarm", true, $this->InstanceID, 1, false);
+            $emailBenachrichtigung = $this->checkBoolean("E-Mail Benachrichtigung", true, $this->InstanceID, 2, false);
+            $pushBenachrichtigung = $this->checkBoolean("Push Benachrichtigung", true, $this->InstanceID, 3, false);
+            $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
             // Targets Ordner checken -und erstellen
             $targets = $this->checkFolder("Targets", $this->InstanceID, 5);
@@ -522,7 +522,7 @@
         }
 
         // Prüft ob Variable bereits existiert und erstellt diese wenn nicht
-        protected function checkVar ($var, $type = 1, $profile = false , $position = "", $index = 0, $defaultValue = null) {
+        protected function checkVar  ($var, $type = 1, $profile = false , $position = "", $index = 0, $defaultValue = null) {
 
             if ($this->searchObjectByName($var) == 0) {
                 
@@ -553,6 +553,46 @@
                 return $this->searchObjectByName($var);
             
             }
+        }
+
+        protected function checkBoolean ($name, $setProfile = false, $position = "", $index = 0, $defaultValue = null) {
+
+            if ($name != null) {
+
+                return $this->checkVar($name, 0, $setProfile, $position, $index, $defaultValue);
+
+            }
+
+        }
+
+        protected function checkInteger ($name, $setProfile = false, $position = "", $index = 0, $defaultValue = null) {
+
+            if ($name != null) {
+
+                return $this->checkVar($name, 1, $setProfile, $position, $index, $defaultValue);
+
+            }
+
+        }
+
+        protected function checkFloat ($name, $setProfile = false, $position = "", $index = 0, $defaultValue = null) {
+
+            if ($name != null) {
+
+                return $this->checkVar($name, 2, $setProfile, $position, $index, $defaultValue);
+
+            }
+
+        }
+
+        protected function checkString ($name, $setProfile = false, $position = "", $index = 0, $defaultValue = null) {
+
+            if ($name != null) {
+
+                return $this->checkVar($name, 3, $setProfile, $position, $index, $defaultValue);
+
+            }
+
         }
 
         protected function searchObjectByName ($name, $searchIn = null, $objectType = null) {
@@ -852,6 +892,49 @@
             } else if (in_array($name, $stringAlias)) {
 
                 return 3;
+
+            }
+
+        }
+
+        protected function objectTypeByName ($name) {
+
+            //0: Kategorie, 1: Instanz, 2: Variable, 3: Skript, 4: Ereignis, 5: Media, 6: Link)
+            $kategorieAlias = array("Kategorie", "kategorie", "Category", "category", "Kat", "kat", "Cat", "cat");
+            $instanzAlias = array("Instanz", "instanz", "Instance", "instance", "Module", "module", "Modul", "modul");
+            $variableAlias = array("Variable", "variable", "var", "Var");
+            $scriptAlias = array("Script", "script", "Skript", "Skript");
+            $ereignisAlias = array("Ereignis", "ereignis", "Event", "event", "Trigger", "trigger");
+            $mediaAlias = array("Media", "media", "File", "file");
+            $linkAlias = array("Link", "link", "Verknüpfung", "verknüpfung");
+
+            if (in_array($name, $kategorieAlias)) {
+
+                return 0;
+
+            } else if (in_array($name, $instanzAlias)) {
+
+                return 1;
+
+            } else if (in_array($name, $variableAlias)) {
+
+                return 2;
+
+            } else if (in_array($name, $scriptAlias)) {
+
+                return 3;
+
+            } else if (in_array($name, $ereignisAlias)) {
+
+                return 4;
+
+            } else if (in_array($name, $mediaAlias)) {
+
+                return 5;
+
+            } else if (in_array($name, $linkAlias)) {
+
+                return 6;
 
             }
 
