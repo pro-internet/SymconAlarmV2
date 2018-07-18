@@ -887,7 +887,7 @@
  
             $moduleGUID = $this->getModuleGuidByName($className);
 
-            $module = IPS_GetModule("{" . $moduleGUID . "}");
+            $module = IPS_GetModule($moduleGUID);
 
             print_r($module);
 
