@@ -599,7 +599,7 @@ abstract class PISymconModule extends IPSModule {
 
         if ($position == null) {
 
-            position = $this->InstanceID;
+            $position = $this->InstanceID;
 
         }
 
