@@ -41,6 +41,8 @@ require(__DIR__ . "\\pimodule.php");
            
             parent::ApplyChanges();
 
+            $this->AlarmScharf();
+
             $this->refreshTargets();
 
         }
@@ -87,6 +89,9 @@ require(__DIR__ . "\\pimodule.php");
 
             $this->RegisterPropertyInteger("NotificationInstance", null);
             $this->RegisterPropertyBoolean("PictureLog", false);
+
+            $this->RegisterPropertyFloat("AlarmWocheVon", 18.00);
+            $this->RegisterPropertyFloat("AlarmWocheBis", 6.00);
 
         }
 
@@ -475,6 +480,15 @@ require(__DIR__ . "\\pimodule.php");
         }
         
 
+
+        protected function AlarmScharf () {
+
+            $von = $this->ReadPropertyFloat("AlarmWocheVon");
+            $bis = $this->ReadPropertyFloat("AlarmWocheVon");
+
+        }
+
+
         ## Picture function
 
         protected function getImages () {
@@ -516,6 +530,12 @@ require(__DIR__ . "\\pimodule.php");
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+
+                $gross = "2";        // Schriftgröße 
+                $randl = "3";        // Ausrichtung von Links 
+                $rando = "3";        // Ausrichtung von Obén 
+                $t1 = "prointernet";            // Text der Angezeigt werden soll 
+                ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
