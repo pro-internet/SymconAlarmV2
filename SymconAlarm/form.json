@@ -11,6 +11,7 @@
 		{ "type": "SelectMedia", "name":"Camera5", "caption": "Kamera 5"},
 		{ "type": "SelectMedia", "name":"Camera6", "caption": "Kamera 6"},
 		{ "type": "Label", "label": "Zusätzliche Funktionen" },
-		{ "type": "CheckBox", "name": "PictureLog", "caption": "Bilder im Log"}
+		{ "type": "CheckBox", "name": "PictureLog", "caption": "Bilder im Log"},
+		{ "type": "SelectTime", "name": "AlarmWoche", "caption": "Scharf stellen:"}
 	]
   }
