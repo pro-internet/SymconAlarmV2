@@ -531,12 +531,7 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
 
-                $schwarz = ImageColorAllocate ($newImage, 0,0,0);
-                $gross = "2";        // Schriftgröße 
-                $randl = "3";        // Ausrichtung von Links 
-                $rando = "3";        // Ausrichtung von Obén 
-                $t1 = "prointernet";            // Text der Angezeigt werden soll 
-                ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
+                $this->addTimestamp($newImage);
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
@@ -582,6 +577,8 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
                 imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
 
+                $this->addTimestamp($newImage);
+
                 // if (imagesx($newImage) > 1200) {
 
                 //             // Breite          // Hoehe
@@ -610,6 +607,8 @@ require(__DIR__ . "\\pimodule.php");
                 $newImage = imagecreatetruecolor(imagesx($c1img), imagesy($c1img));
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),imagesy($c1img),100);
+
+                $this->addTimestamp($newImage);
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
                 
@@ -675,6 +674,8 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
                 imagecopymerge($newImage, $c6img, imagesx($c4img) + imagesx($c5img), $hoehe, 0, 0, imagesx($c6img), imagesy($c6img), 100);
 
+                $this->addTimestamp($newImage);
+
                 // if (imagesx($newImage) > 1200) {
 
                 //             // Breite          // Hoehe
@@ -735,6 +736,8 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
                 imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
 
+                $this->addTimestamp($newImage);
+
                 // if (imagesx($newImage) > 1200) {
 
                 //             // Breite          // Hoehe
@@ -790,6 +793,8 @@ require(__DIR__ . "\\pimodule.php");
                 // Second Row
                 imagecopymerge($newImage, $c3img, 0, $hoehe, 0, 0, imagesx($c3img), imagesy($c3img), 100);
                 imagecopymerge($newImage, $c4img, imagesx($c3img), $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
+
+                $this->addTimestamp($newImage);
 
                 // if (imagesx($newImage) > 1200) {
 
@@ -879,6 +884,18 @@ require(__DIR__ . "\\pimodule.php");
                 $img = imagecreatefrompng($filepath);
                 return $img;
             }
+
+        }
+
+        protected function addTimestamp (&$newImage) {
+
+            $schwarz = ImageColorAllocate ($newImage, 0,0,0);
+            $gross = "5";        // Schriftgröße 
+            $randl = "3";        // Ausrichtung von Links 
+            $rando = "3";        // Ausrichtung von Obén 
+            $t1 = "prointernet Alarm|" . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
+            
+            ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
 
         }
 
