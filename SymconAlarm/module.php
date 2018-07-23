@@ -360,7 +360,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
 
-                    //unlink($images);
+                    unlink($images);
 
                 } else {
 
@@ -890,10 +890,10 @@ require(__DIR__ . "\\pimodule.php");
         protected function addTimestamp (&$newImage) {
 
             $schwarz = ImageColorAllocate ($newImage, 0,0,0);
-            $gross = "5";        // Schriftgröße 
+            $gross = "7";        // Schriftgröße 
             $randl = "3";        // Ausrichtung von Links 
             $rando = "3";        // Ausrichtung von Obén 
-            $t1 = "prointernet Alarm|" . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
+            $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
             
             ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
 
