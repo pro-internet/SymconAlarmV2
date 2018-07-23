@@ -531,6 +531,7 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
 
+                $schwarz = ImageColorAllocate ($newImage, 0,0,0);
                 $gross = "2";        // Schriftgröße 
                 $randl = "3";        // Ausrichtung von Links 
                 $rando = "3";        // Ausrichtung von Obén 
