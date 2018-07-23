@@ -360,7 +360,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
 
-                    unlink($images);
+                    //unlink($images);
 
                 } else {
 
