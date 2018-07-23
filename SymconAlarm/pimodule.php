@@ -255,12 +255,68 @@ abstract class PISymconModule extends IPSModule {
 
         if(IPS_VariableProfileExists("Switch"))
         {
+
             IPS_SetVariableCustomProfile($vid,"Switch");
             $this->addSetValue($vid);
         
+        } else {
+
+            $this->checkVariableProfile("Switch", 0, 0, 1, 0, array("Aus" => 0, "An" => 1));
+            $this->addSwitch($vid);
+
         }
 
     }
+
+    protected function checkVariableProfile ($name, $type, $min = 0, $max = 100, $steps = 1, $associations = null, $prefix = "", $suffix = "") {
+
+        if (!IPS_VariableProfileExists($name)) {
+
+            $newProfile = IPS_CreateVariableProfile($name, $type);
+            IPS_SetVariableProfileValues ($name, $min, $max, $steps);
+            IPS_SetVariableProfileText($name, $prefix, $suffix);
+            
+            if ($associations != null) {
+
+                foreach ($associations as $assocName => $assocValue) {
+
+                    $color = -1;
+
+                    if (gettype("string")) {
+
+                        if (strpos($assocValue, "|") !== false) {
+
+                            $color = hexdec(explode("|", $assocValue)[1]);
+                            $assocValue = explode("|", $assocValue)[0];
+
+                            if ($assocValue == "true") {
+
+                                $assocValue = true;
+
+                            } else if ($assocValue == "false") {
+
+                                $assocValue = false;
+
+                            }
+    
+                        }
+
+                    } else if (gettype("integer")) {
+
+                        $assocValue = (int) $assocValue;
+
+                    }
+
+                    IPS_SetVariableProfileAssociation($name, $assocValue, $assocName, "", $color);
+
+                }
+
+            }
+
+        }
+
+    }
+
 
     protected function addSetValue ($id) { 
 
