@@ -307,6 +307,7 @@ require(__DIR__ . "\\pimodule.php");
 
             if ($alarmVal == false) {
 
+                $this->alarmActivated();
                 SetValue($alarmVar, true);
 
             }
