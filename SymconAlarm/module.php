@@ -354,8 +354,8 @@ require(__DIR__ . "\\pimodule.php");
 
                 $images = $this->getImages();
 
-                echo "IMAGES";
-                echo $images;
+                //echo "IMAGES";
+                //echo $images;
 
                 if ($images != null) {
 
@@ -501,12 +501,12 @@ require(__DIR__ . "\\pimodule.php");
             $camera5 = $this->ReadPropertyInteger("Camera5");
             $camera6 = $this->ReadPropertyInteger("Camera6");
 
-            echo "Kamera 1: " . $camera1 . "\n";
-            echo "Kamera 2: " . $camera2 . "\n";
-            echo "Kamera 3: " . $camera3 . "\n";
-            echo "Kamera 4: " . $camera4 . "\n";
-            echo "Kamera 5: " . $camera5 . "\n";
-            echo "Kamera 6: " . $camera6 . "\n";
+            // echo "Kamera 1: " . $camera1 . "\n";
+            // echo "Kamera 2: " . $camera2 . "\n";
+            // echo "Kamera 3: " . $camera3 . "\n";
+            // echo "Kamera 4: " . $camera4 . "\n";
+            // echo "Kamera 5: " . $camera5 . "\n";
+            // echo "Kamera 6: " . $camera6 . "\n";
 
                 // 2 Kameras
             if ($camera1 != null && $camera2 != null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
