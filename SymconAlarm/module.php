@@ -1005,9 +1005,7 @@ require(__DIR__ . "\\pimodule.php");
 
         $obj = IPS_GetObject($instID);
 
-        print_r($obj);
-
-        if ($obj['ObjectType'] == 1) {
+        if ($obj["ObjectType"] == 1) {
 
             $obj = IPS_GetInstance($obj['ObjectID']);
 
@@ -1046,9 +1044,8 @@ require(__DIR__ . "\\pimodule.php");
 
         $obj = IPS_GetObject($instID);
 
-        print_r($obj);
 
-        if ($obj['ObjectType'] == 1) {
+        if ($obj["ObjectType"] == 1) {
 
             $obj = IPS_GetInstance($obj['ObjectID']);
 
