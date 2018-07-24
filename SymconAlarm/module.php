@@ -452,7 +452,7 @@ require(__DIR__ . "\\pimodule.php");
             $interval = $this->ReadPropertyInteger("Interval");
             $sendEmailVal = $this->ReadPropertyInteger("EmailInstance");
 
-            $sendMailActivated = $this->searchObjectByName("E-Mail Benachrichtigung");
+            $sendMailActivated = GetValue($this->searchObjectByName("E-Mail Benachrichtigung"));
 
             $pushBenachrichtigung = GetValue($this->searchObjectByName("Push Benachrichtigung"));
             $pushInstance = $this->ReadPropertyInteger("NotificationInstance");
