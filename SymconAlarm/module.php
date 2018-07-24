@@ -45,7 +45,7 @@ require(__DIR__ . "\\pimodule.php");
 
             $this->refreshTargets();
 
-            $this->deleteUnusedEvents();
+            //$this->deleteUnusedEvents();
 
         }
 
