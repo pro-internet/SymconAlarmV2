@@ -33,6 +33,8 @@ require(__DIR__ . "\\pimodule.php");
 
             $this->checkTempFolder();
 
+            $this->deleteUnusedEvents();
+
  
         }
  
@@ -241,6 +243,57 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
+        public function deleteUnusedEvents () {
+
+            $targets = $this->searchObjectByName("Targets");
+            $events = $this->searchObjectByName("Events");
+
+            $targetsObj = IPS_GetObject($targets);
+            $eventsObj = IPS_GetObject($events);
+
+            if ($eventsObj['ChildrenIDs'] != null) {
+
+                foreach ($eventsObj['ChildrenIDs'] as $event) {
+
+                    $event = IPS_GetObject($event);
+
+                    if ($event['ObjectType'] == 4) {
+
+                        $event = IPS_GetEvent($event['ObjectID']);
+                        $eventTarget = $event['TriggerVariableID'];
+                        $found = false;
+
+                        foreach ($targetsObj['ChildrenIDs'] as $child) {
+
+                            $child = IPS_GetObject($child);
+
+                            if ($child['ObjectType'] == 6) {
+
+                                $child = IPS_GetLink($child['ObjectID']);
+
+                                if ($child['TargetID'] == $eventTarget) {
+
+                                    $found = true;
+
+                                }
+
+                            }
+
+                        }
+
+                        if (!$found) {
+
+                            IPS_DeleteEvent($event['EventID']);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
 
         ##
         ##  Set Funktionen
@@ -894,7 +947,7 @@ require(__DIR__ . "\\pimodule.php");
             $gross = "7";        // Schriftgröße 
             $randl = "3";        // Ausrichtung von Links 
             $rando = "3";        // Ausrichtung von Obén 
-            $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
+            $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");
             
             ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
 
