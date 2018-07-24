@@ -305,9 +305,10 @@ require(__DIR__ . "\\pimodule.php");
                 
                 if (!$alarmVal) {
 
-                    echo "SenderOBJ: " . $senderObj['ObjectID'] . " \\n LinkName: " . $linkName . "\\n";
                     $linkName = $this->getLinkName($senderObj['ObjectID']);
 
+                    echo "SenderOBJ: " . $senderObj['ObjectID'] . " \\n LinkName: " . $linkName . "\\n";
+                    
                     if (strpos($linkName, "|") !== false) {
 
                         $sec = explode("|", $linkName)[1];
