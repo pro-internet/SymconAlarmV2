@@ -89,6 +89,7 @@ require(__DIR__ . "\\pimodule.php");
 
             $this->RegisterPropertyInteger("NotificationInstance", null);
             $this->RegisterPropertyBoolean("PictureLog", false);
+            $this->RegisterPropertyBoolean("SavePictures", false);
 
         }
 
@@ -323,6 +324,7 @@ require(__DIR__ . "\\pimodule.php");
             $camera1 = $this->ReadPropertyInteger("Camera4");
             $camera2 = $this->ReadPropertyInteger("Camera5");
             $camera3 = $this->ReadPropertyInteger("Camera6");
+
             
             if (!$ueberwachung) {
 
@@ -359,7 +361,11 @@ require(__DIR__ . "\\pimodule.php");
 
                     $this->SendMailAttachment($emailInstance, "Alarm!", $email, $images);
 
-                    unlink($images);
+                    if ($this->ReadPropertyBoolean("SavePictures") == false) {
+
+                        unlink($images);
+
+                    }
 
                 } else {
 
