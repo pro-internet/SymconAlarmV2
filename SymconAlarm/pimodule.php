@@ -16,18 +16,23 @@ abstract class PISymconModule extends IPSModule {
         $moduleGUID = $this->getModuleGuidByName($className);
 
         $module = IPS_GetModule($moduleGUID);
-        $ownInstance = IPS_GetObject($InstanceID);
 
-        $this->instanceName = $ownInstance['ObjectName'];
+        if ($this->doesExist($InstanceID)) {
 
-        $this->moduleID = $module['ModuleID'];
-        $this->libraryID = $module['LibraryID'];
+            $ownInstance = IPS_GetObject($InstanceID);
 
-        $moduleJsonPath = __DIR__ . "\\module.json";
+            $this->instanceName = $ownInstance['ObjectName'];
 
-        $moduleJson = json_decode(file_get_contents($moduleJsonPath));
+            $this->moduleID = $module['ModuleID'];
+            $this->libraryID = $module['LibraryID'];
 
-        $this->prefix = $moduleJson->prefix;
+            $moduleJsonPath = __DIR__ . "\\module.json";
+
+            $moduleJson = json_decode(file_get_contents($moduleJsonPath));
+
+            $this->prefix = $moduleJson->prefix;
+
+        }
         
     }
 
@@ -215,7 +220,15 @@ abstract class PISymconModule extends IPSModule {
         
         }
         
-        $childs = IPS_GetChildrenIDs($searchIn);
+        if ($this->doesExist($searchIn)) {
+
+            $childs = IPS_GetChildrenIDs($searchIn);
+
+            if (!IPS_HasChildren($searchIn)) {
+                return null;
+            }
+        
+        }
         
         $returnId = 0;
         
