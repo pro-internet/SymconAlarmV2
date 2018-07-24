@@ -10,3 +10,5 @@ SymconAlarmV2 ist eine einfache Alarmanlage, welche anspringt wenn sich der Zust
 * (Optional) Bilder von bis zu 6 Kameras (werden Serverseitig zu einer Datei zusammengefügt, gecached und verschickt)
 ### Push-Benachrichtigung
 * Sendet einfachen Alarm
+### Bilder speichern
+* Die geschossenen Bilder werden so nicht nach dem versenden der E-Mail gelöscht. Sie bleiben unter C:\IP-Symcon\ModuleData\AlarmV2 gespeichert
