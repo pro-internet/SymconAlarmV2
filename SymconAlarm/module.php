@@ -307,7 +307,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     $linkName = $this->getLinkName($senderObj['ObjectID']);
 
-                    echo "SenderOBJ: " . $senderObj['ObjectID'] . " \\n LinkName: " . $linkName . "\\n";
+                    //echo "SenderOBJ: " . $senderObj['ObjectID'] . " \\n LinkName: " . $linkName . "\\n";
                     
                     if (strpos($linkName, "|") !== false) {
 
