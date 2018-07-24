@@ -712,7 +712,9 @@ abstract class PISymconModule extends IPSModule {
                 $index = 0;
             }
 
-            $IDs[] = $this->checkBoolean($varName, true, $position, $index, $defaultValue);
+            $newBool = $this->checkBoolean($varName, true, $position, $index, $defaultValue);
+            $this->addSwitch($newBool);
+            $IDs[] = $newBool
 
         }
 
