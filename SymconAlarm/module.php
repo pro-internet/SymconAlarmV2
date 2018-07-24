@@ -1003,27 +1003,27 @@ require(__DIR__ . "\\pimodule.php");
         // SymconMultiMail Support 
     protected function SendMail ($instID, $betreff, $text) {
 
-        $obj = IPS_GetObject($instID);
+        // $obj = IPS_GetObject($instID);
 
-        if ($obj['ObjectType'] == $this->objectTypeByName("Instance")) {
+        // if ($obj['ObjectType'] == 1) {
 
-            $obj = IPS_GetInstance($obj['ObjectID']);
+        //     $obj = IPS_GetInstance($obj['ObjectID']);
 
-            // Normale SMTP Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
+        //     // Normale SMTP Instanz
+        //     if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
 
-                SMTP_SendMail($instID, $betreff, $text);
+        //         SMTP_SendMail($instID, $betreff, $text);
 
-            }
+        //     }
 
-            // SymconMultiMail Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
+        //     // SymconMultiMail Instanz
+        //     if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
 
-                MultiMail_SendMail($instID, $betreff, $text);
+        //         MultiMail_SendMail($instID, $betreff, $text);
 
-            }
+        //     }
 
-        }
+        // }
 
     }
 
@@ -1042,27 +1042,27 @@ require(__DIR__ . "\\pimodule.php");
 
     protected function SendMailAttachment ($instID, $betreff, $text, $attachment) {
 
-        $obj = IPS_GetObject($instID);
+        // $obj = IPS_GetObject($instID);
 
-        if ($obj['ObjectType'] == $this->objectTypeByName("Instance")) {
+        // if ($obj['ObjectType'] == 1) {
 
-            $obj = IPS_GetInstance($obj['ObjectID']);
+        //     $obj = IPS_GetInstance($obj['ObjectID']);
 
-            // Normale SMTP Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
+        //     // Normale SMTP Instanz
+        //     if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
 
-                SMTP_SendMailAttachment($instID, $betreff, $text, $attachment);
+        //         SMTP_SendMailAttachment($instID, $betreff, $text, $attachment);
 
-            }
+        //     }
 
-            // SymconMultiMail Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
+        //     // SymconMultiMail Instanz
+        //     if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
 
-                MultiMail_SendMailAttachment($instID, $betreff, $text, $attachment);
+        //         MultiMail_SendMailAttachment($instID, $betreff, $text, $attachment);
 
-            }
+        //     }
 
-        }
+        // }
 
     }
 
