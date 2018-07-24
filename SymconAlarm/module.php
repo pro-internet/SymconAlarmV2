@@ -260,6 +260,34 @@ require(__DIR__ . "\\pimodule.php");
             
         }
 
+        protected function getLinkName ($id) {
+
+            $allTargets = IPS_GetObject($this->searchObjectByName("Targets"));
+
+            if (IPS_HasChildren($allTargets)) {
+
+                foreach ($allTargets['ChildrenIDs'] as $tg) {
+
+                    $tg = IPS_GetObject($tg);
+
+                    if ($tg['ObjectType'] == 6) {
+
+                        $lnk = IPS_GetLink($tg['ObjectID']);
+
+                        if ($lnk['TargetID'] == $id) {
+
+                            return $tg['ObjectName'];
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
         public function onTargetChange ($senderID) {
 
             $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
@@ -276,6 +304,17 @@ require(__DIR__ . "\\pimodule.php");
             if ($senderVal == true) {
                 
                 if (!$alarmVal) {
+
+                    $linkName = $this->getLinkName($senderObj['ObjectID']);
+
+                    if (strpos($linkName, "|") !== false) {
+
+                        $sec = explode("|", $linkName)[1];
+                        $sec = intval($sec);
+
+                        sleep($sec);
+
+                    }
 
                     $this->startAlarm();
                     $this->addLogMessage(" ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");

@@ -3,7 +3,7 @@
 	[
 		{ "type": "SelectInstance", "name":"EmailInstance", "caption": "SMTP Instanz"},
 		{ "type": "SelectInstance", "name":"NotificationInstance", "caption": "Notification Instanz"},
-		{ "type": "ValidationTextBox", "name": "Interval", "caption": "Alarm Interval (in Sek)" },
+		{ "type": "ValidationTextBox", "name": "Interval", "caption": "Invervall (in Sek)" },
 		{ "type": "SelectMedia", "name":"Camera1", "caption": "Kamera 1"},
 		{ "type": "SelectMedia", "name":"Camera2", "caption": "Kamera 2"},
 		{ "type": "SelectMedia", "name":"Camera3", "caption": "Kamera 3"},
