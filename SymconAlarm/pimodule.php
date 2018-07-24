@@ -21,16 +21,16 @@ abstract class PISymconModule extends IPSModule {
 
             $ownInstance = IPS_GetObject($InstanceID);
 
-        $this->instanceName = $ownInstance['ObjectName'];
+            $this->instanceName = $ownInstance['ObjectName'];
 
-        $this->moduleID = $module['ModuleID'];
-        $this->libraryID = $module['LibraryID'];
+            $this->moduleID = $module['ModuleID'];
+            $this->libraryID = $module['LibraryID'];
 
-        $moduleJsonPath = __DIR__ . "\\module.json";
+            $moduleJsonPath = __DIR__ . "\\module.json";
 
-        $moduleJson = json_decode(file_get_contents($moduleJsonPath));
+            $moduleJson = json_decode(file_get_contents($moduleJsonPath));
 
-        $this->prefix = $moduleJson->prefix;
+            $this->prefix = $moduleJson->prefix;
 
         }
         
@@ -212,7 +212,7 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
-    protected bjectByName ($name, $searchIn = null, $objectType = null) {
+    protected function searchObjectByName ($name, $searchIn = null, $objectType = null) {
 
         if ($searchIn == null) {
 
