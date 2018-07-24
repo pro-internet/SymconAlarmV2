@@ -1005,6 +1005,8 @@ require(__DIR__ . "\\pimodule.php");
 
         $obj = IPS_GetObject($instID);
 
+        print_r($obj);
+
         if ($obj['ObjectType'] == 1) {
 
             $obj = IPS_GetInstance($obj['ObjectID']);
@@ -1043,6 +1045,8 @@ require(__DIR__ . "\\pimodule.php");
     protected function SendMailAttachment ($instID, $betreff, $text, $attachment) {
 
         $obj = IPS_GetObject($instID);
+
+        print_r($obj);
 
         if ($obj['ObjectType'] == 1) {
 
