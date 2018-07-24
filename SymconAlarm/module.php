@@ -579,10 +579,12 @@ require(__DIR__ . "\\pimodule.php");
                     $hoehe = imagesy($c2img);
                 }
 
-                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img), $hoehe) ;
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img)) ;
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
+
+                $this->addTimestamp($newImage);
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
@@ -622,11 +624,13 @@ require(__DIR__ . "\\pimodule.php");
 
                 $hoehe = max($allHeights);
 
-                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), $hoehe) ;
+                $newImage = imagecreatetruecolor(imagesx($c1img) + imagesx($c2img) + imagesx($c3img), $hoehe);
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
                 imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
+
+                $this->addTimestamp($newImage);
 
                 // if (imagesx($newImage) > 1200) {
 
@@ -659,6 +663,8 @@ require(__DIR__ . "\\pimodule.php");
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
                 
+                $this->addTimestamp($newImage);
+
                 // if (imagesx($newImage) > 1200) {
 
                 //     // Breite          // Hoehe
@@ -709,7 +715,7 @@ require(__DIR__ . "\\pimodule.php");
                 $hoehe2 = max($secondHeights);
                 $maxLen = max($lens);
 
-                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
+                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2);
 
                 // First Row
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
@@ -720,6 +726,8 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
                 imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
                 imagecopymerge($newImage, $c6img, imagesx($c4img) + imagesx($c5img), $hoehe, 0, 0, imagesx($c6img), imagesy($c6img), 100);
+
+                $this->addTimestamp($newImage);
 
                 // if (imagesx($newImage) > 1200) {
 
@@ -781,6 +789,8 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
                 imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
 
+                $this->addTimestamp($newImage);
+
                 // if (imagesx($newImage) > 1200) {
 
                 //             // Breite          // Hoehe
@@ -826,7 +836,7 @@ require(__DIR__ . "\\pimodule.php");
                 $hoehe2 = max($secondHeights);
                 $maxLen = max($lens);
 
-                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2) ;
+                $newImage = imagecreatetruecolor($maxLen, $hoehe + $hoehe2);
 
                 // First Row
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
@@ -836,6 +846,8 @@ require(__DIR__ . "\\pimodule.php");
                 // Second Row
                 imagecopymerge($newImage, $c3img, 0, $hoehe, 0, 0, imagesx($c3img), imagesy($c3img), 100);
                 imagecopymerge($newImage, $c4img, imagesx($c3img), $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
+
+                $this->addTimestamp($newImage);
 
                 // if (imagesx($newImage) > 1200) {
 
@@ -972,6 +984,19 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
+    }
+
+    protected function addTimestamp (&$newImage) {
+
+        $schwarz = ImageColorAllocate ($newImage, 0,0,0);
+        $gross = "5";        // Schriftgröße 
+        $gross = "7";        // Schriftgröße 
+        $randl = "3";        // Ausrichtung von Links 
+        $rando = "3";        // Ausrichtung von Obén 
+        $t1 = "prointernet Alarm|" . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
+        $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
+        
+        ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
     }
 
     protected function SendMailAttachment ($instID, $betreff, $text, $attachment) {
