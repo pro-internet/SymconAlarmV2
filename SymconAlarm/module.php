@@ -264,7 +264,7 @@ require(__DIR__ . "\\pimodule.php");
 
             $allTargets = IPS_GetObject($this->searchObjectByName("Targets"));
 
-            if (IPS_HasChildren($allTargets)) {
+            if (IPS_HasChildren($allTargets['ObjectID'])) {
 
                 foreach ($allTargets['ChildrenIDs'] as $tg) {
 
