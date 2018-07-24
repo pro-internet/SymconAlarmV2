@@ -941,10 +941,7 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
-    }
-
-
-    // SymconMultiMail Support 
+        // SymconMultiMail Support 
     protected function SendMail ($instID, $betreff, $text) {
 
         $obj = IPS_GetObject($instID);
@@ -994,6 +991,8 @@ require(__DIR__ . "\\pimodule.php");
             }
 
         }
+
+    }
 
     }
 
