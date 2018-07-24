@@ -4,7 +4,7 @@ SymconAlarmV2 ist eine einfache Alarmanlage, welche anspringt wenn sich der Zust
 ### Intervall
 * (In Sekunden eingeben) In dieser Zeit werden neue E-Mails / Push-Benachrichtigungen versendet
 ### E-Mail Benachrichtigung
-* Benötigt SMTP-Instanz (!)
+* Benötigt SMTP -oder Multivar-Instanz (!)
 * Enthält den aktuellen Log
 * Benachrichtigung wenn Alarm beendet wurde
 * (Optional) Bilder von bis zu 6 Kameras (werden Serverseitig zu einer Datei zusammengefügt, gecached und verschickt)
