@@ -355,13 +355,16 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($images != null) {
 
-                    SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
+                    //SMTP_SendMailAttachment($emailInstance, "Alarm!", $email, $images);
+
+                    $this->SendMailAttachment($emailInstance, "Alarm!", $email, $images);
 
                     unlink($images);
 
                 } else {
 
-                    SMTP_SendMail($emailInstance, "Alarm!", $email);
+                    //SMTP_SendMail($emailInstance, "Alarm!", $email);
+                    $this->SendMail($emailInstance, "Alarm!", $email);
 
                 }
 
@@ -402,6 +405,8 @@ require(__DIR__ . "\\pimodule.php");
             $interval = $this->ReadPropertyInteger("Interval");
             $sendEmailVal = $this->ReadPropertyInteger("EmailInstance");
 
+            $sendMailActivated = $this->searchObjectByName("E-Mail Benachrichtigung");
+
             $pushBenachrichtigung = GetValue($this->searchObjectByName("Push Benachrichtigung"));
             $pushInstance = $this->ReadPropertyInteger("NotificationInstance");
 
@@ -416,9 +421,10 @@ require(__DIR__ . "\\pimodule.php");
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
 
-                if ($sendEmailVal) {
+                if ($sendMailActivated) {
 
-                    SMTP_SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
+                    //SMTP_SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
+                    $this->SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
 
                 }
 
@@ -931,6 +937,60 @@ require(__DIR__ . "\\pimodule.php");
 
             if ($image_filetype == 3) {
                 imagepng($img, $pt);
+            }
+
+        }
+
+    }
+
+
+    // SymconMultiMail Support 
+    protected function SendMail ($instID, $betreff, $text) {
+
+        $obj = IPS_GetObject($instID);
+
+        if ($obj['ObjectType'] == $this->objectTypeByName("Instance")) {
+
+            $obj = IPS_GetInstance($obj['ObjectID']);
+
+            // Normale SMTP Instanz
+            if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
+
+                SMTP_SendMail($instID, $betreff, $text);
+
+            }
+
+            // SymconMultiMail Instanz
+            if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
+
+                MultiMail_SendMail($instID, $betreff, $text);
+
+            }
+
+        }
+
+    }
+
+    protected function SendMailAttachment ($instID, $betreff, $text, $attachment) {
+
+        $obj = IPS_GetObject($instID);
+
+        if ($obj['ObjectType'] == $this->objectTypeByName("Instance")) {
+
+            $obj = IPS_GetInstance($obj['ObjectID']);
+
+            // Normale SMTP Instanz
+            if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
+
+                SMTP_SendMailAttachment($instID, $betreff, $text, $attachment);
+
+            }
+
+            // SymconMultiMail Instanz
+            if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
+
+                MultiMail_SendMailAttachment($instID, $betreff, $text, $attachment);
+
             }
 
         }
