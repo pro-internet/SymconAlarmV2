@@ -1,4 +1,4 @@
-﻿{
+{
 	"elements":
 	[
 		{ "type": "SelectInstance", "name":"EmailInstance", "caption": "SMTP Instanz"},

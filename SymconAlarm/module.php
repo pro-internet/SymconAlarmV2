@@ -41,11 +41,7 @@ require(__DIR__ . "\\pimodule.php");
            
             parent::ApplyChanges();
 
-            $this->AlarmScharf();
-
             $this->refreshTargets();
-
-            //$this->deleteUnusedEvents();
 
         }
 
@@ -62,9 +58,6 @@ require(__DIR__ . "\\pimodule.php");
             // Set Icons 
             $this->setIcon($switches[2], "Mail");
             $this->setIcon($historie, "Database");
-
-            // TEEEEEEEEST
-            $this->setPosition($switches[2], "|AFTER|" . $switches[0]);
 
         }
 
@@ -94,9 +87,6 @@ require(__DIR__ . "\\pimodule.php");
 
             $this->RegisterPropertyInteger("NotificationInstance", null);
             $this->RegisterPropertyBoolean("PictureLog", false);
-
-            $this->RegisterPropertyFloat("AlarmWocheVon", 18.00);
-            $this->RegisterPropertyFloat("AlarmWocheBis", 6.00);
 
         }
 
@@ -246,57 +236,6 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
-        public function deleteUnusedEvents () {
-
-            $targets = $this->searchObjectByName("Targets");
-            $events = $this->searchObjectByName("Events");
-
-            $targetsObj = IPS_GetObject($targets);
-            $eventsObj = IPS_GetObject($events);
-
-            if ($eventsObj['ChildrenIDs'] != null) {
-
-                foreach ($eventsObj['ChildrenIDs'] as $event) {
-
-                    $event = IPS_GetObject($event);
-
-                    if ($event['ObjectType'] == 4) {
-
-                        $event = IPS_GetEvent($event['ObjectID']);
-                        $eventTarget = $event['TriggerVariableID'];
-                        $found = false;
-
-                        foreach ($targetsObj['ChildrenIDs'] as $child) {
-
-                            $child = IPS_GetObject($child);
-
-                            if ($child['ObjectType'] == 6) {
-
-                                $child = IPS_GetLink($child['ObjectID']);
-
-                                if ($child['TargetID'] == $eventTarget) {
-
-                                    $found = true;
-
-                                }
-
-                            }
-
-                        }
-
-                        if (!$found) {
-
-                            IPS_DeleteEvent($event['EventID']);
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-        }
 
         ##
         ##  Set Funktionen
@@ -363,7 +302,6 @@ require(__DIR__ . "\\pimodule.php");
 
             if ($alarmVal == false) {
 
-                $this->alarmActivated();
                 SetValue($alarmVar, true);
 
             }
@@ -410,8 +348,8 @@ require(__DIR__ . "\\pimodule.php");
 
                 $images = $this->getImages();
 
-                //echo "IMAGES";
-                //echo $images;
+                echo "IMAGES";
+                echo $images;
 
                 if ($images != null) {
 
@@ -537,15 +475,6 @@ require(__DIR__ . "\\pimodule.php");
         }
         
 
-
-        protected function AlarmScharf () {
-
-            $von = $this->ReadPropertyFloat("AlarmWocheVon");
-            $bis = $this->ReadPropertyFloat("AlarmWocheVon");
-
-        }
-
-
         ## Picture function
 
         protected function getImages () {
@@ -557,12 +486,12 @@ require(__DIR__ . "\\pimodule.php");
             $camera5 = $this->ReadPropertyInteger("Camera5");
             $camera6 = $this->ReadPropertyInteger("Camera6");
 
-            // echo "Kamera 1: " . $camera1 . "\n";
-            // echo "Kamera 2: " . $camera2 . "\n";
-            // echo "Kamera 3: " . $camera3 . "\n";
-            // echo "Kamera 4: " . $camera4 . "\n";
-            // echo "Kamera 5: " . $camera5 . "\n";
-            // echo "Kamera 6: " . $camera6 . "\n";
+            echo "Kamera 1: " . $camera1 . "\n";
+            echo "Kamera 2: " . $camera2 . "\n";
+            echo "Kamera 3: " . $camera3 . "\n";
+            echo "Kamera 4: " . $camera4 . "\n";
+            echo "Kamera 5: " . $camera5 . "\n";
+            echo "Kamera 6: " . $camera6 . "\n";
 
                 // 2 Kameras
             if ($camera1 != null && $camera2 != null && $camera3 == null && $camera4 == null && $camera5 == null && $camera6 == null) {
@@ -587,8 +516,6 @@ require(__DIR__ . "\\pimodule.php");
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),$hoehe,100);
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
-
-                $this->addTimestamp($newImage);
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
 
@@ -634,8 +561,6 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage,$c2img,imagesx($c1img),0,0,0,imagesx($c2img),$hoehe,100);
                 imagecopymerge($newImage,$c3img,imagesx($c1img) + imagesx($c2img), 0, 0, 0, imagesx($c3img), $hoehe, 100);
 
-                $this->addTimestamp($newImage);
-
                 // if (imagesx($newImage) > 1200) {
 
                 //             // Breite          // Hoehe
@@ -664,8 +589,6 @@ require(__DIR__ . "\\pimodule.php");
                 $newImage = imagecreatetruecolor(imagesx($c1img), imagesy($c1img));
 
                 imagecopymerge($newImage,$c1img,0,0,0,0,imagesx($c1img),imagesy($c1img),100);
-
-                $this->addTimestamp($newImage);
 
                 $newFilePath = "C:\\IP-Symcon\\ModuleData\\AlarmV2\\" . "tmpimg_" . $this->InstanceID . rand(1000, 10000) . ".jpg";
                 
@@ -731,8 +654,6 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
                 imagecopymerge($newImage, $c6img, imagesx($c4img) + imagesx($c5img), $hoehe, 0, 0, imagesx($c6img), imagesy($c6img), 100);
 
-                $this->addTimestamp($newImage);
-
                 // if (imagesx($newImage) > 1200) {
 
                 //             // Breite          // Hoehe
@@ -793,8 +714,6 @@ require(__DIR__ . "\\pimodule.php");
                 imagecopymerge($newImage, $c4img, 0, $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
                 imagecopymerge($newImage, $c5img, imagesx($c4img), $hoehe, 0, 0, imagesx($c4img), imagesy($c5img), 100);
 
-                $this->addTimestamp($newImage);
-
                 // if (imagesx($newImage) > 1200) {
 
                 //             // Breite          // Hoehe
@@ -850,8 +769,6 @@ require(__DIR__ . "\\pimodule.php");
                 // Second Row
                 imagecopymerge($newImage, $c3img, 0, $hoehe, 0, 0, imagesx($c3img), imagesy($c3img), 100);
                 imagecopymerge($newImage, $c4img, imagesx($c3img), $hoehe, 0, 0, imagesx($c4img), imagesy($c4img), 100);
-
-                $this->addTimestamp($newImage);
 
                 // if (imagesx($newImage) > 1200) {
 
@@ -941,18 +858,6 @@ require(__DIR__ . "\\pimodule.php");
                 $img = imagecreatefrompng($filepath);
                 return $img;
             }
-
-        }
-
-        protected function addTimestamp (&$newImage) {
-
-            $schwarz = ImageColorAllocate ($newImage, 255,255,255);
-            $gross = "7";        // Schriftgröße 
-            $randl = "3";        // Ausrichtung von Links 
-            $rando = "3";        // Ausrichtung von Obén 
-            $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");
-            
-            ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
 
         }
 

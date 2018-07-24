@@ -16,23 +16,18 @@ abstract class PISymconModule extends IPSModule {
         $moduleGUID = $this->getModuleGuidByName($className);
 
         $module = IPS_GetModule($moduleGUID);
+        $ownInstance = IPS_GetObject($InstanceID);
 
-        if ($this->doesExist($InstanceID)) {
+        $this->instanceName = $ownInstance['ObjectName'];
 
-            $ownInstance = IPS_GetObject($InstanceID);
+        $this->moduleID = $module['ModuleID'];
+        $this->libraryID = $module['LibraryID'];
 
-            $this->instanceName = $ownInstance['ObjectName'];
+        $moduleJsonPath = __DIR__ . "\\module.json";
 
-            $this->moduleID = $module['ModuleID'];
-            $this->libraryID = $module['LibraryID'];
+        $moduleJson = json_decode(file_get_contents($moduleJsonPath));
 
-            $moduleJsonPath = __DIR__ . "\\module.json";
-
-            $moduleJson = json_decode(file_get_contents($moduleJsonPath));
-
-            $this->prefix = $moduleJson->prefix;
-
-        }
+        $this->prefix = $moduleJson->prefix;
         
     }
 
@@ -219,10 +214,8 @@ abstract class PISymconModule extends IPSModule {
             $searchIn = $this->InstanceID;
         
         }
-
-        if ($searchIn == null) {
-            return null;
-        }
+        
+        $childs = IPS_GetChildrenIDs($searchIn);
         
         $returnId = 0;
         
@@ -262,68 +255,12 @@ abstract class PISymconModule extends IPSModule {
 
         if(IPS_VariableProfileExists("Switch"))
         {
-
             IPS_SetVariableCustomProfile($vid,"Switch");
             $this->addSetValue($vid);
         
-        } else {
-
-            $this->checkVariableProfile("Switch", 0, 0, 1, 0, array("Aus" => 0, "An" => 1));
-            $this->addSwitch($vid);
-
         }
 
     }
-
-    protected function checkVariableProfile ($name, $type, $min = 0, $max = 100, $steps = 1, $associations = null, $prefix = "", $suffix = "") {
-
-        if (!IPS_VariableProfileExists($name)) {
-
-            $newProfile = IPS_CreateVariableProfile($name, $type);
-            IPS_SetVariableProfileValues ($name, $min, $max, $steps);
-            IPS_SetVariableProfileText($name, $prefix, $suffix);
-            
-            if ($associations != null) {
-
-                foreach ($associations as $assocName => $assocValue) {
-
-                    $color = -1;
-
-                    if (gettype("string")) {
-
-                        if (strpos($assocValue, "|") !== false) {
-
-                            $color = hexdec(explode("|", $assocValue)[1]);
-                            $assocValue = explode("|", $assocValue)[0];
-
-                            if ($assocValue == "true") {
-
-                                $assocValue = true;
-
-                            } else if ($assocValue == "false") {
-
-                                $assocValue = false;
-
-                            }
-    
-                        }
-
-                    } else if (gettype("integer")) {
-
-                        $assocValue = (int) $assocValue;
-
-                    }
-
-                    IPS_SetVariableProfileAssociation($name, $assocValue, $assocName, "", $color);
-
-                }
-
-            }
-
-        }
-
-    }
-
 
     protected function addSetValue ($id) { 
 
@@ -740,11 +677,7 @@ abstract class PISymconModule extends IPSModule {
                 $index = 0;
             }
 
-            $checkBool = $this->checkBoolean($varName, true, $position, $index, $defaultValue);
-
-            $IDs[] = $checkBool;
-
-            $this->setIcon($checkBool, "Power");
+            $IDs[] = $this->checkBoolean($varName, true, $position, $index, $defaultValue);
 
         }
 
