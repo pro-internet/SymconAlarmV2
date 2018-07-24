@@ -33,8 +33,6 @@ require(__DIR__ . "\\pimodule.php");
 
             $this->checkTempFolder();
 
-            $this->deleteUnusedEvents();
-
  
         }
  
@@ -46,6 +44,8 @@ require(__DIR__ . "\\pimodule.php");
             $this->AlarmScharf();
 
             $this->refreshTargets();
+
+            $this->deleteUnusedEvents();
 
         }
 
