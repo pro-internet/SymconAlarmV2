@@ -922,7 +922,7 @@ abstract class PISymconModule extends IPSModule {
                     
                         if($parentInstanz['ModuleInfo']['ModuleName'] == "EIB Group" ||  $parentInstanz['ModuleInfo']['ModuleName'] == "HomeMatic Device" ){
                     
-                            PI_SetOne($parent, $wert);
+                            $this->setDevice($parent, $wert);
                         
                         } else if ($parentInstanz['ModuleInfo']['ModuleName'] == "Dummy Module") {
                         
