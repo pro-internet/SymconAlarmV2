@@ -985,6 +985,61 @@ abstract class PISymconModule extends IPSModule {
         
     }
 
+
+    // Kern Instanzen bekommen
+
+    protected function getArchiveControlInstance () {
+
+        $all = IPS_GetObject(0);
+
+        if (IPS_HasChildren($all['ObjectID'])) {
+
+            $found = false;
+
+            foreach ($all['ChildrenIDs'] as $child) {
+
+                if ($this->isInstance($child)) {
+
+                    $child = IPS_GetInstance($child['ObjectID']);
+
+                    if ($child['ModuleInfo']['ModuleName'] == "Archive Control") {
+
+                        $found = true;
+                        return $child['InstanceID'];
+
+                    }
+
+                }
+
+            }
+
+            if (!$found) {
+
+                return null;
+
+            }
+
+        }
+
+    }
+
+    protected function activateVariableLogging ($id) {
+
+        if ($id == 0 || $id == null) {
+            return;
+        }
+
+        $archiveInstance = $this->getArchiveControlInstance();
+
+        if ($archiveInstance != null && $archiveInstance != 0) {
+
+            AC_SetLoggingStatus ($archiveInstance, $id, true);
+
+        }
+
+    }
+
+
 }
 
 

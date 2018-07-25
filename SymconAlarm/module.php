@@ -56,6 +56,11 @@ require(__DIR__ . "\\pimodule.php");
             $switches = $this->createSwitches(array("Überwachung||0", "Alarm||1", "E-Mail Benachrichtigung||2", "Push Benachrichtigung||3"));
             $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
+            $this->activateVariableLogging($switches[0]);
+            $this->activateVariableLogging($switches[1]);
+            $this->activateVariableLogging($switches[2]);
+            $this->activateVariableLogging($switches[3]);
+
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
 
