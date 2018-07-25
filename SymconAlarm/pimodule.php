@@ -760,29 +760,6 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
-    protected function isLink ($id) {
-
-        if ($id != 0 && $id != null) {
-            
-            $obj = IPS_GetObject($id);
-            
-            if ($obj['ObjectType'] == 6) {
-                
-                return true;
-
-            } else {
-
-                return false;
-            
-            }
-        } else {
-
-            return false;
-
-        }
-
-    }
-
     protected function sortChildrenByPosition (&$children) {
 
         usort($children, function ($a, $b) {
@@ -1023,7 +1000,7 @@ abstract class PISymconModule extends IPSModule {
     protected function isMedia ($id) {
         return $this->isBaseFunction($id, 5);
     }
-    
+
     protected function isLink ($id) {
         return $this->isBaseFunction($id, 6);
     }
