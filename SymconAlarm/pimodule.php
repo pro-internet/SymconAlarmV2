@@ -1018,7 +1018,7 @@ abstract class PISymconModule extends IPSModule {
 
             foreach ($all['ChildrenIDs'] as $child) {
 
-                if ($this->isInstance($child)) {
+                if ($this->isInstance($child) && $child != 0) {
 
                     $child = IPS_GetInstance($child['ObjectID']);
 
