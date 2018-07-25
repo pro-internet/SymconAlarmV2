@@ -827,6 +827,150 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
+    protected function setDevice ($deviceID, $wert){
+        if ($this->SperreVar != null){
+            $sperre = GetValue($this->SperreVar);
+            if ($sperre) {
+                return;
+            }
+        }
+        $device = IPS_GetObject($deviceID);
+    
+        switch($device['ObjectType']){
+        
+            case 1:
+                    $instance = IPS_GetInstance($device['ObjectID']);
+                    
+                    //wenn EIB Groub
+                    if ($instance['ModuleInfo']['ModuleName'] == "EIB Group"){
+                        
+                        if(IPS_HasChildren($device['ObjectID']) == 1) {
+                            
+                            foreach(IPS_GetChildrenIDs($device['ObjectID']) as $child){	
+                            
+                                $childVar = IPS_GetVariable($child);
+                                
+                                //wenn bool / Switch
+                                if($childVar['VariableType'] == 0){
+                                    
+                                    EIB_Switch($device['ObjectID'], $wert);
+                                
+                                }
+                                
+                                //wenn int / Dim / float
+                                if($childVar['VariableType'] == 1 || $childVar['VariableType'] == 2) {
+                                    if(is_int($wert) || is_float($wert)){
+                                        
+                                        EIB_DimValue($device['ObjectID'], $wert);								
+                                    
+                                    }else{
+                                        
+                                        if(is_bool($wert)){
+                                        
+                                            if($wert === true){
+                                                $wert = 100;
+                                                EIB_DimValue($device['ObjectID'], $wert);
+                                                
+                                            }
+                                            else{
+                                                $wert = 0;
+                                                EIB_DimValue($device['ObjectID'], $wert);
+                                                
+                                            }
+                                        }
+                                    }	
+                                    
+                                }
+                        
+                            }
+                    
+                        }
+                    
+                    }else{
+                      
+                        //Homematic Support (Aktuell: Switch)
+                        if ($instance['ModuleInfo']['ModuleName'] == "HomeMatic Device") {
+                
+                             HM_WriteValueBoolean($device['ObjectID'], "STATE", $wert);
+        
+                        }
+                    }
+                break;
+            
+            case 2:
+                    $getVar = IPS_GetVariable($device['ObjectID']);
+                
+                    $parent = IPS_GetParent($device['ObjectID']);
+                    
+                    if(IPS_GetObject($parent)['ObjectType'] == 1){
+                    
+                        $parentInstanz = IPS_GetInstance($parent);
+                    
+                        if($parentInstanz['ModuleInfo']['ModuleName'] == "EIB Group" ||  $parentInstanz['ModuleInfo']['ModuleName'] == "HomeMatic Device" ){
+                    
+                            PI_SetOne($parent, $wert);
+                        
+                        } else if ($parentInstanz['ModuleInfo']['ModuleName'] == "Dummy Module") {
+                        
+                            if (gettype($wert) == "boolean") {
+                            
+                                if ($wert) {
+                                    $wert = 100;
+                                } else {
+                                    $wert = 0;
+                                }
+                                
+                                SetValue($deviceID, $wert);
+                                
+                            } else {
+                            
+                                SetValue($deviceID, $wert);
+                                
+                            }
+                            
+                        }
+                    } else {
+                    
+                    // wenn bool
+                    if ($getVar['VariableType'] == 0) {
+                
+                        SetValue($device['ObjectID'], $wert);
+                    }
+                        
+                    // wenn int oder floar
+                    if($getVar['VariableType'] == 1 || $getVar['VariableType'] == 2) { 
+                        
+                        if(is_int($wert) || is_float($wert)){
+                            
+                            SetValue($device['ObjectID'], $wert);
+                        }
+                        else {
+                            if(is_bool($wert)){              
+                                if($wert == true){
+                                
+                                    $wert = 100;
+                            
+                                    SetValue($device['ObjectID'], $wert);
+                                }
+                                if($wert == false){
+                                    
+                                    $wert = 0;
+                                    SetValue($device['ObjectID'], $wert);
+                                }
+                            }
+                        
+                        }
+                    }	
+                    
+                    }
+                    
+                break;
+                
+        
+        }
+        
+    }
+
 }
 
 
