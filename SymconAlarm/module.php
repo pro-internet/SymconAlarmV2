@@ -477,6 +477,12 @@ require(__DIR__ . "\\pimodule.php");
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
 
+                if (IPS_HasChildren($this->searchObjectByName("Targets Alarm"))) {
+
+                    $this->setAllInLinkList($this->searchObjectByName("Targets Alarm"), false);
+
+                } 
+
                 if ($sendMailActivated) {
 
                     //SMTP_SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
