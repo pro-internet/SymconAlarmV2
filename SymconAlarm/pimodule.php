@@ -1056,6 +1056,8 @@ abstract class PISymconModule extends IPSModule {
             AC_SetLoggingStatus ($archiveInstance, $id, true);
             IPS_ApplyChanges($archiveInstance);
 
+        } else {
+            echo "No Archive Control found!";
         }
 
     }
