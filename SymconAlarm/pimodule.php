@@ -1020,7 +1020,7 @@ abstract class PISymconModule extends IPSModule {
 
                 if ($this->isInstance($child) && $child != 0) {
 
-                    $child = IPS_GetInstance($child['ObjectID']);
+                    $child = IPS_GetInstance($child);
 
                     if ($child['ModuleInfo']['ModuleName'] == "Archive Control") {
 
