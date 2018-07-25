@@ -6,6 +6,8 @@ abstract class PISymconModule extends IPSModule {
     public $libraryID = null;
     public $prefix = null;
     public $instanceName = null;
+    public $SperreVar = null;
+    public $AutomatikVar = null;
 
     public function __construct($InstanceID) {
         // Diese Zeile nicht löschen
@@ -28,6 +30,18 @@ abstract class PISymconModule extends IPSModule {
         $moduleJson = json_decode(file_get_contents($moduleJsonPath));
 
         $this->prefix = $moduleJson->prefix;
+
+        if ($this->doesExist($this->searchObjectByName("Automatik"))) {
+            
+            $this->AutomatikVar = $this->searchObjectByName("Automatik");
+        
+        }
+
+        if ($this->doesExist($this->searchObjectByName("Sperre"))) {
+
+            $this->SperreVar = $this->searchObjectByName("Sperre");
+        
+        }
         
     }
 
