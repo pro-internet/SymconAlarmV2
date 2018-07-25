@@ -22,10 +22,12 @@ require(__DIR__ . "\\pimodule.php");
 
             // Targets Ordner checken -und erstellen
             $targets = $this->checkFolder("Targets", $this->InstanceID, 5);
+            $targetsAlarm = $this->checkFolder("Targets Alarm", $this->InstanceID, 5);
             $events = $this->checkFolder("Events", $this->InstanceID, 6);
 
 
             $this->hide($targets);
+            $this->hide($targetsAlarm);
 
 
             $this->checkOnAlarmChangedEvent();
@@ -319,6 +321,13 @@ require(__DIR__ . "\\pimodule.php");
                     }
 
                     $this->startAlarm();
+                    
+                    if (IPS_HasChildren($this->searchObjectByName("Targets Alarm"))) {
+
+                        $this->setAllInLinkList($this->searchObjectName("Targets Alarm"), true);
+
+                    } 
+                    
                     $this->addLogMessage(" ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");
 
                 } else {
@@ -422,7 +431,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($pushInstance != null) {
 
-                    WFC_PushNotification ($pushInstance, "Alarm!", "", "alarm");
+                    WFC_PushNotification ($pushInstance, "Alarm!", "Ein Alarm wurde ausgelöst", "alarm");
 
                 } else {
 

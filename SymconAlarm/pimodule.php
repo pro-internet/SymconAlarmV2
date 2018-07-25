@@ -746,6 +746,87 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
+    protected function isLink ($id) {
+
+        if ($id != 0 && $id != null) {
+            
+            $obj = IPS_GetObject($id);
+            
+            if ($obj['ObjectType'] == 6) {
+                
+                return true;
+
+            } else {
+
+                return false;
+            
+            }
+        } else {
+
+            return false;
+
+        }
+
+    }
+
+    protected function sortChildrenByPosition (&$children) {
+
+        usort($children, function ($a, $b) {
+
+            $u1 = IPS_GetObject($a);
+            $u2 = IPS_GetObject($b);
+
+            return $u1['ObjectPosition'] > $u2['ObjectPosition'];
+
+        });
+
+    }
+
+    protected function setAllInLinkList ($linkListId, $value) {
+        $linkListObj = IPS_GetObject($linkListId);
+        if (count($linkListObj['ChildrenIDs']) > 0) {
+            foreach ($linkListObj['ChildrenIDs'] as $child) {
+                $child = IPS_GetObject($child);
+                if ($child['ObjectType'] == $this->objectTypeByName("Link")) {
+                    $child = IPS_GetLink($child['ObjectID']);
+                    $tg = $child['TargetID'];
+                    $this->setDevice($tg, $value);
+                }
+            }
+        }
+    }
+
+    protected function linkListToTargetList ($id) {
+
+        if (IPS_HasChildren($id)) {
+
+            $children = IPS_GetObject($id);
+            $children = $children['ChildrenIDs'];
+
+            $this->sortChildrenByPosition($children);
+
+            $list = array();
+
+            foreach ($children as $child) {
+
+                if ($this->isLink($child)) {
+
+                    $lnk = IPS_GetLink($child);
+                    
+                    $list[] = $lnk['TargetID'];
+
+                }
+
+            }
+
+            return $list;
+
+        } else {
+            return array();
+        }
+
+    }
+
 }
 
 
