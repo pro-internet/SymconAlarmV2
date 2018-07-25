@@ -324,7 +324,7 @@ require(__DIR__ . "\\pimodule.php");
                     
                     if (IPS_HasChildren($this->searchObjectByName("Targets Alarm"))) {
 
-                        $this->setAllInLinkList($this->searchObjectName("Targets Alarm"), true);
+                        $this->setAllInLinkList($this->searchObjectByName("Targets Alarm"), true);
 
                     } 
                     
