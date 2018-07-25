@@ -986,6 +986,49 @@ abstract class PISymconModule extends IPSModule {
     }
 
 
+    // "is" Funktionen
+    protected function isBaseFunction ($id, $is) {
+        if ($id != 0 && $id != null) {
+            $obj = IPS_GetObject($id);
+            if ($obj['ObjectType'] == $is) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    protected function isCategory ($id) {
+        return $this->isBaseFunction($id, 0);
+    }
+
+    protected function isInstance ($id) {
+        return $this->isBaseFunction($id, 1);
+    }
+
+    protected function isVariable ($id) {
+        return $this->isBaseFunction($id, 2);
+    }
+
+    protected function isScript ($id) {
+        return $this->isBaseFunction($id, 3);
+    }
+
+    protected function isEvent ($id) {
+        return $this->isBaseFunction($id, 4);
+    }
+
+    protected function isMedia ($id) {
+        return $this->isBaseFunction($id, 5);
+    }
+    
+    protected function isLink ($id) {
+        return $this->isBaseFunction($id, 6);
+    }
+
+
     // Kern Instanzen bekommen
 
     protected function getArchiveControlInstance () {
