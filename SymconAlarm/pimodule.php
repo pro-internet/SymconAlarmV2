@@ -1054,6 +1054,7 @@ abstract class PISymconModule extends IPSModule {
         if ($archiveInstance != null && $archiveInstance != 0) {
 
             AC_SetLoggingStatus ($archiveInstance, $id, true);
+            IPS_ApplyChanges($archiveInstance);
 
         }
 
