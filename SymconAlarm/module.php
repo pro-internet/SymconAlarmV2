@@ -82,6 +82,12 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
+        public function refreshAll () {
+            $this->refreshTargets();
+
+            $this->deleteUnusedEvents();
+        }
+
         public function RegisterProperties () {
 
             $this->RegisterPropertyInteger("Interval", 60);

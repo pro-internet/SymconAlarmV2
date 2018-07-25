@@ -12,6 +12,7 @@
 		{ "type": "SelectMedia", "name":"Camera6", "caption": "Kamera 6"},
 		{ "type": "Label", "label": "Zusätzliche Funktionen" },
 		{ "type": "CheckBox", "name": "PictureLog", "caption": "Bilder im Log"},
-		{ "type": "CheckBox", "name": "SavePictures", "caption": "Bilder speichern" }
+		{ "type": "CheckBox", "name": "SavePictures", "caption": "Bilder speichern" },
+		{ "type": "Button", "label": "Targets updaten", "onClick": "PIALRMNW_refreshAll($id);" }
 	]
   }
