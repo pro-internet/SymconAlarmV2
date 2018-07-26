@@ -1055,11 +1055,11 @@ require(__DIR__ . "\\pimodule.php");
 
     protected function addTimestamp (&$newImage) {
 
-        $schwarz = ImageColorAllocate ($newImage, 0,0,0);
+        $schwarz = ImageColorAllocate ($newImage, 255,255,255);
         $gross = "5";        // Schriftgröße 
-        $gross = "7";        // Schriftgröße 
+        //$gross = "7";        // Schriftgröße 
         $randl = "3";        // Ausrichtung von Links 
-        $rando = "3";        // Ausrichtung von Obén 
+        $rando = imagesy($newImage) - 10;        // Ausrichtung von Obén 
         $t1 = "prointernet Alarm|" . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
         $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
         
