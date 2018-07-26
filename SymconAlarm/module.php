@@ -372,6 +372,28 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
+        protected function updateIfImageGrabber ($id) {
+
+            if ($id != null && $id != 0) {
+
+                $parent = IPS_GetParent($id);
+
+                if ($this->isInstance($parent)) {
+
+                    $parentObj = IPS_GetInstance($parent);
+
+                    if ($parentObj['ModuleInfo']['ModuleName'] == "Image Grabber") {
+
+                        IG_UpdateImage($parent);
+
+                    }
+
+                }
+
+            }
+
+        }
+
         public function alarmActivated () {
 
             $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
@@ -385,6 +407,13 @@ require(__DIR__ . "\\pimodule.php");
             $camera1 = $this->ReadPropertyInteger("Camera4");
             $camera2 = $this->ReadPropertyInteger("Camera5");
             $camera3 = $this->ReadPropertyInteger("Camera6");
+
+            $this->updateIfImageGrabber($camera1);
+            $this->updateIfImageGrabber($camera2);
+            $this->updateIfImageGrabber($camera3);
+            $this->updateIfImageGrabber($camera4);
+            $this->updateIfImageGrabber($camera5);
+            $this->updateIfImageGrabber($camera6);
 
             
             if (!$ueberwachung) {
