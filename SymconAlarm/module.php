@@ -1059,7 +1059,7 @@ require(__DIR__ . "\\pimodule.php");
         $gross = "5";        // Schriftgröße 
         //$gross = "7";        // Schriftgröße 
         $randl = "3";        // Ausrichtung von Links 
-        $rando = imagesy($newImage) - 10;        // Ausrichtung von Obén 
+        $rando = imagesy($newImage) - 25;        // Ausrichtung von Obén 
         $t1 = "prointernet Alarm|" . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
         $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
         
