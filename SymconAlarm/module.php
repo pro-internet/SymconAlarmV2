@@ -335,6 +335,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     }
                     
+                    $this->addLogMessage(" ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");
 
                     SetValue($this->searchObjectByName("Aktueller Alarm"), $senderObj['ObjectID']);
 
@@ -346,7 +347,6 @@ require(__DIR__ . "\\pimodule.php");
 
                     } 
                     
-                    $this->addLogMessage(" ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");
 
                 } else {
 
@@ -441,7 +441,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
-                $email = "Alarm ausgelöst von" . IPS_GetName($this->searchObjectByName("Aktueller Alarm")) . "\n";
+                $email = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
             
                 $email = $email . "Es wurde ein Alarm ausgelöst! aktueller Log: \n \n";
 
