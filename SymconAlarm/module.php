@@ -56,6 +56,10 @@ require(__DIR__ . "\\pimodule.php");
             $switches = $this->createSwitches(array("Überwachung||0", "Alarm||1", "E-Mail Benachrichtigung||2", "Push Benachrichtigung||3"));
             $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
+            $currentAlarm = $this->checkString("Aktueller Alarm", false, $this->InstanceID, 5);
+
+            $this->hide($currentAlarm);
+
             $this->activateVariableLogging($switches[0]);
             $this->activateVariableLogging($switches[1]);
             $this->activateVariableLogging($switches[2]);
@@ -144,7 +148,7 @@ require(__DIR__ . "\\pimodule.php");
                 } else if ($type == "alarm") {
 
                 
-                    $rmessage = "<div style='color: red; font-size: 20px; padding: 15px; border: 2px solid red; margin-top: 10px;'><span>" . "[$datum]" . $message . "</span></div>";
+                    $rmessage = "<span style='color: red;'>" . $rmessage . "</span>";
 
                 
                 } else if ($type == "regular") {
@@ -330,6 +334,9 @@ require(__DIR__ . "\\pimodule.php");
                         sleep($sec);
 
                     }
+                    
+
+                    SetValue($this->searchObjectByName("Aktueller Alarm"), $senderObj['ObjectID']);
 
                     $this->startAlarm();
                     
@@ -434,7 +441,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
-                $email = "Alarm ausgelöst! \n";
+                $email = "Alarm ausgelöst von" . IPS_GetName($this->searchObjectByName("Aktueller Alarm")) . "\n";
             
                 $email = $email . "Es wurde ein Alarm ausgelöst! aktueller Log: \n \n";
 
@@ -515,6 +522,8 @@ require(__DIR__ . "\\pimodule.php");
 
             } else {
 
+                SetValue($this->searchObjectByName("Aktueller Alarm"), "");
+
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
 
                 if (IPS_HasChildren($this->searchObjectByName("Targets Alarm"))) {
@@ -522,13 +531,6 @@ require(__DIR__ . "\\pimodule.php");
                     $this->setAllInLinkList($this->searchObjectByName("Targets Alarm"), false);
 
                 } 
-
-                if ($sendMailActivated) {
-
-                    //SMTP_SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
-                    $this->SendMail($sendEmailVal, "Alarm beendet", "Der Alarm wurde beendet");
-
-                }
 
                 if ($pushBenachrichtigung) {
 
