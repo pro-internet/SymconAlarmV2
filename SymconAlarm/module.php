@@ -604,7 +604,8 @@ require(__DIR__ . "\\pimodule.php");
 
             if (!$this->doesExist($this->searchObjectByName("Alarm onChange"))) {
 
-                $this->easyCreateOnChangeFunctionEvent("Alarm onChange", $this->searchObjectByName("Alarm"), "<?php " . $this->prefix . "_onAlarmChange(" . $this->InstanceID . ");", $this->InstanceID);
+                //$this->easyCreateOnChangeFunctionEvent("Alarm onChange", $this->searchObjectByName("Alarm"), "onAlarmChange(" . $this->InstanceID . ");", $this->InstanceID);
+                $this->createOnChangeEvents(array($this->searchObjectByName("Alarm") . "|onAlarmChange"));
 
             }
 
@@ -614,7 +615,8 @@ require(__DIR__ . "\\pimodule.php");
 
             if (!$this->doesExist($this->searchObjectByName("Überwachung onChange"))) {
 
-                $this->easyCreateOnChangeFunctionEvent("Überwachung onChange", $this->searchObjectByName("Überwachung"), "<?php " . $this->prefix . "_onUeberwachungChange(" . $this->InstanceID . ");", $this->InstanceID);
+                //$this->easyCreateOnChangeFunctionEvent("Überwachung onChange", $this->searchObjectByName("Überwachung"), "<?php " . $this->prefix . "_onUeberwachungChange(" . $this->InstanceID . ");", $this->InstanceID);
+                $this->createOnChangeEvents(array($this->searchObjectByName("Überwachung") . "|onUeberwachungChange"));
 
             }
 
