@@ -475,6 +475,8 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
+                $emailTitle = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+
                 $email = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
             
                 $email = $email . "Es wurde ein Alarm ausgelöst! aktueller Log: \n \n";
@@ -501,7 +503,7 @@ require(__DIR__ . "\\pimodule.php");
                 } else {
 
                     //SMTP_SendMail($emailInstance, "Alarm!", $email);
-                    $this->SendMail($emailInstance, "Alarm!", $email);
+                    $this->SendMail($emailInstance, $emailTitle, $email);
 
                 }
 
@@ -512,7 +514,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($pushInstance != null) {
 
-                    WFC_PushNotification ($pushInstance, "Alarm!", "Ein Alarm wurde ausgelöst", "alarm");
+                    WFC_PushNotification ($pushInstance, "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";, "Ein Alarm wurde ausgelöst", "alarm");
 
                 } else {
 
