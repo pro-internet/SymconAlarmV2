@@ -217,7 +217,7 @@ abstract class PISymconModule extends IPSModule {
 
     protected function initDetails () {
 
-        if ($this->Details) {
+        if ($this->Details && !$this->doesExist($this->searchObjectByName("Details"))) {
 
             //$name, $setProfile = false, $position = "", $index = 0, $defaultValue = null
 
