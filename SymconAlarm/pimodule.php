@@ -2571,7 +2571,7 @@ abstract class PISymconModule extends IPSModule {
 
                         $obj = IPS_GetObject($elem);
 
-                        if ($this->doesExist($this->searchObjectByName($obj['ObjectName'], $newFolder))) {
+                        if (!$this->doesExist($this->searchObjectByName($obj['ObjectName'], $newFolder))) {
 
                             if ($obj['ObjectType'] == $this->objectTypeByName("link")) {
 
