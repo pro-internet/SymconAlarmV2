@@ -63,6 +63,23 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
+        protected function onDetailsChangeHide () {
+
+            $prnt = IPS_GetParent($this->InstanceID);
+            
+            $this->deleteObject($this->searchObjectByName("Geräte Sensoren", $prnt));
+            $this->deleteObject($this->searchObjectByName("Geräte Alarm"));
+
+        }
+
+        protected function onDetailsChangeShow () {
+
+            $this->linkVar($this->searchObjectByName("Targets"), "Geräte Sensoren", null, 0, true);
+            $this->linkVar($this->searchObjectByName("Targets Alarm"), "Geräte Alarm", null, 0, true);
+
+        }
+
+
         public function CheckVariables () {
 
             // Variablen checken -und erstellen
