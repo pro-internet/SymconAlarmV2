@@ -36,7 +36,6 @@ require(__DIR__ . "\\pimodule.php");
             $this->checkOnUeberwachungChangeEvent();
 
             $this->checkTempFolder();
-
  
         }
  

@@ -219,6 +219,7 @@ abstract class PISymconModule extends IPSModule {
 
         if ($this->Details) {
 
+            echo "Details active";
             //$name, $setProfile = false, $position = "", $index = 0, $defaultValue = null
 
             $details = $this->checkBoolean("Details", true, $this->InstanceID, $this->detailsIndex, true);
