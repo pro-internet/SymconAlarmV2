@@ -95,7 +95,7 @@ require(__DIR__ . "\\pimodule.php");
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
 
             // Positionen setzen
-            $this->setPosition($clearLog, "last");
+            $this->setPosition($clearLog, 5);
             $this->hide($alarmActivated);
 
         }
