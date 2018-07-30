@@ -11,6 +11,7 @@
 		{ "type": "SelectMedia", "name":"Camera5", "caption": "Kamera 5"},
 		{ "type": "SelectMedia", "name":"Camera6", "caption": "Kamera 6"},
 		{ "type": "Label", "label": "Zusätzliche Funktionen" },
+		{ "type": "ValidationTextBox", "name": "OwnSubject", "caption": "Eigener Betreff" },
 		{ "type": "CheckBox", "name": "SavePictures", "caption": "Bilder speichern" },
 		{ "type": "Button", "label": "Targets updaten", "onClick": "PIALRMNW_refreshAll($id);" }
 	]

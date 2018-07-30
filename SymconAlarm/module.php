@@ -65,18 +65,24 @@ require(__DIR__ . "\\pimodule.php");
         protected function onDetailsChangeHide () {
 
             $prnt = IPS_GetParent($this->InstanceID);
+            $name = IPS_GetName($this->InstanceID);
             
-            $this->deleteObject($this->searchObjectByName("Geräte Sensoren", $prnt));
-            $this->deleteObject($this->searchObjectByName("Geräte Alarm", $prnt));
+            $this->deleteObject($this->searchObjectByName($name . " Geräte Sensoren", $prnt));
+            $this->deleteObject($this->searchObjectByName($name . " Geräte Alarm", $prnt));
 
         }
 
         protected function onDetailsChangeShow () {
 
+            $name = IPS_GetName($this->InstanceID);
             $prnt = IPS_GetParent($this->InstanceID);
 
-            $this->linkVar($this->searchObjectByName("Targets"), "Geräte Sensoren", $prnt, 0, true);
-            $this->linkVar($this->searchObjectByName("Targets Alarm"), "Geräte Alarm", $prnt, 0, true);
+            ##$this->linkVar($this->searchObjectByName("Targets"), "Geräte Sensoren", $prnt, 0, true);
+            ##$this->linkVar($this->searchObjectByName("Targets Alarm"), "Geräte Alarm", $prnt, 0, true);
+
+            //linkFolderMobile ($folder, $newFolderName, $parent = null, $index = null)
+            $this->linkFolderMobile($this->searchObjectByName("Targets"), $name . " Geräte Sensoren", $prnt);
+            $this->linkFolderMobile($this->searchObjectByName("Targets Alarm"), $name . " Geräte Alarm", $prnt);
 
         }
 
@@ -135,6 +141,7 @@ require(__DIR__ . "\\pimodule.php");
             $this->RegisterPropertyInteger("Camera5", null);
             $this->RegisterPropertyInteger("Camera6", null);
 
+            $this->RegisterPropertyString("OwnSubject", "");
 
             $this->RegisterPropertyInteger("NotificationInstance", null);
             $this->RegisterPropertyBoolean("PictureLog", false);
@@ -500,15 +507,23 @@ require(__DIR__ . "\\pimodule.php");
 
                 $emailInstance = $this->ReadPropertyInteger("EmailInstance");
 
+                $customSubject = $this->ReadPropertyString("OwnSubject");
+
                 if ($emailInstance == null) {
 
                     $this->addLogMessage("Verschicken der E-Mail fehlgeschlagen, keine Instanz gefunden!", "error");
 
                 }
 
-                $emailTitle = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+                $emailTitle = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
 
-                $email = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+                if ($customSubject != "") {
+
+                    $emailTitle = $customSubject;
+
+                }
+
+                $email = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
             
                 $email = $email . "Es wurde ein Alarm ausgelöst! aktueller Log: \n \n";
 
@@ -545,7 +560,17 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($pushInstance != null) {
 
-                    WFC_PushNotification ($pushInstance, "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n", "Ein Alarm wurde ausgelöst", "alarm");
+                    $customSubject = $this->ReadPropertyString("OwnSubject");
+
+                    $subJ = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
+
+                    if ($customSubject != "") {
+
+                        $subJ = $customSubject;
+
+                    }
+
+                    WFC_PushNotification ($pushInstance, $subJ . "\n", "Ein Alarm wurde ausgelöst", null, null);
 
                 } else {
 
@@ -603,7 +628,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     if ($pushInstance != null) {
 
-                        WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", "bell");
+                        WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", null, null);
     
                     } else {
     
@@ -1193,6 +1218,33 @@ require(__DIR__ . "\\pimodule.php");
                 }
 
             }
+
+        }
+
+        protected function getNameExtended ($id) {
+
+            $obj = IPS_GetObject($id);
+
+            if ($obj['ObjectType'] == $this->objectTypeByName("variable")) {
+
+                $prnt = IPS_GetParent($id);
+                $prnt = IPS_GetObject($prnt);
+
+                if ($prnt['ObjectType'] == $this->objectTypeByName("instance")) {
+
+                    $inst = IPS_GetInstance($prnt['ObjectID']);
+
+                    if ($inst['ModuleInfo']['ModuleName'] == "HomeMatic Device") {
+
+                        return $prnt['ObjectName'];
+
+                    }
+
+                }
+
+            }
+
+            return $obj['ObjectName'];
 
         }
 
