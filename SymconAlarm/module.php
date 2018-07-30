@@ -393,7 +393,7 @@ require(__DIR__ . "\\pimodule.php");
     
                         } else {
     
-                            $newVal = "FALSE"
+                            $newVal = "FALSE";
     
                         }
 
