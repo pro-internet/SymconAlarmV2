@@ -231,8 +231,6 @@ abstract class PISymconModule extends IPSModule {
 
             $this->createOnChangeEvents(array($details . "|onDetailsChange"), $events);
 
-            echo "--";
-
         }
 
     }
