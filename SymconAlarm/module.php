@@ -514,7 +514,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($pushInstance != null) {
 
-                    WFC_PushNotification ($pushInstance, "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";, "Ein Alarm wurde ausgelöst", "alarm");
+                    WFC_PushNotification ($pushInstance, "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n", "Ein Alarm wurde ausgelöst", "alarm");
 
                 } else {
 
