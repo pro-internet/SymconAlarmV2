@@ -383,7 +383,23 @@ require(__DIR__ . "\\pimodule.php");
 
                 } else {
 
-                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!", "regular");
+                    $newVal = GetValue($senderObj['ObjectID']);
+
+                    if (gettype($newVal) == "boolean") {
+
+                        if ($newVal) {
+
+                            $newVal = "TRUE";
+    
+                        } else {
+    
+                            $newVal = "FALSE"
+    
+                        }
+
+                    }
+
+                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!" . " (==> " . $newVal . ")", "regular");
 
                 }
 
