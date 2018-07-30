@@ -569,6 +569,33 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
+    protected function easyCreateRealOnChangeFunctionEvent ($onChangeEventName, $targetId, $function, $parent = null, $autoFunctionToText = true) {
+
+        if ($parent == null) {
+
+            $parent = $this->InstanceID;
+        }
+
+        if (!$this->doesExist($this->searchObjectByName($onChangeEventName, $parent))) {
+
+            $eid = IPS_CreateEvent(0);
+            IPS_SetEventTrigger($eid, 1, $targetId);
+            IPS_SetParent($eid, $parent);
+            if ($autoFunctionToText) {
+                IPS_SetEventScript($eid, "<?php " . $this->prefix . "_" . $function . "(" . $this->InstanceID . "); ?>");
+            } else {
+                IPS_SetEventScript($eid, $function);
+            }
+            IPS_SetName($eid, $onChangeEventName);
+            IPS_SetEventActive($eid, true);
+            IPS_SetIdent($eid, $this->nameToIdent($onChangeEventName));
+
+            return $eid;
+
+        }
+
+    }
+
     // Such Funktionen
 
     protected function searchObjectByName ($name, $searchIn = null, $objectType = null) {
@@ -2423,6 +2450,45 @@ abstract class PISymconModule extends IPSModule {
                             $newName = "onChange " . $newName;
 
                             $newEvents[] = $this->easyCreateOnChangeFunctionEvent($newName, $targetID, $function, $parent);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    protected function createRealOnChangeEvents ($ary, $parent = null) {
+
+        if ($parent == null) {
+            $parent = $this->InstanceID;
+        }
+
+        $newEvents = array();
+
+        if ($ary != null) {
+
+            if (count($ary) > 0) {
+
+                foreach ($ary as $funcString) {
+
+                    if (strpos($funcString, "|") !== false) {
+
+                        $funcAry = explode("|", $funcString);
+                        $targetID = intval($funcAry[0]);
+                        $function = $funcAry[1];
+
+                        if ($this->doesExist($targetID)) {
+
+                            $newName = IPS_GetName($targetID);
+                            $newName = "onChange " . $newName;
+
+                            $newEvents[] = $this->easyCreateRealOnChangeFunctionEvent($newName, $targetID, $function, $parent);
 
                         }
 
