@@ -73,8 +73,10 @@ require(__DIR__ . "\\pimodule.php");
 
         protected function onDetailsChangeShow () {
 
-            $this->linkVar($this->searchObjectByName("Targets"), "Geräte Sensoren", null, 0, true);
-            $this->linkVar($this->searchObjectByName("Targets Alarm"), "Geräte Alarm", null, 0, true);
+            $prnt = IPS_GetParent($this->InstanceID);
+
+            $this->linkVar($this->searchObjectByName("Targets"), "Geräte Sensoren", $prnt, 0, true);
+            $this->linkVar($this->searchObjectByName("Targets Alarm"), "Geräte Alarm", $prnt, 0, true);
 
         }
 
