@@ -2571,19 +2571,23 @@ abstract class PISymconModule extends IPSModule {
 
                         $obj = IPS_GetObject($elem);
 
-                        if ($obj['ObjectType'] == $this->objectTypeByName("link")) {
+                        if ($this->doesExist($this->searchObjectByName($obj['ObjectName'], $newFolder))) {
 
-                            $lnk = IPS_GetLink($obj['ObjectID']);
+                            if ($obj['ObjectType'] == $this->objectTypeByName("link")) {
 
-                            $link = IPS_CreateLink();
-                            IPS_SetName($link, $obj['ObjectName']);
-                            IPS_SetParent($link, $newFolder);
-                            IPS_SetIdent($link, $this->nameToIdent($ownName . $obj['ObjectName']));
-                            IPS_SetLinkTargetID($link, $lnk['TargetID']);
-
-                        } else {
-
-                            $this->linkVar($elem['ObjectID'], $elem['ObjectName'], $newFolder, 0, false);
+                                $lnk = IPS_GetLink($obj['ObjectID']);
+    
+                                $link = IPS_CreateLink();
+                                IPS_SetName($link, $obj['ObjectName']);
+                                IPS_SetParent($link, $newFolder);
+                                IPS_SetIdent($link, $this->nameToIdent($ownName . $obj['ObjectName']));
+                                IPS_SetLinkTargetID($link, $lnk['TargetID']);
+    
+                            } else {
+    
+                                $this->linkVar($elem['ObjectID'], $elem['ObjectName'], $newFolder, 0, false);
+    
+                            }
 
                         }
 
