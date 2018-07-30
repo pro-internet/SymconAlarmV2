@@ -445,9 +445,9 @@ require(__DIR__ . "\\pimodule.php");
             $camera1 = $this->ReadPropertyInteger("Camera1");
             $camera2 = $this->ReadPropertyInteger("Camera2");
             $camera3 = $this->ReadPropertyInteger("Camera3");
-            $camera1 = $this->ReadPropertyInteger("Camera4");
-            $camera2 = $this->ReadPropertyInteger("Camera5");
-            $camera3 = $this->ReadPropertyInteger("Camera6");
+            $camera4 = $this->ReadPropertyInteger("Camera4");
+            $camera5 = $this->ReadPropertyInteger("Camera5");
+            $camera6 = $this->ReadPropertyInteger("Camera6");
 
             $this->updateIfImageGrabber($camera1);
             $this->updateIfImageGrabber($camera2);
