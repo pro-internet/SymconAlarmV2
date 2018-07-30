@@ -5,6 +5,8 @@ require(__DIR__ . "\\pimodule.php");
     // Klassendefinition
     class SymconAlarmV2 extends PISymconModule {
 
+        public $details = true;
+
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
         public function __construct($InstanceID) {
@@ -46,6 +48,18 @@ require(__DIR__ . "\\pimodule.php");
             $this->refreshTargets();
 
             $this->deleteUnusedEvents();
+
+        }
+
+        protected function setExcludedHide () {
+
+            return array($this->searchObjectByName("Überwachung"), $this->searchObjectByName("Alarm"), $this->searchObjectByName("E-Mail Benachrichtigung"), $this->searchObjectByName("Push Benachrichtigung"), $this->searchObjectByName("Historie"), $this->searchObjectByName("Historie Löschen"));
+
+        }
+
+        protected function setExcludedShow () {
+
+            return array("script", "instance", $this->searchObjectByName("Aktueller Alarm"));
 
         }
 
