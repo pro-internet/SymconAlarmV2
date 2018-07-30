@@ -67,7 +67,7 @@ require(__DIR__ . "\\pimodule.php");
             $prnt = IPS_GetParent($this->InstanceID);
             
             $this->deleteObject($this->searchObjectByName("Geräte Sensoren", $prnt));
-            $this->deleteObject($this->searchObjectByName("Geräte Alarm"));
+            $this->deleteObject($this->searchObjectByName("Geräte Alarm", $prnt));
 
         }
 
