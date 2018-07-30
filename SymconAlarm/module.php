@@ -5,7 +5,7 @@ require(__DIR__ . "\\pimodule.php");
     // Klassendefinition
     class SymconAlarmV2 extends PISymconModule {
 
-        public $details = true;
+        public $Details = true;
 
         // Der Konstruktor des Moduls
         // Überschreibt den Standard Kontruktor von IPS
