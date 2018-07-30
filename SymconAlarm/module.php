@@ -141,6 +141,7 @@ require(__DIR__ . "\\pimodule.php");
             $this->RegisterPropertyInteger("Camera5", null);
             $this->RegisterPropertyInteger("Camera6", null);
 
+            $this->RegisterPropertyString("OwnSubject", "");
 
             $this->RegisterPropertyInteger("NotificationInstance", null);
             $this->RegisterPropertyBoolean("PictureLog", false);
@@ -506,6 +507,8 @@ require(__DIR__ . "\\pimodule.php");
 
                 $emailInstance = $this->ReadPropertyInteger("EmailInstance");
 
+                $customSubject = $this->ReadPropertyString("OwnSubject");
+
                 if ($emailInstance == null) {
 
                     $this->addLogMessage("Verschicken der E-Mail fehlgeschlagen, keine Instanz gefunden!", "error");
@@ -513,6 +516,12 @@ require(__DIR__ . "\\pimodule.php");
                 }
 
                 $emailTitle = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+
+                if ($customSubject != "") {
+
+                    $emailTitle = $customSubject;
+
+                }
 
                 $email = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
             
