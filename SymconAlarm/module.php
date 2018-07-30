@@ -515,7 +515,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
-                $emailTitle = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+                $emailTitle = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
 
                 if ($customSubject != "") {
 
@@ -523,7 +523,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
-                $email = "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+                $email = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
             
                 $email = $email . "Es wurde ein Alarm ausgelöst! aktueller Log: \n \n";
 
@@ -1208,6 +1208,33 @@ require(__DIR__ . "\\pimodule.php");
                 }
 
             }
+
+        }
+
+        protected function getNameExtended ($id) {
+
+            $obj = IPS_GetObject($id);
+
+            if ($obj['ObjectType'] == $this->objectTypeByName("variable")) {
+
+                $prnt = IPS_GetParent($id);
+                $prnt = IPS_GetObject($prnt);
+
+                if ($prnt['ObjectType'] == $this->objectTypeByName("instance")) {
+
+                    $inst = IPS_GetInstance($prnt['ObjectID']);
+
+                    if ($inst['ModuleInfo']['ModuleName'] == "HomeMatic Device") {
+
+                        return $prnt['ObjectName'];
+
+                    }
+
+                }
+
+            }
+
+            return $obj['ObjectName'];
 
         }
 
