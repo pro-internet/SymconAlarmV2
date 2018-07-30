@@ -2533,6 +2533,92 @@ abstract class PISymconModule extends IPSModule {
 
     }
 
+    protected function linkFolderMobile ($folder, $newFolderName, $parent = null, $index = null) {
+
+        if ($parent == null) {
+
+            $parent = $this->InstanceID;
+
+        }
+
+        if ($index == null) {
+
+            $index = "|AFTER|" . $this->InstanceID;
+
+        }
+
+        if ($this->doesExist($folder)) {
+
+            $newFolder = $this->checkFolder($newFolderName, $parent, $index);
+            $this->show($newFolder);
+
+            if (IPS_HasChildren($folder)) {
+
+                if ($this->doesExist($this->searchObjectByName($newFolderName, $parent))) {
+
+                    //$newFolder = $this->checkFolder($newFolderName, $parent, $index);
+
+                    $ownName = IPS_GetName($this->InstanceID);
+
+                    // $this->show($newFolder);
+
+                    $folder = IPS_GetObject($folder);
+
+                    foreach ($folder['ChildrenIDs'] as $elem) {
+
+                        //($target, $linkName = "Unnamed Link", $parent = null, $linkPosition = 0, $ident = false)
+
+                        $obj = IPS_GetObject($elem);
+
+                        if ($obj['ObjectType'] == $this->objectTypeByName("link")) {
+
+                            $lnk = IPS_GetLink($obj['ObjectID']);
+
+                            $link = IPS_CreateLink();
+                            IPS_SetName($link, $obj['ObjectName']);
+                            IPS_SetParent($link, $newFolder);
+                            IPS_SetIdent($link, $this->nameToIdent($ownName . $obj['ObjectName']));
+                            IPS_SetLinkTargetID($link, $lnk['TargetID']);
+
+                        } else {
+
+                            $this->linkVar($elem['ObjectID'], $elem['ObjectName'], $newFolder, 0, false);
+
+                        }
+
+                    }
+
+                }
+
+            } else {
+
+                //echo "linkFolderMobile: No Children";
+
+            }            
+
+        } else {
+
+            //echo "linkFolderMobile: Folder does not exist!";
+        }
+
+
+    }
+
+    protected function getOwnName () {
+
+        $iObj = IPS_GetObject($this->InstanceID);
+
+        if ($iObj['ObjectIdent'] == null){
+
+            IPS_SetIdent($this->InstanceID, $this->prefix . $iObj['ObjectName'] . $this->InstanceID);
+
+        } else {
+
+            return $iObj['ObjectIdent'];
+
+        }
+
+    }
 
 }
 

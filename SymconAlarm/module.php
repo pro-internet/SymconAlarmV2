@@ -65,18 +65,24 @@ require(__DIR__ . "\\pimodule.php");
         protected function onDetailsChangeHide () {
 
             $prnt = IPS_GetParent($this->InstanceID);
+            $name = IPS_GetName($this->InstanceID);
             
-            $this->deleteObject($this->searchObjectByName("Geräte Sensoren", $prnt));
-            $this->deleteObject($this->searchObjectByName("Geräte Alarm", $prnt));
+            $this->deleteObject($this->searchObjectByName($name . " Geräte Sensoren", $prnt));
+            $this->deleteObject($this->searchObjectByName($name . " Geräte Alarm", $prnt));
 
         }
 
         protected function onDetailsChangeShow () {
 
+            $name = IPS_GetName($this->InstanceID);
             $prnt = IPS_GetParent($this->InstanceID);
 
-            $this->linkVar($this->searchObjectByName("Targets"), "Geräte Sensoren", $prnt, 0, true);
-            $this->linkVar($this->searchObjectByName("Targets Alarm"), "Geräte Alarm", $prnt, 0, true);
+            ##$this->linkVar($this->searchObjectByName("Targets"), "Geräte Sensoren", $prnt, 0, true);
+            ##$this->linkVar($this->searchObjectByName("Targets Alarm"), "Geräte Alarm", $prnt, 0, true);
+
+            //linkFolderMobile ($folder, $newFolderName, $parent = null, $index = null)
+            $this->linkFolderMobile($this->searchObjectByName("Targets"), $name . " Geräte Sensoren", $prnt);
+            $this->linkFolderMobile($this->searchObjectByName("Targets Alarm"), $name . " Geräte Alarm", $prnt);
 
         }
 
