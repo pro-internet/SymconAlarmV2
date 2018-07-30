@@ -274,7 +274,6 @@ require(__DIR__ . "\\pimodule.php");
 
                     if (!$eventExists) {
 
-                        //$this->easyCreateOnChangeFunctionEvent($tgObjName . " " . $child['TargetID'] . " onChange Event", $link, $this->prefix . "_onTargetChange(" . $this->InstanceID . "," . $link . ");", $eventsFolder['ObjectID']);
                         $this->createRealOnChangeEvents(array($child['TargetID'] . "|onTargetChange"), $this->searchObjectByName("Events"));
 
                     }
@@ -300,7 +299,7 @@ require(__DIR__ . "\\pimodule.php");
             $ueberwachung = $this->searchObjectByName("Überwachung");
 
             $alarmVal = GetValue($alarm);
-            $ueberwachungVal = $this->searchObjectByName($ueberwachung);
+            $ueberwachungVal = GetValue($ueberwachung);
 
             if (!$ueberwachungVal && $alarmVal) {
 
