@@ -97,7 +97,7 @@ abstract class PISymconModule extends IPSModule {
 
         $this->CheckScripts();
 
-        $this->initDetails();
+        //$this->initDetails();
 
     }
 
@@ -228,7 +228,7 @@ abstract class PISymconModule extends IPSModule {
 
             $this->setIcon($details, "Gear");
             $this->hide($events);
-            echo "--";
+
             $this->createOnChangeEvents(array($details . "|onDetailsChange"), $events);
 
         }
