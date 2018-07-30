@@ -570,7 +570,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     }
 
-                    WFC_PushNotification ($pushInstance, $subJ . "\n", "Ein Alarm wurde ausgelöst", "alarm");
+                    WFC_PushNotification ($pushInstance, $subJ . "\n", "Ein Alarm wurde ausgelöst", null, null);
 
                 } else {
 
@@ -628,7 +628,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     if ($pushInstance != null) {
 
-                        WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", "bell");
+                        WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", null, null);
     
                     } else {
     
