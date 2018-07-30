@@ -1094,71 +1094,70 @@ require(__DIR__ . "\\pimodule.php");
         }
 
         // SymconMultiMail Support 
-    protected function SendMail ($instID, $betreff, $text) {
+        protected function SendMail ($instID, $betreff, $text) {
 
-        $obj = IPS_GetObject($instID);
+            $obj = IPS_GetObject($instID);
 
-        if ($obj["ObjectType"] == 1) {
+            if ($obj["ObjectType"] == 1) {
 
-            $obj = IPS_GetInstance($obj['ObjectID']);
+                $obj = IPS_GetInstance($obj['ObjectID']);
 
-            // Normale SMTP Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
+                // Normale SMTP Instanz
+                if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
 
-                SMTP_SendMail($instID, $betreff, $text);
+                    SMTP_SendMail($instID, $betreff, $text);
 
-            }
+                }
 
-            // SymconMultiMail Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
+                // SymconMultiMail Instanz
+                if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
 
-                MultiMail_SendMail($instID, $betreff, $text);
+                    MultiMail_SendMail($instID, $betreff, $text);
+
+                }
 
             }
 
         }
 
-    }
+        protected function addTimestamp (&$newImage) {
 
-    protected function addTimestamp (&$newImage) {
-
-        $schwarz = ImageColorAllocate ($newImage, 255,255,255);
-        $gross = "5";        // Schriftgröße 
-        //$gross = "7";        // Schriftgröße 
-        $randl = "3";        // Ausrichtung von Links 
-        $rando = imagesy($newImage) - 25;        // Ausrichtung von Obén 
-        $t1 = "prointernet Alarm|" . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
-        $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
+            $schwarz = ImageColorAllocate ($newImage, 255,255,255);
+            $gross = "5";        // Schriftgröße 
+            //$gross = "7";        // Schriftgröße 
+            $randl = "3";        // Ausrichtung von Links 
+            $rando = imagesy($newImage) - 25;        // Ausrichtung von Obén 
+            $t1 = "prointernet Alarm|" . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
+            $t1 = "prointernet Alarm | " . date("Y-m-d H:i:s");            // Text der Angezeigt werden soll 
         
-        ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
-    }
+            ImageString ($newImage, $gross, $randl, $rando, "$t1", $schwarz); 
+        }
 
-    protected function SendMailAttachment ($instID, $betreff, $text, $attachment) {
+        protected function SendMailAttachment ($instID, $betreff, $text, $attachment) {
 
-        $obj = IPS_GetObject($instID);
+            $obj = IPS_GetObject($instID);
 
+            if ($obj["ObjectType"] == 1) {
 
-        if ($obj["ObjectType"] == 1) {
+                $obj = IPS_GetInstance($obj['ObjectID']);
 
-            $obj = IPS_GetInstance($obj['ObjectID']);
+                // Normale SMTP Instanz
+                if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
 
-            // Normale SMTP Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SMTP") {
+                    SMTP_SendMailAttachment($instID, $betreff, $text, $attachment);
 
-                SMTP_SendMailAttachment($instID, $betreff, $text, $attachment);
+                }
 
-            }
+                // SymconMultiMail Instanz
+                if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
 
-            // SymconMultiMail Instanz
-            if ($obj['ModuleInfo']['ModuleName'] == "SymconMultiMail") {
+                    MultiMail_SendMailAttachment($instID, $betreff, $text, $attachment);
 
-                MultiMail_SendMailAttachment($instID, $betreff, $text, $attachment);
+                }
 
             }
 
         }
-
-    }
 
     }
 
