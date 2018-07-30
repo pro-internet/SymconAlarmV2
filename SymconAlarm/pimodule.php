@@ -10,10 +10,8 @@ abstract class PISymconModule extends IPSModule {
     public $instanceName = null;
     public $parentID = null;
     public $form;
-
     public $Details = false;
     public $detailsVar = 0;
-    public $detailsIndex = "last";
     public $detailsExclude = null;
 
 
@@ -97,7 +95,7 @@ abstract class PISymconModule extends IPSModule {
 
         $this->CheckScripts();
 
-        //$this->initDetails();
+        $this->initDetails();
 
     }
 
@@ -220,15 +218,11 @@ abstract class PISymconModule extends IPSModule {
         if ($this->Details) {
 
             //$name, $setProfile = false, $position = "", $index = 0, $defaultValue = null
-
-            $details = $this->checkBoolean("Details", true, $this->InstanceID, $this->detailsIndex, true);
+            $details = $this->checkBoolean("Details", true, $this->InstanceID, "last", true);
             $events = $this->checkFolder("Events");
-
-            $this->activateVariableLogging($details);
 
             $this->setIcon($details, "Gear");
             $this->hide($events);
-
             $this->createOnChangeEvents(array($details . "|onDetailsChange"), $events);
 
         }
@@ -378,6 +372,38 @@ abstract class PISymconModule extends IPSModule {
 
         }
 
+    }
+
+    protected function getProfileAssociations ($profileName) {
+        if (IPS_VariableProfileExists($profileName)) {
+            $prof = IPS_GetVariableProfile($profileName);
+            if ($prof['Associations'] != null) {
+                
+                if (count($prof['Associations']) > 0) {
+                    return $prof['Associations'];
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    protected function eventGetTriggerVariable ($id) {
+        if ($this->doesExist($id)) {
+            if ($this->isEvent($id)) {
+                $obj = IPS_GetEvent($id);
+                
+                return $obj['TriggerVariableID'];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     protected function secondsToTimestamp($sek) {
@@ -1397,7 +1423,7 @@ abstract class PISymconModule extends IPSModule {
 
                 $vr = IPS_GetVariable($id);
                 
-                if ($vr['VariableCustomProfile'] != $profile) {
+                if ($vr['VariableProfile'] != $profile) {
 
                     IPS_SetVariableCustomProfile($id, $profile);
 
@@ -2043,6 +2069,19 @@ abstract class PISymconModule extends IPSModule {
         
     }
     
+    protected function getVariableProfileByVariable ($id) {
+        if ($id != 0 && $id != null) {
+            if ($this->isVariable($id)) {
+                $var = IPS_GetVariable($id);
+                return $var['VariableCustomProfile'];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
     protected function getElementAfterInArray ($search, $array) {
 
         $elementFound = false;

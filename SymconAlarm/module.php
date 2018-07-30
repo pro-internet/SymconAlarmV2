@@ -245,7 +245,7 @@ require(__DIR__ . "\\pimodule.php");
             foreach ($targetsFolder['ChildrenIDs'] as $chld) {
 
                 $child = IPS_GetObject($chld);
-
+ 
                 if ($child['ObjectType'] == 6) {
 
                     $child = IPS_GetLink($child['ObjectID']);
