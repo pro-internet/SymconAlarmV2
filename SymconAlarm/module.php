@@ -560,7 +560,17 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($pushInstance != null) {
 
-                    WFC_PushNotification ($pushInstance, "Alarm ausgelöst von " . IPS_GetName(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n", "Ein Alarm wurde ausgelöst", "alarm");
+                    $customSubject = $this->ReadPropertyString("OwnSubject");
+
+                    $subJ = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
+
+                    if ($customSubject != "") {
+
+                        $subJ = $customSubject;
+
+                    }
+
+                    WFC_PushNotification ($pushInstance, $subJ . "\n", "Ein Alarm wurde ausgelöst", "alarm");
 
                 } else {
 
