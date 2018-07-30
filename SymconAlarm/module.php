@@ -656,7 +656,11 @@ require(__DIR__ . "\\pimodule.php");
 
                         if (!$found) {
 
-                            IPS_DeleteEvent($event['EventID']);
+                            if ($event['EventName'] != "onChange Details") {
+
+                                IPS_DeleteEvent($event['EventID']);
+
+                            }
 
                         }
 
