@@ -406,7 +406,9 @@ require(__DIR__ . "\\pimodule.php");
 
                     }
 
-                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!" . " (==> " . $newVal . ")", "regular");
+                    $newName = $this->getNameExtended($senderObj['ObjectID']);
+
+                    $this->addLogMessage($newName . " hat seinen Zustand verändert!" . " (==> " . $newVal . ")", "regular");
 
                 }
 
