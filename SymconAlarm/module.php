@@ -375,7 +375,9 @@ require(__DIR__ . "\\pimodule.php");
 
                     }
                     
-                    $this->addLogMessage(" ALARM ausgelöst von " . $senderObj['ObjectName'] . "!", "alarm");
+                    $newName = $this->getNameExtended($senderObj['ObjectID']);
+
+                    $this->addLogMessage(" ALARM ausgelöst von " . $newName . "!", "alarm");
 
                     SetValue($this->searchObjectByName("Aktueller Alarm"), $senderObj['ObjectID']);
 
@@ -432,7 +434,13 @@ require(__DIR__ . "\\pimodule.php");
 
                     }
 
-                    $this->addLogMessage($senderObj['ObjectName'] . " hat seinen Zustand verändert!" . " (==> " . $newVal . ")", "regular");
+                    $newName = $this->getNameExtended($senderObj['ObjectID']);
+
+                    if ($newVal !== "FALSE") {
+
+                        $this->addLogMessage($newName . " hat seinen Zustand verändert!" . " (==> " . $newVal . ")", "regular");
+
+                    }
 
                 }
 
