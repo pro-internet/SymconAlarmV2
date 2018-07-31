@@ -13,6 +13,6 @@
 		{ "type": "Label", "label": "Zusätzliche Funktionen" },
 		{ "type": "ValidationTextBox", "name": "OwnSubject", "caption": "Eigener Betreff" },
 		{ "type": "CheckBox", "name": "SavePictures", "caption": "Bilder speichern" },
-		{ "type": "Button", "label": "Targets updaten", "onClick": "PIALRMNW_refreshAll($id);" }
+		{ "type": "Button", "label": "Targets updaten", "onClick": "PIAlarm_refreshAll($id);" }
 	]
   }
