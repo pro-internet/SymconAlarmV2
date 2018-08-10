@@ -427,7 +427,7 @@ require(__DIR__ . "\\pimodule.php");
                     $newName = $this->getNameExtended($senderObj['ObjectID']);
                     $newVal = GetValue($senderObj['ObjectID']);
 
-                    if ($newVal !== "FALSE") {
+                    if ($newVal == true) {
 
                         $this->addLogMessage($newName . " ausgelöst", "regular");
 
@@ -516,7 +516,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
-                $emailTitle = "Alarm " . IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+                $emailTitle = IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
 
                 if ($customSubject != "") {
 
