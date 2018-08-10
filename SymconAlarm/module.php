@@ -170,11 +170,11 @@ require(__DIR__ . "\\pimodule.php");
                 $acutalContent = GetValue($this->searchObjectByName("Historie"));
                 $alarmAktiv = GetValue($this->searchObjectByName("Alarm"));
                 $timestamp = time();
-                $datum = date("d.m.Y - H:i", $timestamp);
+                $datum = date("d.m.y - H:i", $timestamp);
 
                 $noBr = false;
 
-                $rmessage = "[" . $datum . "]: " . $message;
+                $rmessage = $datum . ": " . $message;
 
                 if ($type == "error") {
 
@@ -196,29 +196,29 @@ require(__DIR__ . "\\pimodule.php");
 
                 } else if ($type == "picture") {
 
-                    $pic = file_get_contents($message);
+                    // $pic = file_get_contents($message);
 
-                    $pic = base64_encode($pic);
+                    // $pic = base64_encode($pic);
 
-                    if (strpos($acutalContent, "<img") !== false) {
+                    // if (strpos($acutalContent, "<img") !== false) {
 
-                        $acutalContentNoImg = explode("<img", $acutalContent);
+                    //     $acutalContentNoImg = explode("<img", $acutalContent);
 
-                        $actualContentNoImgEnding = explode("class='none'>", $acutalContent);
+                    //     $actualContentNoImgEnding = explode("class='none'>", $acutalContent);
 
-                        $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
+                    //     $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
 
-                        $acutalContent = $acutalContentNoImg[0] . $rmessage . $actualContentNoImgEnding[1];
+                    //     $acutalContent = $acutalContentNoImg[0] . $rmessage . $actualContentNoImgEnding[1];
 
-                        $rmessage = "";
+                    //     $rmessage = "";
 
-                        $noBr = true;
+                    //     $noBr = true;
 
-                    } else {
+                    // } else {
 
-                        $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
+                    //     $rmessage = "<img style='max-width: 20%;' src='data:image/jpg;base64," . $pic ."' class='none'>";
 
-                    }
+                    // }
 
                 } else if ($type = "endAlarm") {
 
@@ -377,7 +377,7 @@ require(__DIR__ . "\\pimodule.php");
                     
                     $newName = $this->getNameExtended($senderObj['ObjectID']);
 
-                    $this->addLogMessage(" ALARM ausgelöst von " . $newName . "!", "alarm");
+                    $this->addLogMessage( $newName . " Alarm ausgelöst", "alarm");
 
                     SetValue($this->searchObjectByName("Aktueller Alarm"), $senderObj['ObjectID']);
 
@@ -410,7 +410,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     $newName = $this->getNameExtended($senderObj['ObjectID']);
 
-                    $this->addLogMessage($newName . " hat seinen Zustand verändert!" . " (==> " . $newVal . ")", "regular");
+                    $this->addLogMessage($newName . " ausgelöst", "regular");
 
                 }
 
@@ -418,27 +418,11 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($alarmVal) {
 
-                    $newVal = GetValue($senderObj['ObjectID']);
-
-                    if (gettype($newVal) == "boolean") {
-
-                        if ($newVal) {
-
-                            $newVal = "TRUE";
-    
-                        } else {
-    
-                            $newVal = "FALSE";
-    
-                        }
-
-                    }
-
                     $newName = $this->getNameExtended($senderObj['ObjectID']);
 
                     if ($newVal !== "FALSE") {
 
-                        $this->addLogMessage($newName . " hat seinen Zustand verändert!" . " (==> " . $newVal . ")", "regular");
+                        $this->addLogMessage($newName . " ausgelöst", "regular");
 
                     }
 
@@ -638,7 +622,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     if ($pushInstance != null) {
 
-                        WFC_PushNotification ($pushInstance, "Alarm beendet", "Der Alarm wurde beendet", null, null);
+                        WFC_PushNotification ($pushInstance, "Alarm beendet", "Alarm beendet", null, null);
     
                     } else {
     
@@ -648,7 +632,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
-                $this->addLogMessage("Der Alarm wurde beendet", "endAlarm");
+                $this->addLogMessage("Alarm beendet", "endAlarm");
 
             }
 
