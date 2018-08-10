@@ -425,6 +425,7 @@ require(__DIR__ . "\\pimodule.php");
                 if ($alarmVal) {
 
                     $newName = $this->getNameExtended($senderObj['ObjectID']);
+                    $newVal = GetValue($senderObj['ObjectID']);
 
                     if ($newVal !== "FALSE") {
 

@@ -218,7 +218,7 @@ abstract class PISymconModule extends IPSModule {
         if ($this->Details) {
 
             //$name, $setProfile = false, $position = "", $index = 0, $defaultValue = null
-            $details = $this->checkBoolean("Einstellungen", true, $this->InstanceID, "last", true);
+            $details = $this->checkBoolean("Einstellungen", true, $this->InstanceID, "last", false);
             $events = $this->checkFolder("Events");
 
             $this->setIcon($details, "Gear");
