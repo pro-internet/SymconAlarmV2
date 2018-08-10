@@ -52,7 +52,7 @@ require(__DIR__ . "\\pimodule.php");
 
         protected function setExcludedHide () {
 
-            return array($this->searchObjectByName("Details"), $this->searchObjectByName("Überwachung"), $this->searchObjectByName("Alarm"), $this->searchObjectByName("E-Mail Benachrichtigung"), $this->searchObjectByName("Push Benachrichtigung"), $this->searchObjectByName("Historie"), $this->searchObjectByName("Historie Löschen"));
+            return array($this->searchObjectByName("Einstellungen"), $this->searchObjectByName("Überwachung"), $this->searchObjectByName("Alarm"), $this->searchObjectByName("E-Mail Benachrichtigung"), $this->searchObjectByName("Push Benachrichtigung"), $this->searchObjectByName("Historie"), $this->searchObjectByName("Historie Löschen"));
 
         }
 
@@ -511,7 +511,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($emailInstance == null) {
 
-                    $this->addLogMessage("Verschicken der E-Mail fehlgeschlagen, keine Instanz gefunden!", "error");
+                    $this->addLogMessage("Verschicken der E-Mail fehlgeschlagen, keine Instanz gefunden!", "warning");
 
                 }
 
