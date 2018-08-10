@@ -535,7 +535,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 $email = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
             
-                $email = $email . "Es wurde ein Alarm ausgelöst! aktueller Log: \n \n";
+                $email = $email . "Es wurde ein Alarm ausgelöst! Aktueller Log: \n \n";
 
                 $email = $email . $this->getFormattedLog();
 
