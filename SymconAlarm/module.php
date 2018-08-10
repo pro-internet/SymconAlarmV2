@@ -410,7 +410,13 @@ require(__DIR__ . "\\pimodule.php");
 
                     $newName = $this->getNameExtended($senderObj['ObjectID']);
 
-                    $this->addLogMessage($newName . " ausgelöst", "regular");
+                    $vval = GetValue($senderObj['ObjectID']);
+
+                    if ($vval == true) {
+
+                        $this->addLogMessage($newName . " ausgelöst", "regular");
+
+                    }
 
                 }
 
