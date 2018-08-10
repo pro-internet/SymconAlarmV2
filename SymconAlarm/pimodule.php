@@ -223,7 +223,7 @@ abstract class PISymconModule extends IPSModule {
 
             $this->setIcon($details, "Gear");
             $this->hide($events);
-            $this->createRealOnChangeEvents(array($details . "|onDetailsChange"), $events);
+            $this->createRealOnChangeEvents(array($details . "|onDetailsChange"), $this->InstanceID);
 
         }
 
