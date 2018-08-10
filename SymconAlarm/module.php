@@ -509,7 +509,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 }
 
-                $emailTitle = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
+                $emailTitle = "Alarm " . IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
 
                 if ($customSubject != "") {
 
@@ -556,7 +556,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     $customSubject = $this->ReadPropertyString("OwnSubject");
 
-                    $subJ = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
+                    $subJ = "Alarm " . IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
 
                     if ($customSubject != "") {
 
