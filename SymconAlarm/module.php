@@ -588,7 +588,7 @@ require(__DIR__ . "\\pimodule.php");
 
                     }
 
-                    WFC_PushNotification ($pushInstance, $subJ, $pushText, null, null);
+                    WFC_PushNotification ($pushInstance, $subJ, $pushText, null, $this->InstanceID);
 
                 } else {
 
