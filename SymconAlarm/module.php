@@ -141,7 +141,7 @@ require(__DIR__ . "\\pimodule.php");
             $this->RegisterPropertyInteger("Camera5", null);
             $this->RegisterPropertyInteger("Camera6", null);
 
-            $this->RegisterPropertyString("OwnSubject", "");
+            //$this->RegisterPropertyString("OwnSubject", "");
 
             $this->RegisterPropertyInteger("NotificationInstance", null);
             $this->RegisterPropertyBoolean("PictureLog", false);
@@ -508,7 +508,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 $emailInstance = $this->ReadPropertyInteger("EmailInstance");
 
-                $customSubject = $this->ReadPropertyString("OwnSubject");
+                // $customSubject = $this->ReadPropertyString("OwnSubject");
 
                 if ($emailInstance == null) {
 
@@ -518,11 +518,11 @@ require(__DIR__ . "\\pimodule.php");
 
                 $emailTitle = IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
 
-                if ($customSubject != "") {
+                // if ($customSubject != "") {
 
-                    $emailTitle = $customSubject;
+                //     $emailTitle = $customSubject;
 
-                }
+                // }
 
                 $email = "Alarm ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm"))) . "\n";
             
@@ -561,7 +561,7 @@ require(__DIR__ . "\\pimodule.php");
 
                 if ($pushInstance != null) {
 
-                    $customSubject = $this->ReadPropertyString("OwnSubject");
+                    //$customSubject = $this->ReadPropertyString("OwnSubject");
 
                     $subJ = IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
 
@@ -582,11 +582,11 @@ require(__DIR__ . "\\pimodule.php");
 
                     } 
 
-                    if ($customSubject != "") {
+                    // if ($customSubject != "") {
 
-                        $subJ = $customSubject;
+                    //     $subJ = $customSubject;
 
-                    }
+                    // }
 
                     WFC_PushNotification ($pushInstance, $subJ, $pushText, null, $this->InstanceID);
 
