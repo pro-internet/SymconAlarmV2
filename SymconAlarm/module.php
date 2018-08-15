@@ -565,12 +565,12 @@ require(__DIR__ . "\\pimodule.php");
 
                     $subJ = IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
 
-                    if(strlen($subJ) > 34) {
+                    if(strlen($subJ) >= 32) {
 
                         $subJ = IPS_GetName($this->InstanceID) . " ausgelöst";
                         $pushText = IPS_GetName($this->InstanceID) . " ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
 
-                        if (strlen($subJ) > 34) {
+                        if (strlen($subJ) >= 32) {
 
                             $subJ = "Alarm ausgelöst";
 
