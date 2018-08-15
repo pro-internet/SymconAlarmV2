@@ -565,13 +565,30 @@ require(__DIR__ . "\\pimodule.php");
 
                     $subJ = IPS_GetName($this->InstanceID) ." ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
 
+                    if(strlen($subJ) > 34) {
+
+                        $subJ = IPS_GetName($this->InstanceID) . " ausgelöst";
+                        $pushText = IPS_GetName($this->InstanceID) . " ausgelöst von " . $this->getNameExtended(GetValue($this->searchObjectByName("Aktueller Alarm")));
+
+                        if (strlen($subJ) > 34) {
+
+                            $subJ = "Alarm ausgelöst";
+
+                        }
+
+                    } else {
+
+                        $pushText = "";
+
+                    } 
+
                     if ($customSubject != "") {
 
                         $subJ = $customSubject;
 
                     }
 
-                    WFC_PushNotification ($pushInstance, $subJ, IPS_GetName($this->InstanceID) . " wurde ausgelöst", null, null);
+                    WFC_PushNotification ($pushInstance, $subJ, $pushText, null, null);
 
                 } else {
 
