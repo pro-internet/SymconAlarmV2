@@ -1087,14 +1087,16 @@ require(__DIR__ . "\\pimodule.php");
 
         protected function checkTempFolder () {
 
-            if (!file_exists("C:\\IP-Symcon\\ModuleData")){
+            $laufwerk = substr(__DIR__, 0, 3);
 
-                mkdir("C:\\IP-Symcon\\ModuleData");
-                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
+            if (!file_exists($laufwerk . "IP-Symcon\\ModuleData")){
 
-            } else if (!file_exists("C:\\IP-Symcon\\ModuleData\\AlarmV2")) {
+                mkdir($laufwerk . "IP-Symcon\\ModuleData");
+                mkdir($laufwerk . "IP-Symcon\\ModuleData\\AlarmV2");
 
-                mkdir("C:\\IP-Symcon\\ModuleData\\AlarmV2");
+            } else if (!file_exists($laufwerk . "IP-Symcon\\ModuleData\\AlarmV2")) {
+
+                mkdir($laufwerk . "IP-Symcon\\ModuleData\\AlarmV2");
 
             }
 
