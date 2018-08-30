@@ -50,6 +50,64 @@ require(__DIR__ . "\\pimodule.php");
 
         }
 
+        public function getConfigurationForm () {
+
+            return "{
+                \"elements\":
+                [
+                    { \"type\": \"SelectInstance\", \"name\":\"EmailInstance\", \"caption\": \"SMTP Instanz\"},
+                    ". $this->buildNotificationSelector() . ",
+                    { \"type\": \"ValidationTextBox\", \"name\": \"Interval\", \"caption\": \"Invervall (in Sek)\" },
+                    { \"type\": \"SelectMedia\", \"name\":\"Camera1\", \"caption\": \"Kamera 1\"},
+                    { \"type\": \"SelectMedia\", \"name\":\"Camera2\", \"caption\": \"Kamera 2\"},
+                    { \"type\": \"SelectMedia\", \"name\":\"Camera3\", \"caption\": \"Kamera 3\"},
+                    { \"type\": \"SelectMedia\", \"name\":\"Camera4\", \"caption\": \"Kamera 4\"},
+                    { \"type\": \"SelectMedia\", \"name\":\"Camera5\", \"caption\": \"Kamera 5\"},
+                    { \"type\": \"SelectMedia\", \"name\":\"Camera6\", \"caption\": \"Kamera 6\"},
+                    { \"type\": \"Label\", \"label\": \"Zusätzliche Funktionen\" },
+                    { \"type\": \"CheckBox\", \"name\": \"SavePictures\", \"caption\": \"Bilder speichern\" },
+                    { \"type\": \"Button\", \"label\": \"Targets updaten\", \"onClick\": \"PIAlarm_refreshAll(\$id);\" }
+                ]
+              }";
+
+        }
+
+        protected function buildNotificationSelector () {
+
+            $allWebfronts = $this->getAllCoreInstancesBase("WebFront Configurator");
+
+            $nObj = new StdClass;
+            $nObj->type = "Select";
+            $nObj->name = "NotificationInstance";
+            $nObj->caption = "Push (Webfront)";
+
+            $isFirst = false;
+
+            if (count($allWebfronts) > 0) {
+
+                foreach ($allWebfronts as $webfront) {
+
+                    if ($isFirst == true) {
+
+                        $nObj->value = $webfront;
+                        $isFirst = false;
+
+                    }
+
+                    $cObj = new StdClass;
+                    $cObj->caption = IPS_GetName($webfront);
+                    $cObj->value = $webfront;
+
+                    $nObj->options[] = $cObj;
+
+                }
+
+            }
+
+            return json_encode($nObj);
+
+        }
+
         protected function setExcludedHide () {
 
             return array($this->searchObjectByName("Einstellungen"), $this->searchObjectByName("Überwachung"), $this->searchObjectByName("Alarm"), $this->searchObjectByName("E-Mail Benachrichtigung"), $this->searchObjectByName("Push Benachrichtigung"), $this->searchObjectByName("Historie"), $this->searchObjectByName("Historie Löschen"));
@@ -143,7 +201,9 @@ require(__DIR__ . "\\pimodule.php");
 
             //$this->RegisterPropertyString("OwnSubject", "");
 
-            $this->RegisterPropertyInteger("NotificationInstance", null);
+            $fst = $this->getWebfrontInstance();
+
+            $this->RegisterPropertyInteger("NotificationInstance", $fst);
             $this->RegisterPropertyBoolean("PictureLog", false);
             $this->RegisterPropertyBoolean("SavePictures", false);
 
