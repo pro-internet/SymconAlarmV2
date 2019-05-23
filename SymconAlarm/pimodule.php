@@ -1402,7 +1402,7 @@ abstract class PISymconModule extends IPSModule {
 
         if (!$this->doesExist($this->searchObjectByName("SetValue"))) {
 
-            $setValueScript = $this->checkScript("SetValue", "<?php SetValue(\$_IPS['SENDER'], \$IPS_VALUE); ?>", false);
+            $setValueScript = $this->checkScript("SetValue", "<?php SetValue(\$_IPS['SENDER'], \$_IPS['VALUE']); ?>", false);
             $this->hide($setValueScript);
 
             IPS_SetVariableCustomAction($id, $this->searchObjectByName("SetValue"));
