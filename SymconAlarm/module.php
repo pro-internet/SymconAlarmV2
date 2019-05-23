@@ -1,6 +1,6 @@
 <?
 
-require(__DIR__ . "\\pimodule.php");
+require(__DIR__ . "/pimodule.php");
 
     // Klassendefinition
     class SymconAlarmV2 extends PISymconModule {
