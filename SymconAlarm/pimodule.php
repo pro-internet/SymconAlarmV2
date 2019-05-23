@@ -2608,6 +2608,8 @@ abstract class PISymconModule extends IPSModule {
 
                                 $lnk = IPS_GetLink($obj['ObjectID']);
     
+                                $targetName = IPS_GetName($lnk['TargetID']);
+ 
                                 $link = IPS_CreateLink();
                                 IPS_SetName($link, $obj['ObjectName']);
                                 IPS_SetParent($link, $newFolder);
@@ -2621,7 +2623,7 @@ abstract class PISymconModule extends IPSModule {
     
                             } else {
     
-                                $this->linkVar($elem['ObjectID'], $elem['ObjectName'], $newFolder, 0, false);
+                                $this->linkVar($obj['ObjectID'], $obj['ObjectName'], $newFolder, 0, false);
     
                             }
 
