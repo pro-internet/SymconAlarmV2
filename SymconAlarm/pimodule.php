@@ -36,7 +36,7 @@ abstract class PISymconModule extends IPSModule {
         //$this->moduleID = $module['ModuleID'];
         //$this->libraryID = $module['LibraryID'];
 
-        $moduleJsonPath = __DIR__ . "\\module.json";
+        $moduleJsonPath = __DIR__ . "/module.json";
 
         $moduleJson = json_decode(file_get_contents($moduleJsonPath));
 
