@@ -2611,7 +2611,7 @@ abstract class PISymconModule extends IPSModule {
                                 $targetName = IPS_GetName($lnk['TargetID']);
  
                                 $link = IPS_CreateLink();
-                                IPS_SetName($link, $obj['ObjectName']);
+                                IPS_SetName($link, $targetName);
                                 IPS_SetParent($link, $newFolder);
                                 // $setident = IPS_SetIdent($link, $this->nameToIdent($ownName . $obj['ObjectName']));
                                 // if (!$setident) {
