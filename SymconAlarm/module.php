@@ -175,6 +175,7 @@ require(__DIR__ . "/pimodule.php");
             // Scripts checken -und erstellen
             $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
+            $alamStart = $this->checkScript("Alarm starten", $this->prefix . "_startAlarm", true, false);
 
             // Positionen setzen
             $this->setPosition($clearLog, 5);
@@ -191,6 +192,7 @@ require(__DIR__ . "/pimodule.php");
         public function RegisterProperties () {
 
             $this->RegisterPropertyInteger("Interval", 60);
+            $this->RegisterPropertyInteger("Delay", 10);
             $this->RegisterPropertyInteger("EmailInstance", null);
             $this->RegisterPropertyInteger("Camera1", null);
             $this->RegisterPropertyInteger("Camera2", null);
@@ -502,11 +504,36 @@ require(__DIR__ . "/pimodule.php");
         public function startAlarm () {
 
             $alarmVar = $this->searchObjectByName("Alarm");
-            $alarmVal = GetValue($alarmVar);
+            $delayVar = $this->ReadPropertyInteger("Delay");
+            $sender = $_IPS['SENDER'];
 
-            if ($alarmVal == false) {
+            echo "SENDER IS " . $sender;
 
-                SetValue($alarmVar, true);
+            if ($sender != "timer") {
+
+                if ($delayVar != null && $delayVar != 0) {
+
+                    IPS_SetScriptTimer($this->searchObjectByName("Alarm starten"), $delayVar);
+
+                } else {
+                    $alarmVal = GetValue($alarmVar);
+
+                    if ($alarmVal == false) {
+
+                        SetValue($alarmVar, true);
+
+                    }
+                }
+
+            } else {
+
+                $alarmVal = GetValue($alarmVar);
+
+                    if ($alarmVal == false) {
+
+                        SetValue($alarmVar, true);
+
+                    }
 
             }
 
