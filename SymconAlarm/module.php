@@ -688,7 +688,7 @@ require(__DIR__ . "/pimodule.php");
             if ($alarmVal) { 
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), $interval);
-                $this->alarmActivated();
+                //$this->alarmActivated();
 
             } else {
 
