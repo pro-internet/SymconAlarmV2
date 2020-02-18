@@ -509,7 +509,7 @@ require(__DIR__ . "/pimodule.php");
 
             echo "SENDER IS " . $sender;
 
-            if ($sender != "timer") {
+            if ($sender != "TimerEvent") {
 
                 if ($delayVar != null && $delayVar != 0) {
 
