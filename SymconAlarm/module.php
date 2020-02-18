@@ -58,6 +58,7 @@ require(__DIR__ . "/pimodule.php");
                     { \"type\": \"SelectInstance\", \"name\":\"EmailInstance\", \"caption\": \"SMTP Instanz\"},
                     ". $this->buildNotificationSelector() . ",
                     { \"type\": \"ValidationTextBox\", \"name\": \"Interval\", \"caption\": \"Invervall (in Sek)\" },
+                    { \"type\": \"ValidationTextBox\", \"name\": \"Delay\", \"caption\": \"Delay (in Sek)\" },
                     { \"type\": \"SelectMedia\", \"name\":\"Camera1\", \"caption\": \"Kamera 1\"},
                     { \"type\": \"SelectMedia\", \"name\":\"Camera2\", \"caption\": \"Kamera 2\"},
                     { \"type\": \"SelectMedia\", \"name\":\"Camera3\", \"caption\": \"Kamera 3\"},
@@ -507,8 +508,6 @@ require(__DIR__ . "/pimodule.php");
             $delayVar = $this->ReadPropertyInteger("Delay");
             $sender = $_IPS['SENDER'];
 
-            echo "SENDER IS " . $sender;
-
             if ($sender != "TimerEvent") {
 
                 if ($delayVar != null && $delayVar != 0) {
@@ -526,6 +525,9 @@ require(__DIR__ . "/pimodule.php");
                 }
 
             } else {
+
+
+                IPS_SetScriptTimer($this->searchObjectByName("Alarm starten"), 0);
 
                 $alarmVal = GetValue($alarmVar);
 
