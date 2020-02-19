@@ -181,6 +181,7 @@ require(__DIR__ . "/pimodule.php");
             // Positionen setzen
             $this->setPosition($clearLog, 5);
             $this->hide($alarmActivated);
+            $this->hide($alarmStart);
 
         }
 
