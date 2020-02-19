@@ -407,12 +407,68 @@ require(__DIR__ . "/pimodule.php");
 
         }
 
+        public function isAlarm() {
+
+
+            $allTargets = $this->searchObjectByName("Targets");
+            $children = IPS_GetChildrenIDs($allTargets);
+
+            foreach ($children as $child) {
+
+                
+
+            }
+
+
+        }
+
+        public function anyTargetTrue () {
+
+            $targets = $this->searchObjectByName("Targets");
+            $children = IPS_GetChildrenIDs($targets);
+
+            $anyTrue = false;
+
+            foreach ($children as $child) {
+
+                $obj = IPS_GetObject($child);
+
+                // IS LINK
+                if ($obj["ObjectType"] == 6) {
+
+                    $link = IPS_GetLink($child);
+                    $targetId = $link["TargetID"];
+                    
+                    $val = IPS_GetValue($targetId);
+
+                    if ($val) {
+                        $anyTrue = true;
+                    }
+
+                } else {
+
+                    $objVal = IPS_GetValue($child);
+
+                    if($objVal) {
+                        $anyTrue = true;
+                    }
+
+                }
+
+            }
+
+
+            return $anyTrue;
+        }
+
         public function onTargetChange () {
 
             $ueberwachung = GetValue($this->searchObjectByName("Überwachung"));
             $senderID = $_IPS['VARIABLE'];
             $senderObj = IPS_GetObject($senderID);
-            $senderVal = GetValue($senderID);
+            
+            $senderVal = $this->anyTargetTrue();
+
             $alarmVal = GetValue($this->searchObjectByName("Alarm"));
 
             if (!$ueberwachung) {
@@ -533,7 +589,9 @@ require(__DIR__ . "/pimodule.php");
 
                     if ($alarmVal == false) {
 
-                        SetValue($alarmVar, true);
+                        $anyTgTrue = $this->anyTargetTrue();
+
+                        SetValue($alarmVar, $anyTgTrue);
 
                     }
 
