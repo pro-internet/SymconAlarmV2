@@ -439,7 +439,7 @@ require(__DIR__ . "/pimodule.php");
                     $link = IPS_GetLink($child);
                     $targetId = $link["TargetID"];
                     
-                    $val = IPS_GetValue($targetId);
+                    $val = GetValue($targetId);
 
                     if ($val) {
                         $anyTrue = true;
@@ -447,7 +447,7 @@ require(__DIR__ . "/pimodule.php");
 
                 } else {
 
-                    $objVal = IPS_GetValue($child);
+                    $objVal = GetValue($child);
 
                     if($objVal) {
                         $anyTrue = true;
