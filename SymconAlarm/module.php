@@ -33,6 +33,7 @@ require(__DIR__ . "/pimodule.php");
 
 
             $this->checkOnAlarmChangedEvent();
+            $this->checkOnBaseAlarmChangedEvent();
             $this->checkOnUeberwachungChangeEvent();
 
             $this->checkTempFolder();
@@ -110,7 +111,7 @@ require(__DIR__ . "/pimodule.php");
 
         protected function setExcludedHide () {
 
-            return array($this->searchObjectByName("Einstellungen"), $this->searchObjectByName("Überwachung"), $this->searchObjectByName("Alarm"), $this->searchObjectByName("E-Mail Benachrichtigung"), $this->searchObjectByName("Push Benachrichtigung"), $this->searchObjectByName("Historie"), $this->searchObjectByName("Historie Löschen"));
+            return array($this->searchObjectByName("Einstellungen"), $this->searchObjectByName("Überwachung"), $this->searchObjectByName("Alarm Aktionen"), $this->searchObjectByName("E-Mail Benachrichtigung"), $this->searchObjectByName("Push Benachrichtigung"), $this->searchObjectByName("Historie"), $this->searchObjectByName("Historie Löschen"));
 
         }
 
@@ -149,14 +150,14 @@ require(__DIR__ . "/pimodule.php");
 
             // Variablen checken -und erstellen
 
-            $switches = $this->createSwitches(array("Überwachung||0", "Alarm||1", "E-Mail Benachrichtigung||2", "Push Benachrichtigung||3"));
+            $switches = $this->createSwitches(array("Überwachung||0", "Alarm||1", "Alarm Aktionen||2", "E-Mail Benachrichtigung||3", "Push Benachrichtigung||4"));
             $delayVar = $this->checkInteger("Delay (s)");
             $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
 
             $currentAlarm = $this->checkString("Aktueller Alarm", false, $this->InstanceID, 5);
 
-            IPS_SetIcon($delayVar, "Clock");
+            
 
             $this->hide($currentAlarm);
 
@@ -164,13 +165,20 @@ require(__DIR__ . "/pimodule.php");
             $this->activateVariableLogging($switches[1]);
             $this->activateVariableLogging($switches[2]);
             $this->activateVariableLogging($switches[3]);
+            $this->activateVariableLogging($switches[4]);
 
             // Profile hinzufügen (wenn nicht automatisiert wie bei switch)
             $this->addProfile($historie, "~HTMLBox");
 
             // Set Icons 
-            $this->setIcon($switches[2], "Mail");
+            $this->setIcon($switches[3], "Mail");
+            $this->setIcon($switches[1], "Information");
+            $this->setIcon($switches[2], "Information");
             $this->setIcon($historie, "Database");
+            $this->setIcon($delayVar, "Clock");
+
+            $this->addSetValue($delayVar);
+            $this->setPosition($delayVar, 4);
 
         }
 
@@ -234,7 +242,7 @@ require(__DIR__ . "/pimodule.php");
             if ($this->doesExist($this->searchObjectByName("Historie"))) {
 
                 $acutalContent = GetValue($this->searchObjectByName("Historie"));
-                $alarmAktiv = GetValue($this->searchObjectByName("Alarm"));
+                $alarmAktiv = GetValue($this->searchObjectByName("Alarm Aktionen"));
                 $timestamp = time();
                 $datum = date("d.m.y - H:i", $timestamp);
 
@@ -347,7 +355,7 @@ require(__DIR__ . "/pimodule.php");
 
                     if (!$eventExists) {
 
-                        $this->createRealOnChangeEvents(array($child['TargetID'] . "|onTargetChange"), $this->searchObjectByName("Events"));
+                        $this->createOnChangeEvents(array($child['TargetID'] . "|onTargetChange"), $this->searchObjectByName("Events"));
 
                     }
 
@@ -368,7 +376,7 @@ require(__DIR__ . "/pimodule.php");
 
         public function onUeberwachungChange () {
 
-            $alarm = $this->searchObjectByName("Alarm");
+            $alarm = $this->searchObjectByName("Alarm Aktionen");
             $ueberwachung = $this->searchObjectByName("Überwachung");
 
             $alarmVal = GetValue($alarm);
@@ -377,6 +385,13 @@ require(__DIR__ . "/pimodule.php");
             if (!$ueberwachungVal && $alarmVal) {
 
                 SetValue($alarm, false);
+
+            }
+
+            if (!$ueberwachungVal) {
+
+                IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
+                IPS_SetScriptTimer($this->searchObjectByName("Alarm starten"), 0);
 
             }
             
@@ -472,7 +487,7 @@ require(__DIR__ . "/pimodule.php");
             
             $senderVal = $this->anyTargetTrue();
 
-            $alarmVal = GetValue($this->searchObjectByName("Alarm"));
+            $alarmVal = GetValue($this->searchObjectByName("Alarm Aktionen"));
 
             $isFromTimer = $_IPS['SENDER'] == "TimerEvent";
 
@@ -575,11 +590,15 @@ require(__DIR__ . "/pimodule.php");
 
         public function startAlarm () {
 
-            $alarmVar = $this->searchObjectByName("Alarm");
+            $alarmVar = $this->searchObjectByName("Alarm Aktionen");
             $delayVar = $this->ReadVar("Delay (s)", 0);
             $sender = $_IPS['SENDER'];
 
+            $baseAlarmVar = $this->searchObjectByName("Alarm");
+
             if ($sender != "TimerEvent") {
+
+                SetValue($baseAlarmVar, true);
 
                 if ($delayVar != null && $delayVar != 0) {
 
@@ -773,9 +792,33 @@ require(__DIR__ . "/pimodule.php");
 
         }
 
+        public function onBaseAlarmChange() {
+
+            $varId = $_IPS['VARIABLE'];
+            $val = GetValue($varId);
+
+            if($val == false) {
+
+                IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
+                IPS_SetScriptTimer($this->searchObjectByName("Alarm starten"), 0);
+
+
+                $ev = $this->searchObjectByName("onChange Alarm Aktionen");
+                IPS_SetEventActive($ev, false);
+                SetValue($this->searchObjectByName("Alarm Aktionen"), false);
+                IPS_SetEventActive($ev, true);
+
+            } else {
+
+                $this->startAlarm();
+
+            }
+
+        }
+
         public function onAlarmChange () {
 
-            $alarmVar = $this->searchObjectByName("Alarm");
+            $alarmVar = $this->searchObjectByName("Alarm Aktionen");
             $alarmVal = GetValue($alarmVar);
             $interval = $this->ReadPropertyInteger("Interval");
             $sendEmailVal = $this->ReadPropertyInteger("EmailInstance");
@@ -784,7 +827,6 @@ require(__DIR__ . "/pimodule.php");
 
             $pushBenachrichtigung = GetValue($this->searchObjectByName("Push Benachrichtigung"));
             $pushInstance = $this->ReadPropertyInteger("NotificationInstance");
-
 
             // Wenn Alarm aktiviert
             if ($alarmVal) { 
@@ -795,6 +837,7 @@ require(__DIR__ . "/pimodule.php");
 
             } else {
 
+                SetValue($this->searchObjectByName("Alarm"), false);
                 SetValue($this->searchObjectByName("Aktueller Alarm"), "");
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
@@ -843,8 +886,19 @@ require(__DIR__ . "/pimodule.php");
 
             if (!$this->doesExist($this->searchObjectByName("Alarm onChange"))) {
 
-                //$this->easyCreateOnChangeFunctionEvent("Alarm onChange", $this->searchObjectByName("Alarm"), "onAlarmChange(" . $this->InstanceID . ");", $this->InstanceID);
-                $this->createOnChangeEvents(array($this->searchObjectByName("Alarm") . "|onAlarmChange"));
+                //$this->easyCreateOnChangeFunctionEvent("Alarm onChange", $this->searchObjectByName("Alarm Aktionen"), "onAlarmChange(" . $this->InstanceID . ");", $this->InstanceID);
+                $this->createRealOnChangeEvents(array($this->searchObjectByName("Alarm Aktionen") . "|onAlarmChange"));
+
+            }
+
+        }
+
+        protected function checkOnBaseAlarmChangedEvent () {
+
+            if (!$this->doesExist($this->searchObjectByName("BaseAlarm onChange"))) {
+
+                //$this->easyCreateOnChangeFunctionEvent("Alarm onChange", $this->searchObjectByName("Alarm Aktionen"), "onAlarmChange(" . $this->InstanceID . ");", $this->InstanceID);
+                $this->createRealOnChangeEvents(array($this->searchObjectByName("Alarm") . "|onBaseAlarmChange"));
 
             }
 
@@ -855,7 +909,7 @@ require(__DIR__ . "/pimodule.php");
             if (!$this->doesExist($this->searchObjectByName("Überwachung onChange"))) {
 
                 //$this->easyCreateOnChangeFunctionEvent("Überwachung onChange", $this->searchObjectByName("Überwachung"), "<?php " . $this->prefix . "_onUeberwachungChange(" . $this->InstanceID . ");", $this->InstanceID);
-                $this->createOnChangeEvents(array($this->searchObjectByName("Überwachung") . "|onUeberwachungChange"));
+                $this->createRealOnChangeEvents(array($this->searchObjectByName("Überwachung") . "|onUeberwachungChange"));
 
             }
 
