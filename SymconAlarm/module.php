@@ -623,9 +623,9 @@ require(__DIR__ . "/pimodule.php");
 
                     if ($alarmVal == false) {
 
-                        $anyTgTrue = $this->anyTargetTrue();
+                        //$anyTgTrue = $this->anyTargetTrue();
 
-                        SetValue($alarmVar, $anyTgTrue);
+                        SetValue($alarmVar, true);
 
                     }
 
