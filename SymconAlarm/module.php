@@ -471,6 +471,8 @@ require(__DIR__ . "/pimodule.php");
 
             $alarmVal = GetValue($this->searchObjectByName("Alarm"));
 
+            $isFromTimer = $_IPS['SENDER'] == "TimerEvent";
+
             if (!$ueberwachung) {
 
                 return;
@@ -496,7 +498,7 @@ require(__DIR__ . "/pimodule.php");
                     
                     $newName = $this->getNameExtended($senderObj['ObjectID']);
 
-                    $this->addLogMessage( $newName . " Alarm ausgelöst", "alarm");
+                    $this->addLogMessage( $newName . " ausgelöst", "alarm");
 
                     SetValue($this->searchObjectByName("Aktueller Alarm"), $senderObj['ObjectID']);
 
@@ -774,6 +776,7 @@ require(__DIR__ . "/pimodule.php");
             // Wenn Alarm aktiviert
             if ($alarmVal) { 
 
+                $this->addLogMessage("Alarm ausgelöst", "alarm");
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), $interval);
                 //$this->alarmActivated();
 
