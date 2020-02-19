@@ -58,7 +58,6 @@ require(__DIR__ . "/pimodule.php");
                     { \"type\": \"SelectInstance\", \"name\":\"EmailInstance\", \"caption\": \"SMTP Instanz\"},
                     ". $this->buildNotificationSelector() . ",
                     { \"type\": \"ValidationTextBox\", \"name\": \"Interval\", \"caption\": \"Invervall (in Sek)\" },
-                    { \"type\": \"ValidationTextBox\", \"name\": \"Delay\", \"caption\": \"Delay (in Sek)\" },
                     { \"type\": \"SelectMedia\", \"name\":\"Camera1\", \"caption\": \"Kamera 1\"},
                     { \"type\": \"SelectMedia\", \"name\":\"Camera2\", \"caption\": \"Kamera 2\"},
                     { \"type\": \"SelectMedia\", \"name\":\"Camera3\", \"caption\": \"Kamera 3\"},
@@ -151,9 +150,13 @@ require(__DIR__ . "/pimodule.php");
             // Variablen checken -und erstellen
 
             $switches = $this->createSwitches(array("Überwachung||0", "Alarm||1", "E-Mail Benachrichtigung||2", "Push Benachrichtigung||3"));
+            $delayVar = $this->checkInteger("Delay (s)");
             $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
 
+
             $currentAlarm = $this->checkString("Aktueller Alarm", false, $this->InstanceID, 5);
+
+            IPS_SetIcon($delayVar, "Clock");
 
             $this->hide($currentAlarm);
 
@@ -176,7 +179,7 @@ require(__DIR__ . "/pimodule.php");
             // Scripts checken -und erstellen
             $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
-            $alamStart = $this->checkScript("Alarm starten", $this->prefix . "_startAlarm", true, false);
+            $alarmStart = $this->checkScript("Alarm starten", $this->prefix . "_startAlarm", true, false);
 
             // Positionen setzen
             $this->setPosition($clearLog, 5);
@@ -194,7 +197,6 @@ require(__DIR__ . "/pimodule.php");
         public function RegisterProperties () {
 
             $this->RegisterPropertyInteger("Interval", 60);
-            $this->RegisterPropertyInteger("Delay", 10);
             $this->RegisterPropertyInteger("EmailInstance", null);
             $this->RegisterPropertyInteger("Camera1", null);
             $this->RegisterPropertyInteger("Camera2", null);
@@ -561,10 +563,20 @@ require(__DIR__ . "/pimodule.php");
 
         }
 
+        public function ReadVar($name, $default = null) {
+
+            $obj = $this->searchObjectByName($name);
+            if ($obj == null) {
+                return $default;
+            }
+            return GetValue($obj);
+
+        }
+
         public function startAlarm () {
 
             $alarmVar = $this->searchObjectByName("Alarm");
-            $delayVar = $this->ReadPropertyInteger("Delay");
+            $delayVar = $this->ReadVar("Delay (s)", 0);
             $sender = $_IPS['SENDER'];
 
             if ($sender != "TimerEvent") {
