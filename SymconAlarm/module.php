@@ -119,7 +119,7 @@ require(__DIR__ . "/pimodule.php");
                 $this->searchObjectByName("E-Mail Benachrichtigung"), 
                 $this->searchObjectByName("Push Benachrichtigung"), 
                 $this->searchObjectByName("Historie"), 
-                $this->searchObjectByName("Historie Löschen")
+                $this->searchObjectByName("Historie löschen")
             );
 
         }
@@ -192,7 +192,7 @@ require(__DIR__ . "/pimodule.php");
         public function CheckScripts () {
 
             // Scripts checken -und erstellen
-            $clearLog = $this->checkScript("Historie Löschen", $this->prefix . "_clearLog", true, false); 
+            $clearLog = $this->checkScript("Historie löschen", $this->prefix . "_clearLog", true, false); 
             $alarmActivated = $this->checkScript("Alarm aktiviert", $this->prefix . "_alarmActivated", true, false); 
             $alarmStart = $this->checkScript("Alarm starten", $this->prefix . "_startAlarm", true, false);
 
@@ -384,21 +384,17 @@ require(__DIR__ . "/pimodule.php");
         public function onUeberwachungChange () {
 
             $alarmDelay = $this->searchObjectByName("Alarm Delay");
-            $alarm = $this->searchObjectByName("Alarm Delay");
+            $alarm = $this->searchObjectByName("Alarm");
             $ueberwachung = $this->searchObjectByName("Überwachung");
 
             $alarmVal = GetValue($alarm);
             $ueberwachungVal = GetValue($ueberwachung);
 
-            if (!$ueberwachungVal) {
+            SetValue($alarmDelay, false);
+            SetValue($alarm, false);
 
-                SetValue($alarmDelay, false);
-                SetValue($alarm, false);
-
-                IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
-                IPS_SetScriptTimer($this->searchObjectByName("Alarm starten"), 0);
-
-            }
+            IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
+            IPS_SetScriptTimer($this->searchObjectByName("Alarm starten"), 0);
             
         }
 
@@ -684,6 +680,7 @@ require(__DIR__ . "/pimodule.php");
             
             if (!$ueberwachung) {
 
+                echo "Überwachung inaktiv!";
                 return;
 
             }
