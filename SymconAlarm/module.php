@@ -111,7 +111,16 @@ require(__DIR__ . "/pimodule.php");
 
         protected function setExcludedHide () {
 
-            return array($this->searchObjectByName("Einstellungen"), $this->searchObjectByName("Überwachung"), $this->searchObjectByName("Alarm Delay"), $this->searchObjectByName("E-Mail Benachrichtigung"), $this->searchObjectByName("Push Benachrichtigung"), $this->searchObjectByName("Historie"), $this->searchObjectByName("Historie Löschen"));
+            return array(
+                $this->searchObjectByName("Einstellungen"), 
+                $this->searchObjectByName("Überwachung"), 
+                $this->searchObjectByName("Alarm Delay"), 
+                $this->searchObjectByName("Alarm"), 
+                $this->searchObjectByName("E-Mail Benachrichtigung"), 
+                $this->searchObjectByName("Push Benachrichtigung"), 
+                $this->searchObjectByName("Historie"), 
+                $this->searchObjectByName("Historie Löschen")
+            );
 
         }
 
@@ -152,12 +161,10 @@ require(__DIR__ . "/pimodule.php");
 
             $switches = $this->createSwitches(array("Überwachung||0", "Alarm||1", "Alarm Delay||2", "E-Mail Benachrichtigung||3", "Push Benachrichtigung||4"));
             $delayVar = $this->checkInteger("Delay (s)");
-            $historie = $this->checkString("Historie", false, $this->InstanceID, 4, false);
+            $historie = $this->checkString("Historie", false, $this->InstanceID, 6, false);
 
 
             $currentAlarm = $this->checkString("Aktueller Alarm", false, $this->InstanceID, 5);
-
-            
 
             $this->hide($currentAlarm);
 
@@ -178,7 +185,7 @@ require(__DIR__ . "/pimodule.php");
             $this->setIcon($delayVar, "Clock");
 
             $this->addSetValue($delayVar);
-            $this->setPosition($delayVar, 4);
+            $this->setPosition($delayVar, 5);
 
         }
 
@@ -190,7 +197,7 @@ require(__DIR__ . "/pimodule.php");
             $alarmStart = $this->checkScript("Alarm starten", $this->prefix . "_startAlarm", true, false);
 
             // Positionen setzen
-            $this->setPosition($clearLog, 5);
+            $this->setPosition($clearLog, 7);
             $this->hide($alarmActivated);
             $this->hide($alarmStart);
 
@@ -355,7 +362,7 @@ require(__DIR__ . "/pimodule.php");
 
                     if (!$eventExists) {
 
-                        $this->createOnChangeEvents(array($child['TargetID'] . "|onTargetChange"), $this->searchObjectByName("Events"));
+                        $this->createRealOnChangeEvents(array($child['TargetID'] . "|onTargetChange"), $this->searchObjectByName("Events"));
 
                     }
 
@@ -376,19 +383,17 @@ require(__DIR__ . "/pimodule.php");
 
         public function onUeberwachungChange () {
 
+            $alarmDelay = $this->searchObjectByName("Alarm Delay");
             $alarm = $this->searchObjectByName("Alarm Delay");
             $ueberwachung = $this->searchObjectByName("Überwachung");
 
             $alarmVal = GetValue($alarm);
             $ueberwachungVal = GetValue($ueberwachung);
 
-            if (!$ueberwachungVal && $alarmVal) {
-
-                SetValue($alarm, false);
-
-            }
-
             if (!$ueberwachungVal) {
+
+                SetValue($alarmDelay, false);
+                SetValue($alarm, false);
 
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), 0);
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm starten"), 0);
