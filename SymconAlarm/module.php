@@ -835,7 +835,7 @@ require(__DIR__ . "/pimodule.php");
 
                 $this->addLogMessage("Alarm ausgelöst", "alarm");
                 IPS_SetScriptTimer($this->searchObjectByName("Alarm aktiviert"), $interval);
-                //$this->alarmActivated();
+                $this->alarmActivated();
 
             } else {
 
